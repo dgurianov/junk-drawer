@@ -1,6 +1,8 @@
 package gud.fun.junkdrawer.util.generator;
 
 import com.neovisionaries.i18n.CountryCode;
+import gud.fun.junkdrawer.persistance.model.Country;
+import gud.fun.junkdrawer.util.generator.withentity.CountryEntityGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -14,7 +16,7 @@ import static org.mockito.Mockito.when;
 public class BicGeneratorTest {
 
     @Mock
-    private CountryGenerator countryGenerator;
+    private CountryEntityGenerator countryEntityGenerator;
 
     @InjectMocks
     private BicGenerator bicGenerator;
@@ -22,7 +24,7 @@ public class BicGeneratorTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        when(countryGenerator.generateRandom()).thenReturn(CountryCode.US);
+        when(countryEntityGenerator.generateRandom()).thenReturn(new Country(CountryCode.getByCode("US")));
     }
 
     @Test

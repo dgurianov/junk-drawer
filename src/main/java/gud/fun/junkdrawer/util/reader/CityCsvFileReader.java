@@ -23,7 +23,7 @@ public class CityCsvFileReader implements CsvFileReader<City> {
                 String[] values = line.split(",");
                 City city = new City();
                 city.setName(values[0]);
-                city.setCountry(values[1]);
+                city.setCountryCode(values[1]);
                 cities.add(city);
             }
         } catch (IOException e) {

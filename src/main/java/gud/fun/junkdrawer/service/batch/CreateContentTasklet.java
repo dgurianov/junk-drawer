@@ -1,9 +1,8 @@
 package gud.fun.junkdrawer.service.batch;
 
 import gud.fun.junkdrawer.persistance.model.City;
-import gud.fun.junkdrawer.util.generator.CityGenerator;
-import gud.fun.junkdrawer.util.generator.CountryGenerator;
-import gud.fun.junkdrawer.util.generator.NameGenerator;
+import gud.fun.junkdrawer.util.generator.withentity.CityEntityGenerator;
+import gud.fun.junkdrawer.util.generator.withentity.CountryEntityGenerator;
 import gud.fun.junkdrawer.util.generator.StreetGenerator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.StepContribution;
@@ -24,13 +23,13 @@ public class CreateContentTasklet implements Tasklet {
     private WebApplicationContext appContext;
 
     @Autowired
-    private CityGenerator cityGenerator;
+    private CityEntityGenerator cityGenerator;
 
     @Autowired
     private StreetGenerator streetGenerator;
 
     @Autowired
-    private CountryGenerator countryGenerator;
+    private CountryEntityGenerator countryEntityGenerator;
 
     private JpaRepository repository = null;
 

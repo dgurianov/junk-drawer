@@ -19,7 +19,7 @@ public class CityServiceImpl implements CityService {
     public CityDto createCity(CityDto cityDto) {
         City city = new City();
         city.setName(cityDto.getName());
-        city.setCountry(cityDto.getCountry());
+        city.setCountryCode(cityDto.getCountry());
         City savedCity = cityRepository.save(city);
         return convertToDTO(savedCity);
     }
@@ -39,7 +39,7 @@ public class CityServiceImpl implements CityService {
     public CityDto updateCity(Long id, CityDto cityDto) {
         City city = cityRepository.findById(id).orElseThrow(() -> new RuntimeException("City not found"));
         city.setName(cityDto.getName());
-        city.setCountry(cityDto.getCountry());
+        city.setCountryCode(cityDto.getCountry());
         City updatedCity = cityRepository.save(city);
         return convertToDTO(updatedCity);
     }
@@ -53,7 +53,7 @@ public class CityServiceImpl implements CityService {
         CityDto cityDto = new CityDto();
         cityDto.setId(city.getId());
         cityDto.setName(city.getName());
-        cityDto.setCountry(city.getCountry());
+        cityDto.setCountry(city.getCountryCode());
         return cityDto;
     }
 }

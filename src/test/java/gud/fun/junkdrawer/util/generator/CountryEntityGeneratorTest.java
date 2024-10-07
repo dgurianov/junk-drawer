@@ -1,6 +1,7 @@
 package gud.fun.junkdrawer.util.generator;
 
 import com.neovisionaries.i18n.CountryCode;
+import gud.fun.junkdrawer.util.generator.withentity.CountryEntityGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,19 +9,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class CountryGeneratorTest {
+public class CountryEntityGeneratorTest {
 
     @Autowired
-    private CountryGenerator countryGenerator;
+    private CountryEntityGenerator countryEntityGenerator;
 
     @BeforeEach
     public void setUp() {
-        countryGenerator = new CountryGenerator();
+        countryEntityGenerator = new CountryEntityGenerator();
     }
 
     @Test
     public void testGenerateRandom() {
-        String countryName = countryGenerator.generateRandomAsString();
+        String countryName = countryEntityGenerator.generateRandomAsString();
         assertNotNull(countryName, "Generated country name should not be null");
         assertTrue(CountryCode.findByName(countryName).size() > 0, "Generated country name should be valid");
     }

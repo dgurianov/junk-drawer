@@ -1,6 +1,6 @@
 package gud.fun.junkdrawer.controller;
 
-import gud.fun.junkdrawer.config.Endpoints;
+import gud.fun.junkdrawer.configuration.Endpoints;
 import gud.fun.junkdrawer.dto.ContentDtoRequest;
 import gud.fun.junkdrawer.dto.ContentDtoResponse;
 import gud.fun.junkdrawer.dto.CreateContentStatusRequestDto;

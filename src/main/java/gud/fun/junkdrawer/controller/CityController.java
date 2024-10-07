@@ -1,5 +1,6 @@
 package gud.fun.junkdrawer.controller;
 
+import gud.fun.junkdrawer.configuration.Endpoints;
 import gud.fun.junkdrawer.dto.CityDto;
 import gud.fun.junkdrawer.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RestController
-@RequestMapping("/city")
+@RequestMapping(Endpoints.CITY)
 public class CityController {
 
     @Autowired

@@ -1,4 +1,4 @@
-package gud.fun.junkdrawer.config;
+package gud.fun.junkdrawer.configuration;
 
 public class Endpoints {
 

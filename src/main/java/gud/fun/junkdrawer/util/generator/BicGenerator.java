@@ -1,5 +1,6 @@
 package gud.fun.junkdrawer.util.generator;
 
+import gud.fun.junkdrawer.util.generator.withentity.CountryEntityGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +10,7 @@ import java.util.Random;
 public class BicGenerator implements JunkDataGenerator<String> {
 
     @Autowired
-    CountryGenerator countryGenerator;
+    CountryEntityGenerator countryEntityGenerator;
 
     @Override
     public String generateRandom() {
@@ -20,7 +21,7 @@ public class BicGenerator implements JunkDataGenerator<String> {
             institutionCode.append((char) ('A' + random.nextInt(26)));
         }
         //Select the country
-        String countryCode = countryGenerator.generateRandom().getAlpha2();
+        String countryCode = countryEntityGenerator.generateRandom().getCountryCode();
 
         /*Fabricate the location code
         ISO 9362:2019
