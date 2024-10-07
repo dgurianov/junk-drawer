@@ -6,16 +6,16 @@ import static org.junit.jupiter.api.Assertions.*;
 public class NameGeneratorTest {
 
     @Test
-    public void testGenerateFirstNameStartsWithCapital() {
+    public void testGenerateRandomFirstNameStartsWithCapital() {
         NameGenerator ng = new NameGenerator(6);
-        String name = ng.generate();
+        String name = ng.generateRandom();
         assertTrue(Character.isUpperCase(name.charAt(0)), "First character should be a capital letter");
     }
 
     @Test
-    public void testGenerateFirstNameNoMoreThanTwoVowelsConsecutively() {
+    public void testGenerateRandomFirstNameNoMoreThanTwoVowelsConsecutively() {
         NameGenerator ng = new NameGenerator(6);
-        String name = ng.generate();
+        String name = ng.generateRandom();
         int vowelCount = 0;
         for (char c : name.toCharArray()) {
             if (NameGenerator.getVowels().indexOf(c) != -1) {
@@ -28,9 +28,9 @@ public class NameGeneratorTest {
     }
 
     @Test
-    public void testGenerateFirstNameNoMoreThanTwoConsonantsConsecutively() {
+    public void testGenerateRandomFirstNameNoMoreThanTwoConsonantsConsecutively() {
         NameGenerator ng = new NameGenerator(6);
-        String name = ng.generate();
+        String name = ng.generateRandom();
         int consonantCount = 0;
         for (char c : name.toCharArray()) {
             if (NameGenerator.getConsonants().indexOf(c) != -1) {
@@ -43,9 +43,9 @@ public class NameGeneratorTest {
     }
 
     @Test
-    public void testGenerateFirstNameLength() {
+    public void testGenerateRandomFirstNameLength() {
         NameGenerator ng = new NameGenerator(6);
-        String name = ng.generate();
+        String name = ng.generateRandom();
         assertEquals(ng.getNameLength(), name.length(), "Generated name should have the correct length");
     }
 }

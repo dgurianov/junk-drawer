@@ -23,7 +23,8 @@ public class NameGenerator implements JunkDataGenerator<String> {
          this.maxLength = maxLength;
     }
 
-    public String generate() {
+    @Override
+    public String generateRandom() {
         Random random = new Random();
         StringBuilder firstName = new StringBuilder(maxLength);
 
@@ -53,6 +54,11 @@ public class NameGenerator implements JunkDataGenerator<String> {
         }
 
         return firstName.toString();
+    }
+
+    @Override
+    public String generateRandomAsString() {
+        return generateRandom();
     }
 
     public static String getVowels() {

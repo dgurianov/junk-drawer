@@ -10,8 +10,13 @@ public class StreetGenerator implements JunkDataGenerator<String>{
     private NameGenerator nameGenerator;
 
     @Override
-    public String generate() {
-        return nameGenerator.generate() + " str.";
+    public String generateRandom() {
+        return nameGenerator.generateRandom() + " str.";
+    }
+
+    @Override
+    public String generateRandomAsString() {
+        return generateRandom();
     }
 
     public void setNameGenerator(NameGenerator nameGenerator) {
