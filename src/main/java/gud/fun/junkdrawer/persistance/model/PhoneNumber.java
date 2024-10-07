@@ -9,19 +9,22 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Entity
-@Table(name = "CITY")
+@Table(name = "PHONE_NUMBER")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class City {
+public class PhoneNumber {
+    public PhoneNumber(String phoneNumber, String countryCode) {
+        this.phoneNumber = phoneNumber;
+        this.countryCode = countryCode;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-    private String name;
 
+    private String phoneNumber;
     private String countryCode;
 
 }

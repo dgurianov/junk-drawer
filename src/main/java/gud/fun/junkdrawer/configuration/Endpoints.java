@@ -13,6 +13,7 @@ public class Endpoints {
 
     //Data endpoints
     public static final String CITY = API + VERSION + DATA + "/city";
+    public static final String PHONE_NUMBER = API + VERSION + DATA + "/phone-number";
     public static final String PERSON = API + VERSION + DATA + "/person";
 
     public static String getUrls(){

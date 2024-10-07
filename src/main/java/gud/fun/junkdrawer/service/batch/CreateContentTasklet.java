@@ -1,6 +1,8 @@
 package gud.fun.junkdrawer.service.batch;
 
 import gud.fun.junkdrawer.persistance.model.City;
+import gud.fun.junkdrawer.persistance.model.PhoneNumber;
+import gud.fun.junkdrawer.util.generator.PhoneNumberGenerator;
 import gud.fun.junkdrawer.util.generator.withentity.CityEntityGenerator;
 import gud.fun.junkdrawer.util.generator.withentity.CountryEntityGenerator;
 import gud.fun.junkdrawer.util.generator.StreetGenerator;
@@ -31,6 +33,9 @@ public class CreateContentTasklet implements Tasklet {
     @Autowired
     private CountryEntityGenerator countryEntityGenerator;
 
+    @Autowired
+    private PhoneNumberGenerator phoneNumberGenerator;
+
     private JpaRepository repository = null;
 
 
@@ -60,6 +65,12 @@ public class CreateContentTasklet implements Tasklet {
                 break;
             case "Country":
                 log.debug("Request to save Country times: {}", contentAmount);
+                break;
+            case "PhoneNumber":
+                log.debug("Request to save PhoneNumber times: {}", contentAmount);
+                while (contentAmount-- > 0) {
+                    repository.save(phoneNumberGenerator.generateRandom());
+                }
                 break;
             default:
                 log.error("Request to save unknown entity. Nothing will be done");

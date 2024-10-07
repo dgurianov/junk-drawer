@@ -19,7 +19,7 @@ public class CityServiceImpl implements CityService {
     public CityDto createCity(CityDto cityDto) {
         City city = new City();
         city.setName(cityDto.getName());
-        city.setCountryCode(cityDto.getCountry());
+        city.setCountryCode(cityDto.getCountryCode());
         City savedCity = cityRepository.save(city);
         return convertToDTO(savedCity);
     }
@@ -39,21 +39,22 @@ public class CityServiceImpl implements CityService {
     public CityDto updateCity(Long id, CityDto cityDto) {
         City city = cityRepository.findById(id).orElseThrow(() -> new RuntimeException("City not found"));
         city.setName(cityDto.getName());
-        city.setCountryCode(cityDto.getCountry());
+        city.setCountryCode(cityDto.getCountryCode());
         City updatedCity = cityRepository.save(city);
         return convertToDTO(updatedCity);
     }
 
     @Override
-    public void deleteCity(Long id) {
+    public Long deleteCity(Long id) {
         cityRepository.deleteById(id);
+        return id;
     }
 
     private CityDto convertToDTO(City city) {
         CityDto cityDto = new CityDto();
         cityDto.setId(city.getId());
         cityDto.setName(city.getName());
-        cityDto.setCountry(city.getCountryCode());
+        cityDto.setCountryCode(city.getCountryCode());
         return cityDto;
     }
 }

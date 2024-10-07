@@ -9,5 +9,5 @@ public interface CityService {
     CityDto getCityById(Long id);
     List<CityDto> getAllCities();
     CityDto updateCity(Long id, CityDto cityDTO);
-    void deleteCity(Long id);
+    Long deleteCity(Long id);
 }

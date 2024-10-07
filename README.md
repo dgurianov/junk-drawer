@@ -70,31 +70,47 @@ You can specify the active profile using the `SPRING_PROFILES_ACTIVE` environmen
 
 # API
 
-The API  has version prefix in URL and consists of two parts :
+The API URL has version prefix. Current version is `v1`.
+It consists of two parts :
 - **content management** - endpoints to manage data , request to create  or delete X amount of records\ entities. 
 - **data endpoints** - endpoints to work with exact data.
 
 
 #### Content Management Endpoints
 
-  | Description      | Method | Endpoint             | Request payload                                           | Response payload                     | Description                                                                                                             |
-  |------------------|--------|----------------------|-----------------------------------------------------------|--------------------------------------|-------------------------------------------------------------------------------------------------------------------------|
-  | Get job status   | GET    | /api/v1/content/{id} | None                                                      | <pre>[{"status": "COMPLETED"}]</pre> | Get status of job that was creating or deleting content                                                                 | 
-  | Create bulk      | PUT    | /api/v1/content      | <pre> [{"contentName" :"City","contentAmount": 10}]</pre> | <pre>[{ "jobId": 1 }]</pre>          | Returns job id, that serves creation task, where <pre>contentName</pre> should be one of the names of Entity classes.   |     
-  | Delete bulk      | DELETE | /api/v1/content      | <pre> [{"contentName" :"City","contentAmount": 10}]</pre> | <pre>[{ "jobId": 1 }]</pre>          | Returns job id, that serves deletion task, where <pre>contentName</pre> should be one of the names of Entity classes.   |                                                                                                                                                                           
+  | Description    | Method | Endpoint                          | Request payload                                           | Response payload                     | Description                                                                                                           |
+  |----------------|--------|-----------------------------------|-----------------------------------------------------------|--------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
+  | Get job status | GET    | /api/**{version}**/content/{id}   | None                                                      | <pre>[{"status": "COMPLETED"}]</pre> | Get status of job that was creating or deleting content                                                               | 
+  | Create bulk    | PUT    | /api/**{version}**/content        | <pre> [{"contentName" :"City","contentAmount": 10}]</pre> | <pre>[{ "jobId": 1 }]</pre>          | Returns job id, that serves creation task, where <pre>contentName</pre> should be one of the names of Entity classes. |     
+  | Delete bulk    | DELETE | /api/**{version}**/content        | <pre> [{"contentName" :"City","contentAmount": 10}]</pre> | <pre>[{ "jobId": 1 }]</pre>          | Returns job id, that serves deletion task, where <pre>contentName</pre> should be one of the names of Entity classes. |                                                                                                                                                                           
 
 
 #### Data  Endpoints by Entity
 
 *City*
 
-  | Description       | Method | Endpoint                            | Payload                                                                                                                                                                                   | 
-  |-------------------|--------|-------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-  | Get all           | GET    | /api/v1/data/city                   | None                                                                                                                                                                                      | 
-  | Get by id         | GET    | /api/v1/data/city/{id}              | None                                                                                                                                                                                      |
-  | Search            | GET    | /api/v1/data/city?q=x&page=#&size=# | None                                                                                                                                                                                      |
-  | Create or replace | PUT    | /api/v1/data/city                   | <pre> [{ "commitId": "1234", <br>  "userName": "mark",  <br>  "repoId": "important-app", <br>  "tags": [{"id": "dev"}, {"id":"PROD"}], <br>  "description": "Lorem ipsum." <br>  }]</pre> |     
-  | Delete by id      | DELETE | /api/v1/data/city/{id}              | None                                                                                                                                                                                      |                                                                                                                                                                           
+Random generated real cities with valid ISO-3 country codes
 
+  | Description       | Method | Endpoint                                       | Request payload                                                                | Response payload                                                               |
+  |-------------------|--------|------------------------------------------------|--------------------------------------------------------------------------------|--------------------------------------------------------------------------------|
+  | Get all           | GET    | /api/**{version}**/data/city                   | None                                                                           | <pre> [{ "name": "Berlin", <br>  "countryCode": "DEU" }]</pre>                 |
+  | Get by id         | GET    | /api/**{version}**/data/city/{id}              | None                                                                           | <pre> { "name": "Berlin", <br>  "countryCode": "DEU" } </pre>                  |
+  | Search            | GET    | /api/**{version}**/data/city?q=x&page=y&size=z | None                                                                           |                                                                                |
+  | Add new           | POST   | /api/**{version}**/data/city                   | <pre> { "name": "Berlin", <br>  "countryCode": "DEU" } </pre>                  | <pre> { "id": "123",<br> "name": "Berlin", <br>  "countryCode": "DEU" } </pre> |
+  | Create or replace | PUT    | /api/**{version}**/data/city                   | <pre> { "id": "123",<br> "name": "Berlin", <br>  "countryCode": "DEU" } </pre> | <pre> { "id": "123",<br> "name": "Berlin", <br>  "countryCode": "DEU" } </pre> |    
+  | Delete by id      | DELETE | /api/**{version}**/data/city/{id}              | None                                                                           |                                                                                |                                                                                                                                                                          
+
+*Phone number*
+
+Random non-unique phone numbers with valid ISO-3 country code and prefix
+
+| Description       | Method | Endpoint                                               | Request payload                                                                                | Response payload                                                                               |
+|-------------------|--------|--------------------------------------------------------|------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
+| Get all           | GET    | /api/**{version}**/data/phone-number                   | None                                                                                           | <pre> [{ "phoneNumber": "+971-262-09194292", <br>  "countryCode": "ARE" }]</pre>               |
+| Get by id         | GET    | /api/**{version}**/data/phone-number/{id}              | None                                                                                           | <pre> { "phoneNumber": "+971-262-09194292", <br>  "countryCode": "ARE" } </pre>                |
+| Search            | GET    | /api/**{version}**/data/phone-number?q=x&page=y&size=z | None                                                                                           |                                                                                                |
+| Add new           | POST   | /api/**{version}**/data/phone-number                   | <pre> { "phoneNumber": "+971-262-09194292", <br>  "countryCode": "ARE" } </pre>                | <pre> { "id": 2 , <br> "phoneNumber": "+971-262-09194292", <br>  "countryCode": "ARE" } </pre> |
+| Create or replace | PUT    | /api/**{version}**/data/phone-number                   | <pre> { "id": 2 , <br> "phoneNumber": "+971-262-09194292", <br>  "countryCode": "ARE" } </pre> | <pre> { "id": 2 , <br> "phoneNumber": "+971-262-09194292", <br>  "countryCode": "ARE" } </pre> |    
+| Delete by id      | DELETE | /api/**{version}**/data/phone-number/{id}              | None                                                                                           |                                                                                                |                                                                                                                                                                         
 
 
