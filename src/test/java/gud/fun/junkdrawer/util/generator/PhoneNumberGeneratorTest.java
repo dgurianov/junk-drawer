@@ -17,7 +17,8 @@ class PhoneNumberGeneratorTest {
         assertNotNull(phoneNumber);
         assertNotNull(phoneNumber.getPhoneNumber());
         assertNotNull(phoneNumber.getCountryCode());
-        assertTrue(phoneNumber.getPhoneNumber().startsWith(IsoCountryCodeToCallPrefix.getByCountryCode(phoneNumber.getCountryCode())));
+        assertTrue(phoneNumber.getPhoneNumber().startsWith(IsoCountryCodeToCallPrefix.getByCountryCode(
+                CountryCode.getByAlpha3Code(phoneNumber.getCountryCode()).getAlpha2())));
     }
 
     @Test
@@ -35,7 +36,7 @@ class PhoneNumberGeneratorTest {
         PhoneNumber phoneNumber = generator.generateByCountryCode(CountryCode.US);
 
         assertNotNull(phoneNumber);
-        assertEquals("US", phoneNumber.getCountryCode());
+        assertEquals("USA", phoneNumber.getCountryCode());
         assertTrue(phoneNumber.getPhoneNumber().startsWith(IsoCountryCodeToCallPrefix.getByCountryCode("US")));
     }
 

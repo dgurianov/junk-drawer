@@ -11,7 +11,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RestController
-@RequestMapping(Endpoints.CITY)
+@RequestMapping(value=Endpoints.CITY ,produces = "application/json", consumes = "application/json")
 public class CityController {
 
     @Autowired

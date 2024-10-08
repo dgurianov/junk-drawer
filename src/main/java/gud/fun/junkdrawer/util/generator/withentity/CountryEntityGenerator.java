@@ -26,7 +26,7 @@ public class CountryEntityGenerator implements JunkDataGenerator<Country> {
             countryCode = CountryCode.getByCode(random.nextInt(999));
         }
         Country countryEntity = new Country(countryCode);
-        countryEntity.getCities().addAll(cityRepository.findAllByCountryCode(countryCode.getAlpha2()));
+        countryEntity.getCities().addAll(cityRepository.findAllByCountryCode(countryCode.getAlpha3()));
 
         return countryEntity;
     }

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RestController
-@RequestMapping(Endpoints.CREATE_CONTENT)
+@RequestMapping(value=Endpoints.CREATE_CONTENT,produces = "application/json", consumes = "application/json")
 public class GlobalContentController {
 
     @Autowired

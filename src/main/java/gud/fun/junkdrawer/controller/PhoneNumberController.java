@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(Endpoints.PHONE_NUMBER)
+@RequestMapping(value=Endpoints.PHONE_NUMBER,produces = "application/json", consumes = "application/json")
 public class PhoneNumberController {
 
     @Autowired

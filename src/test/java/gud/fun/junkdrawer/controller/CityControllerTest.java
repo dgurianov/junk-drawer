@@ -1,5 +1,6 @@
 package gud.fun.junkdrawer.controller;
 
+import gud.fun.junkdrawer.configuration.Endpoints;
 import gud.fun.junkdrawer.dto.CityDto;
 import gud.fun.junkdrawer.service.CityService;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,20 +38,20 @@ public class CityControllerTest {
     @BeforeEach
     public void setUp() {
         cityDto = new CityDto();
-        cityDto.setName("Test City");
-        cityDto.setCountry("Test Country");
+        cityDto.setName("Berlin");
+        cityDto.setCountryCode("DEU");
     }
 
     @Test
     public void testCreateCity() throws Exception {
         when(cityService.createCity(any(CityDto.class))).thenReturn(cityDto);
 
-        mockMvc.perform(post("/city")
+        mockMvc.perform(post(Endpoints.CITY)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"Test City\",\"country\":\"Test Country\"}"))
+                .content("{\"name\":\"Berlin\",\"country\":\"DEU\"}"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Test City"))
-                .andExpect(jsonPath("$.country").value("Test Country"));
+                .andExpect(jsonPath("$.name").value("Berlin"))
+                .andExpect(jsonPath("$.countryCode").value("DEU"));
     }
 
     @Test
@@ -60,7 +61,7 @@ public class CityControllerTest {
         mockMvc.perform(get("/city/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("Test City"))
-                .andExpect(jsonPath("$.country").value("Test Country"));
+                .andExpect(jsonPath("$.countryCode").value("Test Country"));
     }
 
     @Test
