@@ -11,39 +11,35 @@ import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RestController
-@RequestMapping(value=Endpoints.CITY ,produces = "application/json", consumes = "application/json")
+@RequestMapping(value=Endpoints.CITY)
 public class CityController {
 
     @Autowired
     private CityService cityService;
 
-    @PostMapping
+    @PostMapping(produces = "application/json", consumes = "application/json")
     public ResponseEntity<CityDto> createCity(@RequestBody CityDto cityDTO) {
-        CityDto createdCity = cityService.createCity(cityDTO);
-        return ResponseEntity.ok(createdCity);
+        return ResponseEntity.ok(cityService.createCity(cityDTO));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}",produces = "application/json", consumes = "application/json")
     public ResponseEntity<CityDto> getCityById(@PathVariable Long id) {
-        CityDto city = cityService.getCityById(id);
-        return ResponseEntity.ok(city);
+        return ResponseEntity.ok(cityService.getCityById(id));
     }
 
-    @GetMapping
+    @GetMapping(produces = "application/json")
     public ResponseEntity<List<CityDto>> getAllCities() {
         List<CityDto> cities = cityService.getAllCities();
         return ResponseEntity.ok(cities);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}",produces = "application/json", consumes = "application/json")
     public ResponseEntity<CityDto> updateCity(@PathVariable Long id, @RequestBody CityDto cityDTO) {
-        CityDto updatedCity = cityService.updateCity(id, cityDTO);
-        return ResponseEntity.ok(updatedCity);
+        return ResponseEntity.ok(cityService.updateCity(id, cityDTO));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Long> deleteCity(@PathVariable Long id) {
-       ;
+    @DeleteMapping(value = "/{id}", produces = "application/json")
+    public ResponseEntity<CityDto> deleteCity(@PathVariable Long id) {
         return ResponseEntity.ok(cityService.deleteCity(id));
     }
 }

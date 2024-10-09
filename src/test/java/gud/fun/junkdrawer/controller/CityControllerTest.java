@@ -5,15 +5,11 @@ import gud.fun.junkdrawer.dto.CityDto;
 import gud.fun.junkdrawer.service.CityService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Arrays;
 import java.util.List;
@@ -38,6 +34,7 @@ public class CityControllerTest {
     @BeforeEach
     public void setUp() {
         cityDto = new CityDto();
+        cityDto.setId(1L);
         cityDto.setName("Berlin");
         cityDto.setCountryCode("DEU");
     }
@@ -58,10 +55,11 @@ public class CityControllerTest {
     public void testGetCityById() throws Exception {
         when(cityService.getCityById(anyLong())).thenReturn(cityDto);
 
-        mockMvc.perform(get("/city/1"))
+        mockMvc.perform(get(Endpoints.CITY + "/1")
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Test City"))
-                .andExpect(jsonPath("$.countryCode").value("Test Country"));
+                .andExpect(jsonPath("$.name").value("Berlin"))
+                .andExpect(jsonPath("$.countryCode").value("DEU"));
     }
 
     @Test
@@ -69,27 +67,29 @@ public class CityControllerTest {
         List<CityDto> cities = Arrays.asList(cityDto);
         when(cityService.getAllCities()).thenReturn(cities);
 
-        mockMvc.perform(get("/city"))
+        mockMvc.perform(get(Endpoints.CITY))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].name").value("Test City"))
-                .andExpect(jsonPath("$[0].country").value("Test Country"));
+                .andExpect(jsonPath("$[0].name").value("Berlin"))
+                .andExpect(jsonPath("$[0].countryCode").value("DEU"));
     }
 
     @Test
     public void testUpdateCity() throws Exception {
         when(cityService.updateCity(anyLong(), any(CityDto.class))).thenReturn(cityDto);
 
-        mockMvc.perform(put("/city/1")
+        mockMvc.perform(put(Endpoints.CITY + "/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"Updated City\",\"country\":\"Updated Country\"}"))
+                .content("{\"name\":\"Berlin\",\"countryCode\":\"DEU\"}"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Test City"))
-                .andExpect(jsonPath("$.country").value("Test Country"));
+                .andExpect(jsonPath("$.name").value("Berlin"))
+                .andExpect(jsonPath("$.countryCode").value("DEU"));
     }
 
     @Test
     public void testDeleteCity() throws Exception {
-        mockMvc.perform(delete("/city/1"))
-                .andExpect(status().isNoContent());
+        when(cityService.deleteCity(anyLong())).thenReturn(cityDto);
+        mockMvc.perform(delete(Endpoints.CITY + "/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value("1"));
     }
 }

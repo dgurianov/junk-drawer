@@ -1,5 +1,6 @@
 package gud.fun.junkdrawer.controller;
 
+import gud.fun.junkdrawer.configuration.Endpoints;
 import gud.fun.junkdrawer.dto.PhoneNumberDto;
 import gud.fun.junkdrawer.service.PhoneNumberService;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,7 +46,7 @@ class PhoneNumberControllerTest {
 
         when(phoneNumberService.getAllPhoneNumbers()).thenReturn(phoneNumbers);
 
-        mockMvc.perform(get("/api/phone-numbers"))
+        mockMvc.perform(get(Endpoints.PHONE_NUMBER))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(1L))
                 .andExpect(jsonPath("$[0].phoneNumber").value("1234567890"))
@@ -63,7 +64,7 @@ class PhoneNumberControllerTest {
 
         when(phoneNumberService.getPhoneNumberById(anyLong())).thenReturn(phoneNumber);
 
-        mockMvc.perform(get("/api/phone-numbers/{id}", 1L))
+        mockMvc.perform(get(Endpoints.PHONE_NUMBER + "/{id}", 1L))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.phoneNumber").value("1234567890"))
@@ -78,7 +79,7 @@ class PhoneNumberControllerTest {
 
         when(phoneNumberService.createPhoneNumber(any(PhoneNumberDto.class))).thenReturn(phoneNumber);
 
-        mockMvc.perform(post("/api/phone-numbers")
+        mockMvc.perform(post(Endpoints.PHONE_NUMBER)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"phoneNumber\":\"1234567890\",\"countryCode\":\"US\"}"))
                 .andExpect(status().isOk())
@@ -91,16 +92,25 @@ class PhoneNumberControllerTest {
 
     @Test
     void testUpdatePhoneNumber() throws Exception {
-        PhoneNumberDto phoneNumber = new PhoneNumberDto(1L, "1234567890", "US");
+        PhoneNumberDto phoneNumber = new PhoneNumberDto(1L, "1234567890", "DEU");
 
         when(phoneNumberService.updatePhoneNumber(anyLong(), any(PhoneNumberDto.class))).thenReturn(phoneNumber);
 
-        mockMvc.perform(put("/api/phone-numbers/{id}", 1L)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"phoneNumber\":\"1234567890\",\"countryCode\":\"US\"}"))
-                .andExpect(status().isOk());
-        mockMvc.perform(delete("/api/phone-numbers/{id}", 1L))
-                .andExpect(status().isNoContent());
+        mockMvc.perform(put(Endpoints.PHONE_NUMBER + "/{id}", 1L)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"phoneNumber\":\"1234567890\",\"countryCode\":\"DEU\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.countryCode").value("DEU"));;
+    }
+
+    @Test
+    void  testDeletePhoneNumber() throws Exception{
+        PhoneNumberDto phoneNumber = new PhoneNumberDto(1L, "1234567890", "US");
+
+        when(phoneNumberService.deletePhoneNumber(anyLong())).thenReturn(phoneNumber);
+         mockMvc.perform(delete(Endpoints.PHONE_NUMBER + "/{id}", 1L))
+                .andExpect(status().isOk())
+                 .andExpect(jsonPath("$.id").value("1"));
 
         verify(phoneNumberService, times(1)).deletePhoneNumber(1L);
     }

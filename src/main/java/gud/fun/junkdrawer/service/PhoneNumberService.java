@@ -43,9 +43,11 @@ public class PhoneNumberService {
         return convertToDto(phoneNumber);
     }
 
-    public Long deletePhoneNumber(Long id) {
+    public PhoneNumberDto deletePhoneNumber(Long id) {
         phoneNumberRepository.deleteById(id);
-        return id;
+        PhoneNumberDto response = new PhoneNumberDto();
+        response.setId(id);
+        return response;
     }
 
     private PhoneNumberDto convertToDto(PhoneNumber phoneNumber) {
