@@ -5,7 +5,7 @@ import gud.fun.junkdrawer.dto.ManageContentDtoRequest;
 import gud.fun.junkdrawer.dto.ManageContentDtoResponse;
 import gud.fun.junkdrawer.dto.ManageContentStatusRequestDto;
 import gud.fun.junkdrawer.dto.ManageContentStatusResponseDto;
-import gud.fun.junkdrawer.service.GlobalContentService;
+import gud.fun.junkdrawer.service.ManageContentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class GlobalContentController {
 
     @Autowired
-    private GlobalContentService contentService;
+    private ManageContentService contentService;
 
     @PostMapping
     public ResponseEntity<ManageContentDtoResponse> createContent(@RequestBody ManageContentDtoRequest manageContentDtoRequest) {

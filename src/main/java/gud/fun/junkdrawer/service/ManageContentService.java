@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class GlobalContentService {
+public class ManageContentService {
 
     @Autowired
     JobLauncher jobLauncher;

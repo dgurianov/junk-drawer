@@ -1,6 +1,7 @@
-package gud.fun.junkdrawer.service;
+package gud.fun.junkdrawer.service.data;
 
-import gud.fun.junkdrawer.dto.city.CityDto;
+import gud.fun.junkdrawer.dto.city.CityRequestDto;
+import gud.fun.junkdrawer.dto.city.CityResponseDto;
 import gud.fun.junkdrawer.persistance.model.City;
 import gud.fun.junkdrawer.persistance.repository.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,50 +11,54 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class CityServiceImpl implements CityService {
+public class CityService implements JunkDataService<CityRequestDto,CityResponseDto> {
 
     @Autowired
     private CityRepository cityRepository;
 
+    CityRequestDto request;
+
     @Override
-    public CityDto createCity(CityDto cityDto) {
-        City city = new City();
-        city.setName(cityDto.getName());
-        city.setCountryCode(cityDto.getCountryCode());
-        City savedCity = cityRepository.save(city);
+    public CityResponseDto create(CityRequestDto dto) {
+        request = (CityRequestDto) dto;
+        City entity = new City();
+        entity.setName(request.getName());
+        entity.setCountryCode(request.getCountryCode());
+        City savedCity = cityRepository.save(entity);
         return convertToDTO(savedCity);
     }
 
     @Override
-    public CityDto getCityById(Long id) {
+    public CityResponseDto getById(Long id) {
         City city = cityRepository.findById(id).orElseThrow(() -> new RuntimeException("City not found"));
         return convertToDTO(city);
     }
 
     @Override
-    public List<CityDto> getAllCities() {
+    public List<CityResponseDto> getAll() {
         return cityRepository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     @Override
-    public CityDto updateCity(Long id, CityDto cityDto) {
+    public CityResponseDto update(Long id, CityRequestDto dto) {
+        request = (CityRequestDto) dto;
         City city = cityRepository.findById(id).orElseThrow(() -> new RuntimeException("City not found"));
-        city.setName(cityDto.getName());
-        city.setCountryCode(cityDto.getCountryCode());
+        city.setName(request.getName());
+        city.setCountryCode(request.getCountryCode());
         City updatedCity = cityRepository.save(city);
         return convertToDTO(updatedCity);
     }
 
     @Override
-    public CityDto deleteCity(Long id) {
+    public CityResponseDto delete(Long id) {
         cityRepository.deleteById(id);
-        CityDto responseDto = new CityDto();
+        CityResponseDto responseDto = new CityResponseDto();
         responseDto.setId(id);
         return responseDto;
     }
 
-    private CityDto convertToDTO(City city) {
-        CityDto cityDto = new CityDto();
+    private CityResponseDto convertToDTO(City city) {
+        CityResponseDto cityDto = new CityResponseDto();
         cityDto.setId(city.getId());
         cityDto.setName(city.getName());
         cityDto.setCountryCode(city.getCountryCode());

@@ -1,8 +1,9 @@
 package gud.fun.junkdrawer.controller;
 
 import gud.fun.junkdrawer.configuration.Endpoints;
-import gud.fun.junkdrawer.dto.city.CityDto;
-import gud.fun.junkdrawer.service.CityService;
+import gud.fun.junkdrawer.dto.city.CityRequestDto;
+import gud.fun.junkdrawer.dto.city.CityResponseDto;
+import gud.fun.junkdrawer.service.data.JunkDataService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +28,13 @@ public class CityControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private CityService cityService;
+    private JunkDataService dataService;
 
-    private CityDto cityDto;
+    private CityResponseDto cityDto;
 
     @BeforeEach
     public void setUp() {
-        cityDto = new CityDto();
+        cityDto = new CityResponseDto();
         cityDto.setId(1L);
         cityDto.setName("Berlin");
         cityDto.setCountryCode("DEU");
@@ -41,7 +42,7 @@ public class CityControllerTest {
 
     @Test
     public void testCreateCity() throws Exception {
-        when(cityService.createCity(any(CityDto.class))).thenReturn(cityDto);
+        when(dataService.create(any(CityRequestDto.class))).thenReturn(cityDto);
 
         mockMvc.perform(post(Endpoints.CITY)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -53,7 +54,7 @@ public class CityControllerTest {
 
     @Test
     public void testGetCityById() throws Exception {
-        when(cityService.getCityById(anyLong())).thenReturn(cityDto);
+        when(dataService.getById(anyLong())).thenReturn(cityDto);
 
         mockMvc.perform(get(Endpoints.CITY + "/1")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -64,8 +65,8 @@ public class CityControllerTest {
 
     @Test
     public void testGetAllCities() throws Exception {
-        List<CityDto> cities = Arrays.asList(cityDto);
-        when(cityService.getAllCities()).thenReturn(cities);
+        List<CityResponseDto> cities = Arrays.asList(cityDto);
+        when(dataService.getAll()).thenReturn(cities);
 
         mockMvc.perform(get(Endpoints.CITY))
                 .andExpect(status().isOk())
@@ -75,7 +76,7 @@ public class CityControllerTest {
 
     @Test
     public void testUpdateCity() throws Exception {
-        when(cityService.updateCity(anyLong(), any(CityDto.class))).thenReturn(cityDto);
+        when(dataService.update(anyLong(), any(CityRequestDto.class))).thenReturn(cityDto);
 
         mockMvc.perform(put(Endpoints.CITY + "/1")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -87,7 +88,7 @@ public class CityControllerTest {
 
     @Test
     public void testDeleteCity() throws Exception {
-        when(cityService.deleteCity(anyLong())).thenReturn(cityDto);
+        when(dataService.delete(anyLong())).thenReturn(cityDto);
         mockMvc.perform(delete(Endpoints.CITY + "/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value("1"));

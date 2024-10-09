@@ -1,8 +1,9 @@
 package gud.fun.junkdrawer.controller;
 
 import gud.fun.junkdrawer.configuration.Endpoints;
-import gud.fun.junkdrawer.dto.city.CityDto;
-import gud.fun.junkdrawer.service.CityService;
+import gud.fun.junkdrawer.dto.city.CityRequestDto;
+import gud.fun.junkdrawer.dto.city.CityResponseDto;
+import gud.fun.junkdrawer.service.data.JunkDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,31 +16,31 @@ import java.util.List;
 public class CityController {
 
     @Autowired
-    private CityService cityService;
+    private JunkDataService dataService;
 
     @PostMapping(produces = "application/json", consumes = "application/json")
-    public ResponseEntity<CityDto> createCity(@RequestBody CityDto cityDTO) {
-        return ResponseEntity.ok(cityService.createCity(cityDTO));
+    public ResponseEntity<CityResponseDto> createCity(@RequestBody CityRequestDto cityDTO) {
+        return ResponseEntity.ok((CityResponseDto) dataService.create(cityDTO));
     }
 
     @GetMapping(value = "/{id}",produces = "application/json", consumes = "application/json")
-    public ResponseEntity<CityDto> getCityById(@PathVariable Long id) {
-        return ResponseEntity.ok(cityService.getCityById(id));
+    public ResponseEntity<CityResponseDto> getCityById(@PathVariable Long id) {
+        return ResponseEntity.ok((CityResponseDto) dataService.getById(id));
     }
 
     @GetMapping(produces = "application/json")
-    public ResponseEntity<List<CityDto>> getAllCities() {
-        List<CityDto> cities = cityService.getAllCities();
+    public ResponseEntity<List<CityResponseDto>> getAllCities() {
+        List<CityResponseDto> cities = dataService.getAll();
         return ResponseEntity.ok(cities);
     }
 
     @PutMapping(value = "/{id}",produces = "application/json", consumes = "application/json")
-    public ResponseEntity<CityDto> updateCity(@PathVariable Long id, @RequestBody CityDto cityDTO) {
-        return ResponseEntity.ok(cityService.updateCity(id, cityDTO));
+    public ResponseEntity<CityResponseDto> updateCity(@PathVariable Long id, @RequestBody CityRequestDto dto) {
+        return ResponseEntity.ok((CityResponseDto)dataService.update(id, dto));
     }
 
     @DeleteMapping(value = "/{id}", produces = "application/json")
-    public ResponseEntity<CityDto> deleteCity(@PathVariable Long id) {
-        return ResponseEntity.ok(cityService.deleteCity(id));
+    public ResponseEntity<CityResponseDto> deleteCity(@PathVariable Long id) {
+        return ResponseEntity.ok((CityResponseDto) dataService.delete(id));
     }
 }
