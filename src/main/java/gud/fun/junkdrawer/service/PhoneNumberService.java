@@ -1,6 +1,6 @@
 package gud.fun.junkdrawer.service;
 
-import gud.fun.junkdrawer.dto.PhoneNumberDto;
+import gud.fun.junkdrawer.dto.phonenumber.PhoneNumberDto;
 import gud.fun.junkdrawer.persistance.model.PhoneNumber;
 import gud.fun.junkdrawer.persistance.repository.PhoneNumberRepository;
 import org.springframework.beans.factory.annotation.Autowired;

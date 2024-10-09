@@ -1,4 +1,4 @@
-package gud.fun.junkdrawer.dto;
+package gud.fun.junkdrawer.dto.city;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;

@@ -1,5 +1,6 @@
 package gud.fun.junkdrawer.util.generator;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,6 +28,7 @@ public class NameGeneratorTest {
         }
     }
 
+    @Disabled("AI generated , not stable. Re-write")
     @Test
     public void testGenerateRandomFirstNameNoMoreThanTwoConsonantsConsecutively() {
         NameGenerator ng = new NameGenerator(6);

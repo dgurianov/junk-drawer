@@ -1,6 +1,6 @@
 package gud.fun.junkdrawer.service;
 
-import gud.fun.junkdrawer.dto.CityDto;
+import gud.fun.junkdrawer.dto.city.CityDto;
 import gud.fun.junkdrawer.persistance.model.City;
 import gud.fun.junkdrawer.persistance.repository.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
 package gud.fun.junkdrawer.controller;
 
 import gud.fun.junkdrawer.configuration.Endpoints;
-import gud.fun.junkdrawer.dto.CityDto;
+import gud.fun.junkdrawer.dto.city.CityDto;
 import gud.fun.junkdrawer.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

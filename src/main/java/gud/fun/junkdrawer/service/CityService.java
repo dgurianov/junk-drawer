@@ -1,6 +1,6 @@
 package gud.fun.junkdrawer.service;
 
-import gud.fun.junkdrawer.dto.CityDto;
+import gud.fun.junkdrawer.dto.city.CityDto;
 
 import java.util.List;
 

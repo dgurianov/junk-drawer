@@ -1,7 +1,7 @@
 package gud.fun.junkdrawer.controller;
 
 import gud.fun.junkdrawer.configuration.Endpoints;
-import gud.fun.junkdrawer.dto.PhoneNumberDto;
+import gud.fun.junkdrawer.dto.phonenumber.PhoneNumberDto;
 import gud.fun.junkdrawer.service.PhoneNumberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -5,23 +5,18 @@ public class Endpoints {
     //Set up
     public static final String API = "/api";
     public static final String CONTENT = "/content";
+    public static final String STREAM = "/stream";
     public static final String DATA = "/data";
     public static final String VERSION = "/v1";
 
-    //Create content endpoint
+    //Manage content endpoint
     public static final String CREATE_CONTENT = API + VERSION + CONTENT;
 
     //Data endpoints
     public static final String CITY = API + VERSION + DATA + "/city";
+    public static final String COUNTRY = API + VERSION + DATA + "/country";
     public static final String PHONE_NUMBER = API + VERSION + DATA + "/phone-number";
-    public static final String PERSON = API + VERSION + DATA + "/person";
+    public static final String CUSTOMER = API + VERSION + DATA + "/customer";
 
-    public static String getUrls(){
-        return String.join("\n",
-                CREATE_CONTENT,
-                CITY,
-                PERSON
-        );
-    }
-
+    //Stream endpoints
 }

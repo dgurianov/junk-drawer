@@ -3,6 +3,6 @@ package gud.fun.junkdrawer.dto;
 import lombok.Data;
 
 @Data
-public class CreateContentStatusResponseDto {
+public class ManageContentStatusResponseDto {
     private String status;
 }

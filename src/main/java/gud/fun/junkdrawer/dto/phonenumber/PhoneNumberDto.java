@@ -1,4 +1,4 @@
-package gud.fun.junkdrawer.dto;
+package gud.fun.junkdrawer.dto.phonenumber;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

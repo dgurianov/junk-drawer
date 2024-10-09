@@ -1,10 +1,10 @@
 package gud.fun.junkdrawer.controller;
 
 import gud.fun.junkdrawer.configuration.Endpoints;
-import gud.fun.junkdrawer.dto.ContentDtoRequest;
-import gud.fun.junkdrawer.dto.ContentDtoResponse;
-import gud.fun.junkdrawer.dto.CreateContentStatusRequestDto;
-import gud.fun.junkdrawer.dto.CreateContentStatusResponseDto;
+import gud.fun.junkdrawer.dto.ManageContentDtoRequest;
+import gud.fun.junkdrawer.dto.ManageContentDtoResponse;
+import gud.fun.junkdrawer.dto.ManageContentStatusRequestDto;
+import gud.fun.junkdrawer.dto.ManageContentStatusResponseDto;
 import gud.fun.junkdrawer.service.GlobalContentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +19,10 @@ public class GlobalContentController {
     private GlobalContentService contentService;
 
     @PostMapping
-    public ResponseEntity<ContentDtoResponse> createContent(@RequestBody ContentDtoRequest contentDtoRequest) {
-        ContentDtoResponse createdContent = null;
+    public ResponseEntity<ManageContentDtoResponse> createContent(@RequestBody ManageContentDtoRequest manageContentDtoRequest) {
+        ManageContentDtoResponse createdContent = null;
         try {
-          createdContent = contentService.createContent(contentDtoRequest);
+          createdContent = contentService.createContent(manageContentDtoRequest);
         } catch (Exception e) {
 
         }
@@ -30,10 +30,10 @@ public class GlobalContentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CreateContentStatusResponseDto> getCreateContentStatus(@PathVariable Long id) {
-        CreateContentStatusRequestDto request = new CreateContentStatusRequestDto();
+    public ResponseEntity<ManageContentStatusResponseDto> getCreateContentStatus(@PathVariable Long id) {
+        ManageContentStatusRequestDto request = new ManageContentStatusRequestDto();
         request.setJobId(id);
-             CreateContentStatusResponseDto response = contentService.getCreateContentStatus(request);
+             ManageContentStatusResponseDto response = contentService.getCreateContentStatus(request);
         return ResponseEntity.ok(response);
     }
 
