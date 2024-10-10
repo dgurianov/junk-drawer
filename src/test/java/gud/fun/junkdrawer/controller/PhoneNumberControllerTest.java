@@ -1,8 +1,9 @@
 package gud.fun.junkdrawer.controller;
 
 import gud.fun.junkdrawer.configuration.Endpoints;
-import gud.fun.junkdrawer.dto.phonenumber.PhoneNumberDto;
-import gud.fun.junkdrawer.service.PhoneNumberService;
+import gud.fun.junkdrawer.dto.phonenumber.PhoneNumberRequestDto;
+import gud.fun.junkdrawer.dto.phonenumber.PhoneNumberResponseDto;
+import gud.fun.junkdrawer.service.data.PhoneNumberService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -14,14 +15,17 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 class PhoneNumberControllerTest {
+
+    private final UUID TEST_UUID_1 = UUID.fromString("e6c96a16-51b4-4ac7-bbe7-86e1a1f4da21");
+    private final UUID TEST_UUID_2 = UUID.fromString("e6c96a16-51b4-4ac7-bbe7-86e1a1f4da22");
 
     private MockMvc mockMvc;
 
@@ -39,64 +43,64 @@ class PhoneNumberControllerTest {
 
     @Test
     void testGetAllPhoneNumbers() throws Exception {
-        List<PhoneNumberDto> phoneNumbers = Arrays.asList(
-                new PhoneNumberDto(1L, "1234567890", "US"),
-                new PhoneNumberDto(2L, "0987654321", "CA")
+        List<PhoneNumberResponseDto> phoneNumbers = Arrays.asList(
+                new PhoneNumberResponseDto(TEST_UUID_1.toString(), "1234567890", "USA"),
+                new PhoneNumberResponseDto(TEST_UUID_2.toString(), "0987654321", "CA")
         );
 
-        when(phoneNumberService.getAllPhoneNumbers()).thenReturn(phoneNumbers);
+        when(phoneNumberService.getAll()).thenReturn(phoneNumbers);
 
         mockMvc.perform(get(Endpoints.PHONE_NUMBER))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(1L))
+                .andExpect(jsonPath("$[0].id").value(TEST_UUID_1.toString()))
                 .andExpect(jsonPath("$[0].phoneNumber").value("1234567890"))
-                .andExpect(jsonPath("$[0].countryCode").value("US"))
-                .andExpect(jsonPath("$[1].id").value(2L))
+                .andExpect(jsonPath("$[0].countryCode").value("USA"))
+                .andExpect(jsonPath("$[1].id").value(TEST_UUID_2.toString()))
                 .andExpect(jsonPath("$[1].phoneNumber").value("0987654321"))
                 .andExpect(jsonPath("$[1].countryCode").value("CA"));
 
-        verify(phoneNumberService, times(1)).getAllPhoneNumbers();
+        verify(phoneNumberService, times(1)).getAll();
     }
 
     @Test
     void testGetPhoneNumberById() throws Exception {
-        PhoneNumberDto phoneNumber = new PhoneNumberDto(1L, "1234567890", "US");
+        PhoneNumberResponseDto phoneNumber = new PhoneNumberResponseDto(TEST_UUID_1.toString(), "1234567890", "USA");
 
-        when(phoneNumberService.getPhoneNumberById(anyLong())).thenReturn(phoneNumber);
+        when(phoneNumberService.getById(any(UUID.class))).thenReturn(phoneNumber);
 
-        mockMvc.perform(get(Endpoints.PHONE_NUMBER + "/{id}", 1L))
+        mockMvc.perform(get(Endpoints.PHONE_NUMBER + "/{id}", TEST_UUID_1.toString()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.id").value(TEST_UUID_1.toString()))
                 .andExpect(jsonPath("$.phoneNumber").value("1234567890"))
-                .andExpect(jsonPath("$.countryCode").value("US"));
+                .andExpect(jsonPath("$.countryCode").value("USA"));
 
-        verify(phoneNumberService, times(1)).getPhoneNumberById(1L);
+        verify(phoneNumberService, times(1)).getById(any(UUID.class));
     }
 
     @Test
     void testCreatePhoneNumber() throws Exception {
-        PhoneNumberDto phoneNumber = new PhoneNumberDto(1L, "1234567890", "US");
+        PhoneNumberResponseDto phoneNumber = new PhoneNumberResponseDto(TEST_UUID_1.toString(), "1234567890", "US");
 
-        when(phoneNumberService.createPhoneNumber(any(PhoneNumberDto.class))).thenReturn(phoneNumber);
+        when(phoneNumberService.create(any(PhoneNumberRequestDto.class))).thenReturn(phoneNumber);
 
         mockMvc.perform(post(Endpoints.PHONE_NUMBER)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"phoneNumber\":\"1234567890\",\"countryCode\":\"US\"}"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.id").value(TEST_UUID_1.toString()))
                 .andExpect(jsonPath("$.phoneNumber").value("1234567890"))
                 .andExpect(jsonPath("$.countryCode").value("US"));
 
-        verify(phoneNumberService, times(1)).createPhoneNumber(any(PhoneNumberDto.class));
+        verify(phoneNumberService, times(1)).create(any(PhoneNumberRequestDto.class));
     }
 
     @Test
     void testUpdatePhoneNumber() throws Exception {
-        PhoneNumberDto phoneNumber = new PhoneNumberDto(1L, "1234567890", "DEU");
+        PhoneNumberResponseDto phoneNumber = new PhoneNumberResponseDto(TEST_UUID_1.toString(), "1234567890", "DEU");
 
-        when(phoneNumberService.updatePhoneNumber(anyLong(), any(PhoneNumberDto.class))).thenReturn(phoneNumber);
+        when(phoneNumberService.update(any(UUID.class), any(PhoneNumberRequestDto.class))).thenReturn(phoneNumber);
 
-        mockMvc.perform(put(Endpoints.PHONE_NUMBER + "/{id}", 1L)
+        mockMvc.perform(put(Endpoints.PHONE_NUMBER + "/{id}", TEST_UUID_1.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"phoneNumber\":\"1234567890\",\"countryCode\":\"DEU\"}"))
                 .andExpect(status().isOk())
@@ -105,13 +109,13 @@ class PhoneNumberControllerTest {
 
     @Test
     void  testDeletePhoneNumber() throws Exception{
-        PhoneNumberDto phoneNumber = new PhoneNumberDto(1L, "1234567890", "US");
+        PhoneNumberResponseDto phoneNumber = new PhoneNumberResponseDto(TEST_UUID_1.toString(), "1234567890", "US");
 
-        when(phoneNumberService.deletePhoneNumber(anyLong())).thenReturn(phoneNumber);
-         mockMvc.perform(delete(Endpoints.PHONE_NUMBER + "/{id}", 1L))
+        when(phoneNumberService.delete(any(UUID.class))).thenReturn(phoneNumber);
+         mockMvc.perform(delete(Endpoints.PHONE_NUMBER + "/{id}", TEST_UUID_1.toString()))
                 .andExpect(status().isOk())
-                 .andExpect(jsonPath("$.id").value("1"));
+                 .andExpect(jsonPath("$.id").value(TEST_UUID_1.toString()));
 
-        verify(phoneNumberService, times(1)).deletePhoneNumber(1L);
+        verify(phoneNumberService, times(1)).delete(TEST_UUID_1);
     }
 }

@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "COUNTRY")
@@ -24,14 +25,14 @@ public class Country {
 
     public Country(CountryCode code){
         this.countryCode = code.getAlpha2();
-        this.countryName = code.getName();
+        this.name = code.getName();
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
-    private String countryName;
+    private String name;
     private String countryCode;
 
     @OneToMany

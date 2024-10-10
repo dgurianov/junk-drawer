@@ -1,11 +1,9 @@
-package gud.fun.junkdrawer.dto.city;
+package gud.fun.junkdrawer.dto.country;
 
 import lombok.Data;
 
-import java.util.UUID;
-
 @Data
-public class CityRequestDto {
+public class CountryRequestDto {
     private String id;
     private String name;
     private String countryCode;

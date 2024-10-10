@@ -11,11 +11,14 @@ import org.mockito.Mockito;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Arrays;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CountryEntityGeneratorTest {
+
+    private final UUID TEST_UUID = UUID.fromString("e6c96a16-51b4-4ac7-bbe7-86e1a1f4da21");
 
     private CountryEntityGenerator countryEntityGenerator;
 
@@ -28,7 +31,7 @@ public class CountryEntityGeneratorTest {
     @Test
     public void testGenerateRandom() {
         CityRepository repositoryMock = Mockito.mock(CityRepository.class);
-        Mockito.when(repositoryMock.findAllByCountryCode(ArgumentMatchers.anyString())).thenReturn(Arrays.asList(new City(10L,"Berlin","DE")));
+        Mockito.when(repositoryMock.findAllByCountryCode(ArgumentMatchers.anyString())).thenReturn(Arrays.asList(new City(TEST_UUID,"Berlin","DE")));
         ReflectionTestUtils.setField(countryEntityGenerator, "cityRepository", repositoryMock);
 
         String countryName = countryEntityGenerator.generateRandomAsString();

@@ -14,13 +14,15 @@ import org.mockito.MockitoAnnotations;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 class CityServiceTest {
+
+    private final UUID TEST_UUID = UUID.fromString("e6c96a16-51b4-4ac7-bbe7-86e1a1f4da21");
 
     @Mock
     private CityRepository cityRepository;
@@ -35,7 +37,7 @@ class CityServiceTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
         city = new City();
-        city.setId(1L);
+        city.setId(TEST_UUID);
         city.setName("Berlin");
         city.setCountryCode("DEU");
 
@@ -51,7 +53,7 @@ class CityServiceTest {
         CityResponseDto responseDto = (CityResponseDto) cityService.create(cityRequestDto);
 
         assertNotNull(responseDto);
-        assertEquals(city.getId(), responseDto.getId());
+        assertEquals(city.getId().toString(), responseDto.getId());
         assertEquals(city.getName(), responseDto.getName());
         assertEquals(city.getCountryCode(), responseDto.getCountryCode());
 
@@ -60,16 +62,16 @@ class CityServiceTest {
 
     @Test
     void testGetById() {
-        when(cityRepository.findById(anyLong())).thenReturn(Optional.of(city));
+        when(cityRepository.findById(any(UUID.class))).thenReturn(Optional.of(city));
 
-        CityResponseDto responseDto = (CityResponseDto) cityService.getById(1L);
+        CityResponseDto responseDto = (CityResponseDto) cityService.getById(TEST_UUID);
 
         assertNotNull(responseDto);
-        assertEquals(city.getId(), responseDto.getId());
+        assertEquals(city.getId().toString(), responseDto.getId());
         assertEquals(city.getName(), responseDto.getName());
         assertEquals(city.getCountryCode(), responseDto.getCountryCode());
 
-        verify(cityRepository, times(1)).findById(anyLong());
+        verify(cityRepository, times(1)).findById(any(UUID.class));
     }
 
     @Test
@@ -77,7 +79,7 @@ class CityServiceTest {
         when(cityRepository.findAll()).thenReturn(Arrays.asList(city));
         List<CityResponseDto> responseDtos = (List<CityResponseDto>) cityService.getAll();
 
-        assertEquals(city.getId(), responseDtos.get(0).getId());
+        assertEquals(city.getId().toString(), responseDtos.get(0).getId());
         assertEquals(city.getName(), responseDtos.get(0).getName());
         assertEquals(city.getCountryCode(), responseDtos.get(0).getCountryCode());
 
@@ -86,29 +88,29 @@ class CityServiceTest {
 
     @Test
     void testUpdate() {
-        when(cityRepository.findById(anyLong())).thenReturn(Optional.of(city));
+        when(cityRepository.findById(any(UUID.class))).thenReturn(Optional.of(city));
         when(cityRepository.save(any(City.class))).thenReturn(city);
 
-        CityResponseDto responseDto = (CityResponseDto) cityService.update(1L, cityRequestDto);
+        CityResponseDto responseDto = (CityResponseDto) cityService.update(TEST_UUID, cityRequestDto);
 
         assertNotNull(responseDto);
-        assertEquals(city.getId(), responseDto.getId());
+        assertEquals(city.getId().toString(), responseDto.getId());
         assertEquals(city.getName(), responseDto.getName());
         assertEquals(city.getCountryCode(), responseDto.getCountryCode());
 
-        verify(cityRepository, times(1)).findById(anyLong());
+        verify(cityRepository, times(1)).findById(any(UUID.class));
         verify(cityRepository, times(1)).save(any(City.class));
     }
 
     @Test
     void testDelete() {
-        doNothing().when(cityRepository).deleteById(anyLong());
+        doNothing().when(cityRepository).deleteById(any(UUID.class));
 
-        CityResponseDto responseDto = (CityResponseDto) cityService.delete(1L);
+        CityResponseDto responseDto = (CityResponseDto) cityService.delete(TEST_UUID);
 
         assertNotNull(responseDto);
-        assertEquals(1L, responseDto.getId());
+        assertEquals(TEST_UUID.toString(), responseDto.getId());
 
-        verify(cityRepository, times(1)).deleteById(anyLong());
+        verify(cityRepository, times(1)).deleteById(any(UUID.class));
     }
 }

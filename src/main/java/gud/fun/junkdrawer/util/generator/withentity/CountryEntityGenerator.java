@@ -33,7 +33,7 @@ public class CountryEntityGenerator implements JunkDataGenerator<Country> {
 
     @Override
     public String generateRandomAsString() {
-        return generateRandom().getCountryName();
+        return generateRandom().getName();
     }
 
 

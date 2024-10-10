@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "PHONE_NUMBER")
 @NoArgsConstructor
@@ -21,8 +23,8 @@ public class PhoneNumber {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     private String phoneNumber;
     private String countryCode;

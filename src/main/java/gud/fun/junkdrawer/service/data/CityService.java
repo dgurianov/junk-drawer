@@ -8,60 +8,67 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-public class CityService implements JunkDataService<CityRequestDto,CityResponseDto> {
+public class CityService implements JunkDataService<CityRequestDto,CityResponseDto,City> {
 
     @Autowired
     private CityRepository cityRepository;
 
-    CityRequestDto request;
-
     @Override
     public CityResponseDto create(CityRequestDto dto) {
-        request = (CityRequestDto) dto;
-        City entity = new City();
-        entity.setName(request.getName());
-        entity.setCountryCode(request.getCountryCode());
-        City savedCity = cityRepository.save(entity);
-        return convertToDTO(savedCity);
+        return toResponseDTO(
+                cityRepository.save(
+                        toEntity(dto)
+                )
+        );
     }
 
     @Override
-    public CityResponseDto getById(Long id) {
+    public CityResponseDto getById(UUID id) {
         City city = cityRepository.findById(id).orElseThrow(() -> new RuntimeException("City not found"));
-        return convertToDTO(city);
+        return toResponseDTO(city);
     }
 
     @Override
     public List<CityResponseDto> getAll() {
-        return cityRepository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
+        return cityRepository.findAll().stream().map(this::toResponseDTO).collect(Collectors.toList());
     }
 
     @Override
-    public CityResponseDto update(Long id, CityRequestDto dto) {
-        request = (CityRequestDto) dto;
+    public CityResponseDto update(UUID id, CityRequestDto dto) {
         City city = cityRepository.findById(id).orElseThrow(() -> new RuntimeException("City not found"));
-        city.setName(request.getName());
-        city.setCountryCode(request.getCountryCode());
+        city.setName(dto.getName());
+        city.setCountryCode(dto.getCountryCode());
         City updatedCity = cityRepository.save(city);
-        return convertToDTO(updatedCity);
+        return toResponseDTO(updatedCity);
     }
 
     @Override
-    public CityResponseDto delete(Long id) {
+    public CityResponseDto delete(UUID id) {
         cityRepository.deleteById(id);
         CityResponseDto responseDto = new CityResponseDto();
-        responseDto.setId(id);
+        responseDto.setId(id.toString());
         return responseDto;
     }
 
-    private CityResponseDto convertToDTO(City city) {
+    @Override
+    public CityResponseDto toResponseDTO(City entity) {
         CityResponseDto cityDto = new CityResponseDto();
-        cityDto.setId(city.getId());
-        cityDto.setName(city.getName());
-        cityDto.setCountryCode(city.getCountryCode());
+        cityDto.setId(entity.getId().toString());
+        cityDto.setName(entity.getName());
+        cityDto.setCountryCode(entity.getCountryCode());
         return cityDto;
+    }
+
+    @Override
+    public City toEntity(CityRequestDto dto) {
+        City city = new City();
+        city.setId(dto.getId() != null ? UUID.fromString(dto.getId()) : null);
+        city.setName(dto.getName());
+        city.setCountryCode(dto.getCountryCode());
+        return city;
     }
 }
