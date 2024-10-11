@@ -12,28 +12,28 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RestController
-@RequestMapping(value=Endpoints.CREATE_CONTENT,produces = "application/json", consumes = "application/json")
-public class GlobalContentController {
+@RequestMapping(value=Endpoints.CREATE_CONTENT)
+public class ManageContentController {
 
     @Autowired
     private ManageContentService contentService;
 
-    @PostMapping
+    @PostMapping(produces = "application/json", consumes = "application/json")
     public ResponseEntity<ManageContentDtoResponse> createContent(@RequestBody ManageContentDtoRequest manageContentDtoRequest) {
         ManageContentDtoResponse createdContent = null;
         try {
           createdContent = contentService.createContent(manageContentDtoRequest);
         } catch (Exception e) {
-
+                throw new RuntimeException("Content is not created!");
         }
         return ResponseEntity.ok(createdContent);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = "application/json")
     public ResponseEntity<ManageContentStatusResponseDto> getCreateContentStatus(@PathVariable Long id) {
         ManageContentStatusRequestDto request = new ManageContentStatusRequestDto();
         request.setJobId(id);
-             ManageContentStatusResponseDto response = contentService.getCreateContentStatus(request);
+        ManageContentStatusResponseDto response = contentService.getCreateContentStatus(request);
         return ResponseEntity.ok(response);
     }
 

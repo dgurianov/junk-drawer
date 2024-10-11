@@ -2,7 +2,7 @@ package gud.fun.junkdrawer.util.generator.withentity;
 
 import gud.fun.junkdrawer.persistance.model.City;
 import gud.fun.junkdrawer.util.generator.JunkDataGenerator;
-import gud.fun.junkdrawer.util.reader.CityCsvFileReader;
+import gud.fun.junkdrawer.util.reader.CityCsvToEntityFileReader;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +16,7 @@ public class CityEntityGenerator implements JunkDataGenerator<City> {
 
     @PostConstruct
     public void init() {
-        this.cities = new CityCsvFileReader().read();
+        this.cities = new CityCsvToEntityFileReader().read();
     }
 
     @Override

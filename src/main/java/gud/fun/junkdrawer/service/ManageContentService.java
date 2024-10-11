@@ -29,7 +29,6 @@ public class ManageContentService {
     private JobExplorer jobExplorer;
 
     public ManageContentDtoResponse createContent(ManageContentDtoRequest manageContentDtoRequest) throws Exception {
-        //Process DTO and start to  either do manually or run the batch job
         JobExecution je = jobLauncher.run(createContentJob, createJobParameters(manageContentDtoRequest));
         ManageContentDtoResponse response = new ManageContentDtoResponse();
         response.setJobId(je.getJobId());
@@ -37,7 +36,6 @@ public class ManageContentService {
     }
 
     public ManageContentStatusResponseDto getCreateContentStatus(ManageContentStatusRequestDto request) {
-        //Process DTO and start to  either do manually or run the batch job
         ManageContentStatusResponseDto response = new ManageContentStatusResponseDto();
         response.setStatus(jobExplorer.getJobExecution(request.getJobId()).getStatus().toString());
         return response;

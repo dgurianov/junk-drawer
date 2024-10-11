@@ -1,10 +1,9 @@
-package gud.fun.junkdrawer.service;
+package gud.fun.junkdrawer.service.data;
 
 import gud.fun.junkdrawer.dto.city.CityRequestDto;
 import gud.fun.junkdrawer.dto.city.CityResponseDto;
 import gud.fun.junkdrawer.persistance.model.City;
 import gud.fun.junkdrawer.persistance.repository.CityRepository;
-import gud.fun.junkdrawer.service.data.CityService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

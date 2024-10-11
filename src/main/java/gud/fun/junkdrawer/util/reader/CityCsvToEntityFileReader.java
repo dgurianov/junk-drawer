@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CityCsvFileReader implements CsvFileReader<City> {
+public class CityCsvToEntityFileReader implements CsvFileReader<City> {
 
     private String filePath = new File("src/main/resources/stub/cities.csv").getAbsolutePath();
 
