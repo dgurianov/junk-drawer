@@ -2,7 +2,9 @@ package gud.fun.junkdrawer.util.generator;
 
 import com.neovisionaries.i18n.CountryCode;
 import org.iban4j.Iban;
+import org.springframework.stereotype.Component;
 
+@Component
 public class IbanGenerator implements JunkDataGenerator<Iban, CountryCode> {
     @Override
     public Iban generateRandom() {

@@ -1,7 +1,9 @@
 package gud.fun.junkdrawer.util.generator;
 
 import com.neovisionaries.i18n.CountryCode;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AddressGenerator implements JunkDataGenerator<String, CountryCode> {
     @Override
     public String generateRandom() {

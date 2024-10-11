@@ -20,7 +20,7 @@ public class CurrencyGenerator implements JunkDataGenerator<CurrencyCode, Countr
 
     @Override
     public CurrencyCode generateRandomByCriteria(CountryCode criteria) {
-        return null;
+        return CurrencyCode.getByCountry(criteria.getAlpha2()).get(0);
     }
 
     @Override
@@ -30,6 +30,6 @@ public class CurrencyGenerator implements JunkDataGenerator<CurrencyCode, Countr
 
     @Override
     public String generateRandomAsStringByCriteria(CountryCode criteria) {
-        return "";
+        return  generateRandomByCriteria(criteria).getName();
     }
 }

@@ -16,7 +16,7 @@ public class StreetGenerator implements JunkDataGenerator<String,String>{
 
     @Override
     public String generateRandomByCriteria(String criteria) {
-        return "";
+        return nameGenerator.generateRandom() + " " + criteria +" str.";
     }
 
     @Override
@@ -26,10 +26,7 @@ public class StreetGenerator implements JunkDataGenerator<String,String>{
 
     @Override
     public String generateRandomAsStringByCriteria(String criteria) {
-        return "";
+        return generateRandomByCriteria(criteria);
     }
 
-    public void setNameGenerator(NameGenerator nameGenerator) {
-        this.nameGenerator = nameGenerator;
-    }
 }
