@@ -1,25 +1,26 @@
 package gud.fun.junkdrawer.util.generator;
 
 import com.neovisionaries.i18n.CountryCode;
+import org.iban4j.Iban;
 
-public class IbanGenerator implements JunkDataGenerator<String, CountryCode> {
+public class IbanGenerator implements JunkDataGenerator<Iban, CountryCode> {
     @Override
-    public String generateRandom() {
-        return "";
+    public Iban generateRandom() {
+        return Iban.random();
     }
 
     @Override
-    public String generateRandomByCriteria(CountryCode criteria) {
-        return "";
+    public Iban generateRandomByCriteria(CountryCode criteria) {
+        return Iban.random(org.iban4j.CountryCode.getByCode(criteria.getAlpha3()));
     }
 
     @Override
     public String generateRandomAsString() {
-        return "";
+        return generateRandom().toFormattedString();
     }
 
     @Override
     public String generateRandomAsStringByCriteria(CountryCode criteria) {
-        return "";
+        return generateRandomByCriteria(criteria).toFormattedString();
     }
 }
