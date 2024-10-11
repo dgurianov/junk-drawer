@@ -74,6 +74,11 @@
 			<artifactId>nv-i18n</artifactId>
 			<version>1.29</version>
 		</dependency>
+		<dependency>
+			<groupId>org.iban4j</groupId>
+			<artifactId>iban4j</artifactId>
+			<version>3.2.10-RELEASE</version>
+		</dependency>
 	</dependencies>
 
 	<build>

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import java.util.Random;
 
 @Component
-public class NameGenerator implements JunkDataGenerator<String> {
+public class NameGenerator implements JunkDataGenerator<String,String> {
 
     private static final String VOWELS = "AEIOUaeiou";
     private static final String CONSONANTS = "BCDFGHJKLMNPQRSTVWXYZbcdfghjklmnpqrstvwxyz";
@@ -57,8 +57,18 @@ public class NameGenerator implements JunkDataGenerator<String> {
     }
 
     @Override
+    public String generateRandomByCriteria(String criteria) {
+        return "";
+    }
+
+    @Override
     public String generateRandomAsString() {
         return generateRandom();
+    }
+
+    @Override
+    public String generateRandomAsStringByCriteria(String criteria) {
+        return "";
     }
 
     public static String getVowels() {

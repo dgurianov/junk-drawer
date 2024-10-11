@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.Random;
 
 @Component
-public class PhoneNumberGenerator implements JunkDataGenerator<PhoneNumber> {
+public class PhoneNumberGenerator implements JunkDataGenerator<PhoneNumber,CountryCode> {
     Random random = new Random();
 
     @Override
@@ -16,21 +16,16 @@ public class PhoneNumberGenerator implements JunkDataGenerator<PhoneNumber> {
 
         //Random Country code
         String randomCountryCode = IsoCountryCodeToCallPrefix.getAll().keySet().toArray()[random.nextInt(IsoCountryCodeToCallPrefix.getSize())].toString();
-        return generateByCountryCode(CountryCode.getByCode(randomCountryCode));
+        return generateRandomByCriteria(CountryCode.getByCode(randomCountryCode));
 
     }
 
     @Override
-    public String generateRandomAsString() {
-        return generateRandom().getPhoneNumber();
-    }
-
-    public PhoneNumber generateByCountryCode(CountryCode code){
-
+    public PhoneNumber generateRandomByCriteria(CountryCode criteria) {
         StringBuilder phoneNumber = new StringBuilder();
 
         //Country code
-        phoneNumber.append(IsoCountryCodeToCallPrefix.getByCountryCode(code.getAlpha2()));
+        phoneNumber.append(IsoCountryCodeToCallPrefix.getByCountryCode(criteria.getAlpha2()));
         phoneNumber.append("-");
 
         //Identification code
@@ -41,10 +36,16 @@ public class PhoneNumberGenerator implements JunkDataGenerator<PhoneNumber> {
         //Subscriber number
         for (int i = 0; i < 8; i++) phoneNumber.append(random.nextInt(10));
 
-        return new PhoneNumber(phoneNumber.toString(), code.getAlpha3());
+        return new PhoneNumber(phoneNumber.toString(), criteria.getAlpha3());
     }
 
-    public String generateByCountryCodeString(CountryCode code) {
-        return generateByCountryCode(code).getPhoneNumber();
+    @Override
+    public String generateRandomAsString() {
+        return generateRandom().getPhoneNumber();
+    }
+
+    @Override
+    public String generateRandomAsStringByCriteria(CountryCode criteria) {
+        return generateRandomByCriteria(criteria).getPhoneNumber();
     }
 }

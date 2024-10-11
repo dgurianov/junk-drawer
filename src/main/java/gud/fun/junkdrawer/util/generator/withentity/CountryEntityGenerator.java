@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.Random;
 
 @Component
-public class CountryEntityGenerator implements JunkDataGenerator<Country> {
+public class CountryEntityGenerator implements JunkDataGenerator<Country, CountryCode> {
 
     private Random random = new Random();
 
@@ -32,8 +32,18 @@ public class CountryEntityGenerator implements JunkDataGenerator<Country> {
     }
 
     @Override
+    public Country generateRandomByCriteria(CountryCode criteria) {
+        return new Country(criteria);
+    }
+
+    @Override
     public String generateRandomAsString() {
         return generateRandom().getName();
+    }
+
+    @Override
+    public String generateRandomAsStringByCriteria(CountryCode criteria) {
+        return generateRandomByCriteria(criteria).getName();
     }
 
 

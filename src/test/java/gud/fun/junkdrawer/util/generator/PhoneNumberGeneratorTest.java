@@ -33,7 +33,7 @@ class PhoneNumberGeneratorTest {
     @Test
     void testGenerateByCountryCode() {
         PhoneNumberGenerator generator = new PhoneNumberGenerator();
-        PhoneNumber phoneNumber = generator.generateByCountryCode(CountryCode.US);
+        PhoneNumber phoneNumber = generator.generateRandomByCriteria(CountryCode.US);
 
         assertNotNull(phoneNumber);
         assertEquals("USA", phoneNumber.getCountryCode());
@@ -43,7 +43,7 @@ class PhoneNumberGeneratorTest {
     @Test
     void testGenerateByCountryCodeString() {
         PhoneNumberGenerator generator = new PhoneNumberGenerator();
-        String phoneNumberStr = generator.generateByCountryCodeString(CountryCode.US);
+        String phoneNumberStr = generator.generateRandomAsStringByCriteria(CountryCode.US);
 
         assertNotNull(phoneNumberStr);
         assertTrue(phoneNumberStr.startsWith(IsoCountryCodeToCallPrefix.getByCountryCode("US")));

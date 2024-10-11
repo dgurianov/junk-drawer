@@ -1,5 +1,6 @@
 package gud.fun.junkdrawer.util.generator;
 
+import com.neovisionaries.i18n.CountryCode;
 import gud.fun.junkdrawer.util.generator.withentity.CountryEntityGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -7,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.Random;
 
 @Component
-public class BicGenerator implements JunkDataGenerator<String> {
+public class BicGenerator implements JunkDataGenerator<String, CountryCode> {
 
     @Autowired
     CountryEntityGenerator countryEntityGenerator;
@@ -42,7 +43,17 @@ public class BicGenerator implements JunkDataGenerator<String> {
     }
 
     @Override
+    public String generateRandomByCriteria(CountryCode criteria) {
+        return "";
+    }
+
+    @Override
     public String generateRandomAsString() {
         return generateRandom();
+    }
+
+    @Override
+    public String generateRandomAsStringByCriteria(CountryCode criteria) {
+        return "";
     }
 }
