@@ -1,5 +1,6 @@
 package gud.fun.junkdrawer.persistance.model;
 
+import com.neovisionaries.i18n.CountryCode;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,13 +12,12 @@ import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
-
 @Entity
-@Table(name = "CITY")
+@Table(name = "MERCHANT")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class City {
+public class Merchant {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -25,6 +25,8 @@ public class City {
 
     private String name;
 
-    private String countryCode;
+    private CountryCode country;
+
+    private String address;
 
 }

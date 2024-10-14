@@ -1,8 +1,8 @@
 package gud.fun.junkdrawer.controller;
 
 import gud.fun.junkdrawer.configuration.Endpoints;
-import gud.fun.junkdrawer.dto.ManageContentDtoRequest;
-import gud.fun.junkdrawer.dto.ManageContentDtoResponse;
+import gud.fun.junkdrawer.dto.ManageContentRequestDto;
+import gud.fun.junkdrawer.dto.ManageContentResponseDto;
 import gud.fun.junkdrawer.dto.ManageContentStatusRequestDto;
 import gud.fun.junkdrawer.dto.ManageContentStatusResponseDto;
 import gud.fun.junkdrawer.service.ManageContentService;
@@ -38,10 +38,10 @@ class ManageContentControllerTest {
 
     @Test
     void testCreateContent() throws Exception {
-        ManageContentDtoResponse responseDto = new ManageContentDtoResponse();
+        ManageContentResponseDto responseDto = new ManageContentResponseDto();
         responseDto.setJobId(1L);
 
-        when(contentService.createContent(any(ManageContentDtoRequest.class))).thenReturn(responseDto);
+        when(contentService.createContent(any(ManageContentRequestDto.class))).thenReturn(responseDto);
 
         mockMvc.perform(post(Endpoints.CREATE_CONTENT)
                         .contentType(MediaType.APPLICATION_JSON)

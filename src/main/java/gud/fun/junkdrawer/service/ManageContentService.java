@@ -1,7 +1,7 @@
 package gud.fun.junkdrawer.service;
 
-import gud.fun.junkdrawer.dto.ManageContentDtoRequest;
-import gud.fun.junkdrawer.dto.ManageContentDtoResponse;
+import gud.fun.junkdrawer.dto.ManageContentRequestDto;
+import gud.fun.junkdrawer.dto.ManageContentResponseDto;
 import gud.fun.junkdrawer.dto.ManageContentStatusRequestDto;
 import gud.fun.junkdrawer.dto.ManageContentStatusResponseDto;
 import org.springframework.batch.core.Job;
@@ -28,9 +28,9 @@ public class ManageContentService {
     @Autowired
     private JobExplorer jobExplorer;
 
-    public ManageContentDtoResponse createContent(ManageContentDtoRequest manageContentDtoRequest) throws Exception {
-        JobExecution je = jobLauncher.run(createContentJob, createJobParameters(manageContentDtoRequest));
-        ManageContentDtoResponse response = new ManageContentDtoResponse();
+    public ManageContentResponseDto createContent(ManageContentRequestDto manageContentRequestDto) throws Exception {
+        JobExecution je = jobLauncher.run(createContentJob, createJobParameters(manageContentRequestDto));
+        ManageContentResponseDto response = new ManageContentResponseDto();
         response.setJobId(je.getJobId());
         return response;
     }
@@ -41,7 +41,7 @@ public class ManageContentService {
         return response;
     }
 
-    private JobParameters createJobParameters(ManageContentDtoRequest request) {
+    private JobParameters createJobParameters(ManageContentRequestDto request) {
         Map<String, JobParameter<?>> m = new HashMap<>();
         m.put("time", new JobParameter<>((Long) System.currentTimeMillis(), Long.class));
         m.put("contentName", new JobParameter<>(request.getContentName(), String.class));

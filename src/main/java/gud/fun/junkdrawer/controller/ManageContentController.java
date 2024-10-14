@@ -1,8 +1,8 @@
 package gud.fun.junkdrawer.controller;
 
 import gud.fun.junkdrawer.configuration.Endpoints;
-import gud.fun.junkdrawer.dto.ManageContentDtoRequest;
-import gud.fun.junkdrawer.dto.ManageContentDtoResponse;
+import gud.fun.junkdrawer.dto.ManageContentRequestDto;
+import gud.fun.junkdrawer.dto.ManageContentResponseDto;
 import gud.fun.junkdrawer.dto.ManageContentStatusRequestDto;
 import gud.fun.junkdrawer.dto.ManageContentStatusResponseDto;
 import gud.fun.junkdrawer.service.ManageContentService;
@@ -19,10 +19,10 @@ public class ManageContentController {
     private ManageContentService contentService;
 
     @PostMapping(produces = "application/json", consumes = "application/json")
-    public ResponseEntity<ManageContentDtoResponse> createContent(@RequestBody ManageContentDtoRequest manageContentDtoRequest) {
-        ManageContentDtoResponse createdContent = null;
+    public ResponseEntity<ManageContentResponseDto> createContent(@RequestBody ManageContentRequestDto manageContentRequestDto) {
+        ManageContentResponseDto createdContent = null;
         try {
-          createdContent = contentService.createContent(manageContentDtoRequest);
+          createdContent = contentService.createContent(manageContentRequestDto);
         } catch (Exception e) {
                 throw new RuntimeException("Content is not created!");
         }

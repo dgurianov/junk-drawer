@@ -17,6 +17,7 @@ public class Endpoints {
     public static final String COUNTRY = API + VERSION + DATA + "/country";
     public static final String PHONE_NUMBER = API + VERSION + DATA + "/phone-number";
     public static final String CUSTOMER = API + VERSION + DATA + "/customer";
+    public static final String TRANSACTION = API + VERSION + DATA + "/transaction";
 
     //Stream endpoints
 }

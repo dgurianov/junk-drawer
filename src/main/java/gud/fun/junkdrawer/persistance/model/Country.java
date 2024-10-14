@@ -33,6 +33,7 @@ public class Country {
     private UUID id;
 
     private String name;
+
     private String countryCode;
 
     @OneToMany

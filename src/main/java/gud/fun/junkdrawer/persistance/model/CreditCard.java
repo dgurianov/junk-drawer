@@ -11,20 +11,17 @@ import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
-
 @Entity
-@Table(name = "CITY")
+@Table(name = "CREDIT_CARD")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class City {
-
+public class CreditCard{
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private String name;
+    private String Ccn;
 
-    private String countryCode;
-
+    private String issuer;
 }

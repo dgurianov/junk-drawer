@@ -3,6 +3,6 @@ package gud.fun.junkdrawer.dto;
 import lombok.Data;
 
 @Data
-public class ManageContentDtoResponse {
+public class ManageContentResponseDto {
     private Long jobId;
 }
