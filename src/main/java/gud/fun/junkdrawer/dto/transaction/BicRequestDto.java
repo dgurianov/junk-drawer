@@ -4,16 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreditCardResponseDto {
+public class BicRequestDto {
 
     private String id;
 
-    private String Ccn;
+    private String value;
 
-    private String issuer;
-
-    private BicResponseDto bic;
+    private String institution;
 }

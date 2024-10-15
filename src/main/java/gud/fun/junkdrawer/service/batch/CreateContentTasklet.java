@@ -1,11 +1,11 @@
 package gud.fun.junkdrawer.service.batch;
 
 import gud.fun.junkdrawer.persistance.model.City;
-import gud.fun.junkdrawer.persistance.model.PhoneNumber;
 import gud.fun.junkdrawer.util.generator.PhoneNumberGenerator;
-import gud.fun.junkdrawer.util.generator.withentity.CityEntityGenerator;
-import gud.fun.junkdrawer.util.generator.withentity.CountryEntityGenerator;
+import gud.fun.junkdrawer.util.generator.CityGenerator;
+import gud.fun.junkdrawer.util.generator.CountryGenerator;
 import gud.fun.junkdrawer.util.generator.StreetGenerator;
+import gud.fun.junkdrawer.util.generator.TransactionGenerator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
@@ -25,16 +25,19 @@ public class CreateContentTasklet implements Tasklet {
     private WebApplicationContext appContext;
 
     @Autowired
-    private CityEntityGenerator cityGenerator;
+    private CityGenerator cityGenerator;
 
     @Autowired
     private StreetGenerator streetGenerator;
 
     @Autowired
-    private CountryEntityGenerator countryEntityGenerator;
+    private CountryGenerator countryGenerator;
 
     @Autowired
     private PhoneNumberGenerator phoneNumberGenerator;
+
+    @Autowired
+    private TransactionGenerator transactionGenerator;
 
     private JpaRepository repository = null;
 
@@ -70,6 +73,12 @@ public class CreateContentTasklet implements Tasklet {
                 log.debug("Request to save PhoneNumber times: {}", contentAmount);
                 while (contentAmount-- > 0) {
                     repository.save(phoneNumberGenerator.generateRandom());
+                }
+                break;
+            case "Transaction":
+                log.debug("Request to save Transaction times: {}", contentAmount);
+                while (contentAmount-- > 0) {
+                    repository.save(transactionGenerator.generateRandom());
                 }
                 break;
             default:

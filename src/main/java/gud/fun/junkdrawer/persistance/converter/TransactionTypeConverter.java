@@ -1,6 +1,6 @@
 package gud.fun.junkdrawer.persistance.converter;
 
-import gud.fun.junkdrawer.persistance.model.transaction.TransactionType;
+import gud.fun.junkdrawer.persistance.model.TransactionType;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
@@ -11,7 +11,7 @@ public class TransactionTypeConverter implements AttributeConverter<TransactionT
         if (transactionType == null) {
             return null;
         }
-        return transactionType.getWeight() + transactionType.name();
+        return transactionType.getOrder() + transactionType.name();
     }
 
     @Override

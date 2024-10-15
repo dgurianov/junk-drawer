@@ -7,13 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreditCardResponseDto {
+public class BicResponseDto {
 
     private String id;
 
-    private String Ccn;
+    private String value;
 
-    private String issuer;
-
-    private BicResponseDto bic;
+    private String institution;
 }

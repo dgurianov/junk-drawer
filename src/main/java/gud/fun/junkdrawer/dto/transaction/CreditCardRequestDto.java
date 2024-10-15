@@ -15,4 +15,6 @@ public class CreditCardRequestDto {
 
     private String issuer;
 
+    private BicRequestDto bic;
+
 }

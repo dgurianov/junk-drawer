@@ -17,6 +17,9 @@ public class CreditCardService implements JunkDataService<CreditCardRequestDto, 
     @Autowired
     private CreditCardRepository creditCardRepository;
 
+    @Autowired
+    private BicService bicService;
+
     @Override
     public List<CreditCardResponseDto> getAll() {
         List<CreditCard> creditCards = creditCardRepository.findAll();
@@ -62,7 +65,9 @@ public class CreditCardService implements JunkDataService<CreditCardRequestDto, 
         return new CreditCardResponseDto(
                 creditCard.getId().toString(),
                 creditCard.getCcn(),
-                creditCard.getIssuer()
+                creditCard.getIssuer(),
+                bicService.toResponseDTO(creditCard.getBic())
+
         );
     }
 
@@ -71,7 +76,8 @@ public class CreditCardService implements JunkDataService<CreditCardRequestDto, 
         return new CreditCard(
                 dto.getId() != null ? UUID.fromString(dto.getId()) : null,
                 dto.getCcn(),
-                dto.getIssuer()
+                dto.getIssuer(),
+                bicService.toEntity(dto.getBic())
         );
     }
 }

@@ -1,8 +1,8 @@
 package gud.fun.junkdrawer.dto.transaction;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import gud.fun.junkdrawer.persistance.model.transaction.TransactionEntryType;
-import gud.fun.junkdrawer.persistance.model.transaction.TransactionType;
+import gud.fun.junkdrawer.persistance.model.TransactionEntryType;
+import gud.fun.junkdrawer.persistance.model.TransactionType;
 import gud.fun.junkdrawer.serialize.TransactionEntryTypeSerializer;
 import gud.fun.junkdrawer.serialize.TransactionTypeSerializer;
 import lombok.AllArgsConstructor;

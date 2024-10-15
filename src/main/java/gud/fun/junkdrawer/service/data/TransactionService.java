@@ -2,8 +2,7 @@ package gud.fun.junkdrawer.service.data;
 
 import gud.fun.junkdrawer.dto.transaction.TransactionRequestDto;
 import gud.fun.junkdrawer.dto.transaction.TransactionResponseDto;
-import gud.fun.junkdrawer.persistance.model.transaction.Transaction;
-import gud.fun.junkdrawer.persistance.model.transaction.TransactionType;
+import gud.fun.junkdrawer.persistance.model.Transaction;
 import gud.fun.junkdrawer.persistance.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

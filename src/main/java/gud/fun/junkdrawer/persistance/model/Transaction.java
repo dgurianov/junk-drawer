@@ -1,7 +1,5 @@
-package gud.fun.junkdrawer.persistance.model.transaction;
+package gud.fun.junkdrawer.persistance.model;
 
-import gud.fun.junkdrawer.persistance.model.CreditCard;
-import gud.fun.junkdrawer.persistance.model.Merchant;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -1,11 +1,9 @@
 package gud.fun.junkdrawer.persistance.model;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,19 +12,16 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Entity
-@Table(name = "CREDIT_CARD")
+@Table(name = "BIC")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class CreditCard{
+public class Bic {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private String Ccn;
+    private String identifier;
 
-    private String issuer;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private Bic bic;
+    private String institution;
 }

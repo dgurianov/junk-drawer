@@ -1,16 +1,15 @@
-package gud.fun.junkdrawer.util.generator.withentity;
+package gud.fun.junkdrawer.util.generator;
 
 import com.neovisionaries.i18n.CountryCode;
 import gud.fun.junkdrawer.persistance.model.Country;
 import gud.fun.junkdrawer.persistance.repository.CityRepository;
-import gud.fun.junkdrawer.util.generator.JunkDataGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;
 
 @Component
-public class CountryEntityGenerator implements JunkDataGenerator<Country, CountryCode> {
+public class CountryGenerator implements JunkDataGenerator<Country, CountryCode> {
 
     private Random random = new Random();
 

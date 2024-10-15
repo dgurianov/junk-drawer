@@ -1,8 +1,8 @@
 package gud.fun.junkdrawer.util.generator;
 
 import com.neovisionaries.i18n.CountryCode;
+import gud.fun.junkdrawer.persistance.model.Bic;
 import gud.fun.junkdrawer.persistance.model.Country;
-import gud.fun.junkdrawer.util.generator.withentity.CountryEntityGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -16,7 +16,7 @@ import static org.mockito.Mockito.when;
 public class BicGeneratorTest {
 
     @Mock
-    private CountryEntityGenerator countryEntityGenerator;
+    private CountryGenerator countryGenerator;
 
     @InjectMocks
     private BicGenerator bicGenerator;
@@ -24,13 +24,13 @@ public class BicGeneratorTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        when(countryEntityGenerator.generateRandom()).thenReturn(new Country(CountryCode.getByCode("US")));
+        when(countryGenerator.generateRandom()).thenReturn(new Country(CountryCode.getByCode("US")));
     }
 
     @Test
     public void testGenerateRandom() {
-        String bic = bicGenerator.generateRandom();
+        Bic bic = bicGenerator.generateRandom();
         assertNotNull(bic, "Generated BIC should not be null");
-        assertTrue(bic.matches("[A-Z]{4}[A-Z]{2}[A-Z0-9]{2}[A-Z0-9]{3}"), "Generated BIC should match the expected pattern");
+        assertTrue(bic.getIdentifier().matches("[A-Z]{4}[A-Z]{2}[A-Z0-9]{2}[A-Z0-9]{3}"), "Generated BIC should match the expected pattern");
     }
 }

@@ -1,10 +1,7 @@
-package gud.fun.junkdrawer.persistance.model.transaction;
+package gud.fun.junkdrawer.persistance.model;
 
-import org.aspectj.apache.bcel.classfile.Unknown;
-
-import java.util.Objects;
-
-public enum TransactionType {
+public enum TransactionType{
+    NEW("New",0),
     PRE_AUTH("Pre-authorisation",1),
     AUTH("Authorization",2),
     CAPTURE("Capture",3),
@@ -13,22 +10,23 @@ public enum TransactionType {
     VOID("Void",6),
     CHARGEBACK("Chargeback",7),
     SETTLEMENT("Settlement",8),
+    COMPLETE("Complete",9),
     UNKNOWN("UNKNOWN",999)
     ;
 
-    TransactionType(String value,  int weight) {
+    TransactionType(String value,  int order) {
         this.value = value;
-        this.weight = weight;
+        this.order = order;
     }
 
     private String value;
-    private int weight;
+    private int order;
 
     public String getValue() {
         return value;
     }
 
-    public int getWeight() {
-        return weight;
+    public int getOrder() {
+        return order;
     }
 }
