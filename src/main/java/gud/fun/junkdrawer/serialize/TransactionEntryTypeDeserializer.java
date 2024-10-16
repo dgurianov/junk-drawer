@@ -17,6 +17,10 @@ public class TransactionEntryTypeDeserializer extends JsonDeserializer<Transacti
         final JsonNode node = jsonParser.readValueAsTree();
         final String transactionEntryType = node.asText();
 
-        return Objects.isNull(transactionEntryType) ? TransactionEntryType.MANUAL : TransactionEntryType.valueOf(transactionEntryType);
+        try{
+            return TransactionEntryType.valueOf(transactionEntryType);  
+        }catch (NullPointerException | IllegalArgumentException e){
+            return TransactionEntryType.MANUAL;
+        }
     }
 }
