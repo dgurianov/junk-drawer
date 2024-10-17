@@ -79,6 +79,11 @@
 			<artifactId>iban4j</artifactId>
 			<version>3.2.10-RELEASE</version>
 		</dependency>
+		<dependency>
+			<groupId>org.joda</groupId>
+			<artifactId>joda-money</artifactId>
+			<version>1.0.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>

@@ -43,7 +43,7 @@ public class BicGenerator implements JunkDataGenerator<Bic, CountryCode> {
         }
 
         Bic bic = new Bic();
-        bic.setInstitution(nameGenerator.generateRandom());
+        bic.setInstitution(nameGenerator.generateRandom() + " Bank" );
         bic.setIdentifier(institutionCode.toString() + countryCode + locationCode + branchCode.toString());
         return bic;
     }
@@ -73,7 +73,7 @@ public class BicGenerator implements JunkDataGenerator<Bic, CountryCode> {
         }
 
         Bic bic = new Bic();
-        bic.setInstitution(nameGenerator.generateRandom());
+        bic.setInstitution(nameGenerator.generateRandom() + " Bank");
         bic.setIdentifier(institutionCode.toString() + criteria + locationCode + branchCode.toString());
         return bic;
     }

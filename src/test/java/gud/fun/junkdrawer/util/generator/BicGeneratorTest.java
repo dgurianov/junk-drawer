@@ -18,6 +18,9 @@ public class BicGeneratorTest {
     @Mock
     private CountryGenerator countryGenerator;
 
+    @Mock
+    private NameGenerator nameGenerator;
+
     @InjectMocks
     private BicGenerator bicGenerator;
 

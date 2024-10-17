@@ -1,0 +1,20 @@
+{
+  "dateTime": "2024-10-16T13:58:37.344+00:00",
+  "entryType": "POS",
+  "type": "SETTLEMENT",
+  "merchant": {
+    "name": "Uerkearyea",
+    "countryCode": "USA",
+    "address": "2791 Paramaribo Wetvarpaew str. 71e"
+  },
+  "amount": 848.12,
+  "currency": "USD",
+  "creditCard": {
+    "issuer": "Yoetweodue",
+    "bic": {
+      "value": "HSNWSRA0IRP",
+      "institution": "Ectiistuik"
+    },
+    "ccn": "94941125451160408"
+  }
+}

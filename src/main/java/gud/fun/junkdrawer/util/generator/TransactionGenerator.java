@@ -2,6 +2,8 @@ package gud.fun.junkdrawer.util.generator;
 
 import com.neovisionaries.i18n.CountryCode;
 import com.neovisionaries.i18n.CurrencyCode;
+import org.joda.money.BigMoney;
+import org.joda.money.Money;
 import gud.fun.junkdrawer.persistance.model.Transaction;
 import gud.fun.junkdrawer.persistance.model.TransactionEntryType;
 import gud.fun.junkdrawer.persistance.model.TransactionType;
@@ -39,7 +41,7 @@ public class TransactionGenerator implements JunkDataGenerator<Transaction, Curr
         CountryCode cc = getRandomCountryCode();
 
         Transaction transaction = new Transaction();
-        transaction.setAmount(random.nextLong());
+        transaction.setAmount(BigMoney.parse(cc.getCurrency().getCurrencyCode() + " " +random.nextInt(1000) + "." + random.nextInt(100)).getAmount());
         transaction.setCurrency(currencyGenerator.generateRandomAsStringByCriteria(cc));
         transaction.setType(transactionTypes.get(random.nextInt(transactionTypes.size())));
         transaction.setEntryType(transactionEntryTypes.get(random.nextInt(transactionEntryTypes.size())));

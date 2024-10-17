@@ -13,6 +13,7 @@ import gud.fun.junkdrawer.persistance.model.Transaction;
 import gud.fun.junkdrawer.persistance.model.TransactionEntryType;
 import gud.fun.junkdrawer.persistance.model.TransactionType;
 import gud.fun.junkdrawer.persistance.repository.TransactionRepository;
+import org.joda.money.BigMoney;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -73,7 +74,7 @@ class TransactionServiceTest {
                 TransactionEntryType.MANUAL,
                 TransactionType.AUTH,
                 merchant,
-                100L,
+                BigMoney.parse("USD 100").getAmount(),
                 "USD",
                  cc);
         transactionRequestDto = new TransactionRequestDto(
@@ -82,7 +83,7 @@ class TransactionServiceTest {
                 TransactionEntryType.MANUAL,
                 TransactionType.AUTH,
                 merchantDto,
-                100L,
+                BigMoney.parse("USD 100").getAmount(),
             "USD",
             ccDto);
     }

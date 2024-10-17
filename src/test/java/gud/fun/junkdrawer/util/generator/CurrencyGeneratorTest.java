@@ -43,7 +43,7 @@ class CurrencyGeneratorTest {
         CountryCode countryCode = CountryCode.getByCode("DE"); // Germany
         String currencyName = currencyGenerator.generateRandomAsStringByCriteria(countryCode);
         assertNotNull(currencyName);
-        assertEquals("Euro", currencyName);
+        assertEquals("EUR", currencyName);
     }
 }
 
