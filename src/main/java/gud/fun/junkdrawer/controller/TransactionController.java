@@ -37,9 +37,9 @@ public class TransactionController {
         return ResponseEntity.ok(createdTransaction);
     }
 
-    @PutMapping(value = "/{id}",produces = "application/json", consumes = "application/json")
-    public ResponseEntity<TransactionResponseDto> updateTransaction(@PathVariable UUID id, @RequestBody TransactionRequestDto transactionDto) {
-        TransactionResponseDto updatedTransaction = transactionService.update(id, transactionDto);
+    @PutMapping(produces = "application/json", consumes = "application/json")
+    public ResponseEntity<TransactionResponseDto> updateTransaction(@RequestBody TransactionRequestDto transactionDto) {
+        TransactionResponseDto updatedTransaction = transactionService.update(transactionDto);
         return ResponseEntity.ok(updatedTransaction);
     }
 

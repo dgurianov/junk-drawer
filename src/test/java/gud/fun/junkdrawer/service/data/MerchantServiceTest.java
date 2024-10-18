@@ -66,7 +66,7 @@ class MerchantServiceTest {
     void testUpdate() {
         when(merchantRepository.findById(id)).thenReturn(Optional.of(merchant));
         when(merchantRepository.save(any(Merchant.class))).thenReturn(merchant);
-        MerchantResponseDto response = merchantService.update(id, merchantRequestDto);
+        MerchantResponseDto response = merchantService.update(merchantRequestDto);
         assertEquals("MerchantName", response.getName());
     }
 

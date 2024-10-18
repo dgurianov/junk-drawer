@@ -33,9 +33,9 @@ public class CountryController {
         return ResponseEntity.ok(countryService.getAll());
     }
 
-    @PutMapping(value = "/{id}", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<CountryResponseDto> updateCountry(@PathVariable String id, @RequestBody CountryRequestDto countryRequestDto) {
-        return ResponseEntity.ok(countryService.update(UUID.fromString(id), countryRequestDto));
+    @PutMapping(produces = "application/json", consumes = "application/json")
+    public ResponseEntity<CountryResponseDto> updateCountry(@RequestBody CountryRequestDto dto) {
+        return ResponseEntity.ok(countryService.update(dto));
     }
 
     @DeleteMapping(value = "/{id}",produces = "application/json")

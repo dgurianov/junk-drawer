@@ -114,7 +114,7 @@ class TransactionServiceTest {
     void testUpdate() {
         when(transactionRepository.findById(id)).thenReturn(Optional.of(transaction));
         when(transactionRepository.save(any(Transaction.class))).thenReturn(transaction);
-        TransactionResponseDto response = transactionService.update(id, transactionRequestDto);
+        TransactionResponseDto response = transactionService.update(transactionRequestDto);
         assertEquals(TransactionType.AUTH, response.getType());
     }
 

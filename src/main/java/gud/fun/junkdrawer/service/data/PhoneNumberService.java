@@ -40,9 +40,9 @@ public class PhoneNumberService implements JunkDataService<PhoneNumberRequestDto
     }
 
     @Override
-    public PhoneNumberResponseDto update(UUID id, PhoneNumberRequestDto phoneNumberDto) {
-        PhoneNumber phoneNumber = phoneNumberRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Phone number not found for id: " + id));
+    public PhoneNumberResponseDto update(PhoneNumberRequestDto phoneNumberDto) {
+        PhoneNumber phoneNumber = phoneNumberRepository.findById(UUID.fromString(phoneNumberDto.getId()))
+                .orElseThrow(() -> new IllegalArgumentException("Phone number not found for id: " + phoneNumberDto.getId()));
         phoneNumber.setPhoneNumber(phoneNumberDto.getPhoneNumber());
         phoneNumber.setCountryCode(phoneNumberDto.getCountryCode());
         phoneNumber = phoneNumberRepository.save(phoneNumber);

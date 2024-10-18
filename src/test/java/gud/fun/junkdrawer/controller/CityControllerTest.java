@@ -79,9 +79,9 @@ public class CityControllerTest {
 
     @Test
     public void testUpdateCity() throws Exception {
-        when(cityService.update(any(UUID.class), any(CityRequestDto.class))).thenReturn(cityDto);
+        when(cityService.update(any(CityRequestDto.class))).thenReturn(cityDto);
 
-        mockMvc.perform(put(Endpoints.CITY + "/" + TEST_UUID.toString())
+        mockMvc.perform(put(Endpoints.CITY)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"name\":\"Berlin\",\"countryCode\":\"DEU\"}"))
                 .andExpect(status().isOk())

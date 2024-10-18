@@ -41,6 +41,7 @@ class CityServiceTest {
         city.setCountryCode("DEU");
 
         cityRequestDto = new CityRequestDto();
+        cityRequestDto.setId(TEST_UUID.toString());
         cityRequestDto.setName("Berlin");
         cityRequestDto.setCountryCode("DEU");
     }
@@ -90,7 +91,7 @@ class CityServiceTest {
         when(cityRepository.findById(any(UUID.class))).thenReturn(Optional.of(city));
         when(cityRepository.save(any(City.class))).thenReturn(city);
 
-        CityResponseDto responseDto = (CityResponseDto) cityService.update(TEST_UUID, cityRequestDto);
+        CityResponseDto responseDto = (CityResponseDto) cityService.update(cityRequestDto);
 
         assertNotNull(responseDto);
         assertEquals(city.getId().toString(), responseDto.getId());

@@ -41,9 +41,9 @@ public class MerchantService implements JunkDataService<MerchantRequestDto, Merc
     }
 
     @Override
-    public MerchantResponseDto update(UUID id, MerchantRequestDto merchantDto) {
-        Merchant merchant = merchantRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Merchant not found for id: " + id));
+    public MerchantResponseDto update(MerchantRequestDto merchantDto) {
+        Merchant merchant = merchantRepository.findById(UUID.fromString(merchantDto.getId()))
+                .orElseThrow(() -> new IllegalArgumentException("Merchant not found for id: " + merchantDto.getId()));
         merchant.setName(merchantDto.getName());
         merchant = merchantRepository.save(merchant);
         return toResponseDTO(merchant);

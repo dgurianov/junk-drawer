@@ -36,9 +36,9 @@ public class PhoneNumberController {
         return ResponseEntity.ok(createdPhoneNumber);
     }
 
-    @PutMapping(value = "/{id}",produces = "application/json", consumes = "application/json")
-    public ResponseEntity<PhoneNumberResponseDto> updatePhoneNumber(@PathVariable String id, @RequestBody PhoneNumberRequestDto phoneNumberDto) {
-        PhoneNumberResponseDto updatedPhoneNumber = phoneNumberService.update(UUID.fromString(id), phoneNumberDto);
+    @PutMapping(produces = "application/json", consumes = "application/json")
+    public ResponseEntity<PhoneNumberResponseDto> updatePhoneNumber(@RequestBody PhoneNumberRequestDto dto) {
+        PhoneNumberResponseDto updatedPhoneNumber = phoneNumberService.update(dto);
         return ResponseEntity.ok(updatedPhoneNumber);
     }
 

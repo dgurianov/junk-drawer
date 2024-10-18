@@ -40,11 +40,11 @@ public class BicService implements JunkDataService<BicRequestDto, BicResponseDto
     }
 
     @Override
-    public BicResponseDto update(UUID id, BicRequestDto bicDto) {
-        Bic bic = bicRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("BIC not found for id: " + id));
-        bic.setIdentifier(bicDto.getValue());
-        bic.setInstitution(bicDto.getInstitution());
+    public BicResponseDto update(BicRequestDto dto) {
+        Bic bic = bicRepository.findById(UUID.fromString(dto.getId()))
+                .orElseThrow(() -> new IllegalArgumentException("BIC not found for id: " + dto.getId()));
+        bic.setIdentifier(dto.getValue());
+        bic.setInstitution(dto.getInstitution());
         bic = bicRepository.save(bic);
         return toResponseDTO(bic);
     }

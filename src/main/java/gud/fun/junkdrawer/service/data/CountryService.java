@@ -47,9 +47,9 @@ public class CountryService implements JunkDataService<CountryRequestDto, Countr
     }
 
     @Override
-    public CountryResponseDto update(UUID id, CountryRequestDto dto) {
-        Country country = countryRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Country not found for id: " + id));
+    public CountryResponseDto update(CountryRequestDto dto) {
+        Country country = countryRepository.findById(UUID.fromString(dto.getId()))
+                .orElseThrow(() -> new IllegalArgumentException("Country not found for id: " + dto.getId()));
         country.setName(dto.getName());
         country.setCountryCode(dto.getCountryCode());
         country = countryRepository.save(country);

@@ -43,9 +43,9 @@ public class CreditCardService implements JunkDataService<CreditCardRequestDto, 
     }
 
     @Override
-    public CreditCardResponseDto update(UUID id, CreditCardRequestDto creditCardDto) {
-        CreditCard creditCard = creditCardRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Credit card not found for id: " + id));
+    public CreditCardResponseDto update(CreditCardRequestDto creditCardDto) {
+        CreditCard creditCard = creditCardRepository.findById(UUID.fromString(creditCardDto.getId()))
+                .orElseThrow(() -> new IllegalArgumentException("Credit card not found for id: " + creditCardDto.getId()));
         creditCard.setCcn(creditCardDto.getCcn());
         creditCard.setIssuer(creditCardDto.getIssuer());
         creditCard = creditCardRepository.save(creditCard);

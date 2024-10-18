@@ -7,7 +7,7 @@ public interface JunkDataService<REQ,RESP,ENT> {
     RESP create(REQ dto);
     RESP getById(UUID id);
     List<RESP> getAll();
-    RESP update(UUID id, REQ dto);
+    RESP update(REQ dto);
     RESP delete(UUID id);
     RESP toResponseDTO(ENT entity);
     ENT toEntity(REQ dto);

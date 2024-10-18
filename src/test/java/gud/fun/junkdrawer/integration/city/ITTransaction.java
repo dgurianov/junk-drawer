@@ -72,10 +72,10 @@ public class ITTransaction {
         response = restTemplate.postForEntity(LOCALHOST + port + Endpoints.TRANSACTION, request, TransactionResponseDto.class);
         String existingTransactionId = response.getBody().getId();
 
-        request = new HttpEntity<String>(getFileAsString(UPDATE_TRANSACTION), headers);
+        request = new HttpEntity<String>(getFileAsString(UPDATE_TRANSACTION).replace("{{id}}", existingTransactionId), headers);
 
         //WHEN
-        restTemplate.put(LOCALHOST + port + Endpoints.TRANSACTION + "/" + existingTransactionId, request);
+        restTemplate.put(LOCALHOST + port + Endpoints.TRANSACTION , request);
 
         //THEN
         response = restTemplate.getForEntity(LOCALHOST + port + Endpoints.TRANSACTION + "/" +existingTransactionId, TransactionResponseDto.class);
