@@ -1,11 +1,12 @@
 package gud.fun.junkdrawer.controller;
 
 import gud.fun.junkdrawer.configuration.Endpoints;
+import gud.fun.junkdrawer.dto.city.CityNewRequestDto;
 import gud.fun.junkdrawer.dto.city.CityRequestDto;
 import gud.fun.junkdrawer.dto.city.CityResponseDto;
 import gud.fun.junkdrawer.persistance.model.City;
-import gud.fun.junkdrawer.service.data.CityService;
 import gud.fun.junkdrawer.service.data.JunkDataService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,10 +20,10 @@ import java.util.UUID;
 public class CityController {
 
     @Autowired
-    private JunkDataService<CityRequestDto,CityResponseDto, City> cityService;
+    private JunkDataService<CityRequestDto,CityNewRequestDto,CityResponseDto, City> cityService;
 
     @PostMapping(produces = "application/json", consumes = "application/json")
-    public ResponseEntity<CityResponseDto> createCity(@RequestBody CityRequestDto cityDTO) {
+    public ResponseEntity<CityResponseDto> createCity(@Valid @RequestBody CityNewRequestDto cityDTO) {
         return ResponseEntity.ok((CityResponseDto) cityService.create(cityDTO));
     }
 
@@ -38,8 +39,8 @@ public class CityController {
     }
 
     @PutMapping(value = "/{id}",produces = "application/json", consumes = "application/json")
-    public ResponseEntity<CityResponseDto> updateCity(@PathVariable String id, @RequestBody CityRequestDto dto) {
-        return ResponseEntity.ok((CityResponseDto) cityService.update(UUID.fromString(id), dto));
+    public ResponseEntity<CityResponseDto> updateCity(@RequestBody CityRequestDto dto) {
+        return ResponseEntity.ok((CityResponseDto) cityService.update(dto));
     }
 
     @DeleteMapping(value = "/{id}", produces = "application/json")

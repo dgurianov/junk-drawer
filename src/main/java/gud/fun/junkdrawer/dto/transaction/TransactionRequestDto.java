@@ -5,6 +5,8 @@ import gud.fun.junkdrawer.persistance.model.TransactionType;
 import gud.fun.junkdrawer.persistance.model.TransactionEntryType;
 import gud.fun.junkdrawer.serialize.TransactionEntryTypeDeserializer;
 import gud.fun.junkdrawer.serialize.TransactionTypeDeserializer;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,12 +29,16 @@ public class TransactionRequestDto {
     @JsonDeserialize(using = TransactionTypeDeserializer.class)
     private TransactionType type;
 
+    @NotNull
     private MerchantRequestDto merchant;
 
+    @NotNull
     private BigDecimal amount;
 
+    @NotBlank
     private String currency;
 
+    @NotNull
     private CreditCardRequestDto creditCard;
 
 

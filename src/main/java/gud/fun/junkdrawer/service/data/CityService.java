@@ -1,5 +1,6 @@
 package gud.fun.junkdrawer.service.data;
 
+import gud.fun.junkdrawer.dto.city.CityNewRequestDto;
 import gud.fun.junkdrawer.dto.city.CityRequestDto;
 import gud.fun.junkdrawer.dto.city.CityResponseDto;
 import gud.fun.junkdrawer.persistance.model.City;
@@ -12,18 +13,18 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-public class CityService implements JunkDataService<CityRequestDto,CityResponseDto,City> {
+public class CityService implements JunkDataService<CityRequestDto, CityNewRequestDto,CityResponseDto,City> {
 
     @Autowired
     private CityRepository cityRepository;
 
     @Override
-    public CityResponseDto create(CityRequestDto dto) {
-        return toResponseDTO(
-                cityRepository.save(
-                        toEntity(dto)
-                )
-        );
+    public CityResponseDto create(CityNewRequestDto dto) {
+        City city = new City();
+        city.setName(dto.getName());
+        city.setCountryCode(dto.getCountryCode());
+
+        return toResponseDTO(cityRepository.save(city));
     }
 
     @Override
@@ -38,8 +39,8 @@ public class CityService implements JunkDataService<CityRequestDto,CityResponseD
     }
 
     @Override
-    public CityResponseDto update(UUID id, CityRequestDto dto) {
-        City city = cityRepository.findById(id).orElseThrow(() -> new RuntimeException("City not found"));
+    public CityResponseDto update(CityRequestDto dto) {
+        City city = cityRepository.findById(UUID.fromString(dto.getId())).orElseThrow(() -> new RuntimeException("City not found"));
         city.setName(dto.getName());
         city.setCountryCode(dto.getCountryCode());
         City updatedCity = cityRepository.save(city);

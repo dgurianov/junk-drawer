@@ -1,4 +1,4 @@
-package gud.fun.junkdrawer.dto.transaction;
+package gud.fun.junkdrawer.dto.phonenumber;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -8,14 +8,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BicRequestDto {
+public class PhoneNumberNewRequestDto {
 
     @NotBlank
-    private String id;
+    private String phoneNumber;
 
     @NotBlank
-    private String identifier;
-
-    @NotBlank
-    private String institution;
+    private String countryCode;
 }

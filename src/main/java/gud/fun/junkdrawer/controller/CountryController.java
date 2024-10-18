@@ -35,7 +35,7 @@ public class CountryController {
 
     @PutMapping(value = "/{id}", produces = "application/json", consumes = "application/json")
     public ResponseEntity<CountryResponseDto> updateCountry(@PathVariable String id, @RequestBody CountryRequestDto countryRequestDto) {
-        return ResponseEntity.ok(countryService.update(UUID.fromString(id), countryRequestDto));
+        return ResponseEntity.ok(countryService.update(countryRequestDto));
     }
 
     @DeleteMapping(value = "/{id}",produces = "application/json")

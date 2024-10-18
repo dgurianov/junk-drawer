@@ -4,10 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class CountryRequestDto {
-
-    @NotBlank
-    private String id;
+public class CountryNewRequestDto {
 
     @NotBlank
     private String name;

@@ -1,5 +1,7 @@
 package gud.fun.junkdrawer.service.data;
 
+import gud.fun.junkdrawer.dto.city.CityNewRequestDto;
+import gud.fun.junkdrawer.dto.country.CountryNewRequestDto;
 import gud.fun.junkdrawer.dto.country.CountryRequestDto;
 import gud.fun.junkdrawer.dto.country.CountryResponseDto;
 import gud.fun.junkdrawer.persistance.model.Country;
@@ -13,7 +15,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-public class CountryService implements JunkDataService<CountryRequestDto, CountryResponseDto, Country> {
+public class CountryService implements JunkDataService<CountryRequestDto, CountryNewRequestDto, CountryResponseDto, Country> {
 
     @Autowired
     private CountryRepository countryRepository;
@@ -25,8 +27,10 @@ public class CountryService implements JunkDataService<CountryRequestDto, Countr
     private CityService cityService;
 
     @Override
-    public CountryResponseDto create(CountryRequestDto dto) {
-        Country newCountry = toEntity(dto);
+    public CountryResponseDto create(CountryNewRequestDto dto) {
+        Country newCountry = new Country();
+        newCountry.setName(dto.getName());
+        newCountry.setCountryCode(dto.getCountryCode());
         newCountry.setCities(cityRepository.findAllByCountryCode(newCountry.getCountryCode()));
         return toResponseDTO(countryRepository.save(newCountry));
     }
@@ -47,9 +51,9 @@ public class CountryService implements JunkDataService<CountryRequestDto, Countr
     }
 
     @Override
-    public CountryResponseDto update(UUID id, CountryRequestDto dto) {
-        Country country = countryRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Country not found for id: " + id));
+    public CountryResponseDto update(CountryRequestDto dto) {
+        Country country = countryRepository.findById(UUID.fromString(dto.getId()))
+                .orElseThrow(() -> new IllegalArgumentException("Country not found for id: " + dto.getId()));
         country.setName(dto.getName());
         country.setCountryCode(dto.getCountryCode());
         country = countryRepository.save(country);

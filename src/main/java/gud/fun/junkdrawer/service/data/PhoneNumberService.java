@@ -1,5 +1,6 @@
 package gud.fun.junkdrawer.service.data;
 
+import gud.fun.junkdrawer.dto.phonenumber.PhoneNumberNewRequestDto;
 import gud.fun.junkdrawer.dto.phonenumber.PhoneNumberRequestDto;
 import gud.fun.junkdrawer.dto.phonenumber.PhoneNumberResponseDto;
 import gud.fun.junkdrawer.persistance.model.PhoneNumber;
@@ -12,7 +13,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-public class PhoneNumberService implements JunkDataService<PhoneNumberRequestDto,PhoneNumberResponseDto,PhoneNumber>{
+public class PhoneNumberService implements JunkDataService<PhoneNumberRequestDto,PhoneNumberNewRequestDto,PhoneNumberResponseDto,PhoneNumber>{
 
     @Autowired
     private PhoneNumberRepository phoneNumberRepository;
@@ -33,18 +34,19 @@ public class PhoneNumberService implements JunkDataService<PhoneNumberRequestDto
     }
 
     @Override
-    public PhoneNumberResponseDto create(PhoneNumberRequestDto phoneNumberDto) {
-        PhoneNumber phoneNumber = toEntity(phoneNumberDto);
-        phoneNumber = phoneNumberRepository.save(phoneNumber);
-        return toResponseDTO(phoneNumber);
+    public PhoneNumberResponseDto create(PhoneNumberNewRequestDto phoneNumberDto) {
+        PhoneNumber phoneNumber = new PhoneNumber();
+        phoneNumber.setPhoneNumber(phoneNumberDto.getPhoneNumber());
+        phoneNumber.setCountryCode(phoneNumberDto.getCountryCode());
+        return toResponseDTO(phoneNumberRepository.save(phoneNumber));
     }
 
     @Override
-    public PhoneNumberResponseDto update(UUID id, PhoneNumberRequestDto phoneNumberDto) {
-        PhoneNumber phoneNumber = phoneNumberRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Phone number not found for id: " + id));
-        phoneNumber.setPhoneNumber(phoneNumberDto.getPhoneNumber());
-        phoneNumber.setCountryCode(phoneNumberDto.getCountryCode());
+    public PhoneNumberResponseDto update(PhoneNumberRequestDto dto) {
+        PhoneNumber phoneNumber = phoneNumberRepository.findById(UUID.fromString(dto.getId()))
+                .orElseThrow(() -> new IllegalArgumentException("Phone number not found for id: " + dto.getId()));
+        phoneNumber.setPhoneNumber(dto.getPhoneNumber());
+        phoneNumber.setCountryCode(dto.getCountryCode());
         phoneNumber = phoneNumberRepository.save(phoneNumber);
         return toResponseDTO(phoneNumber);
     }

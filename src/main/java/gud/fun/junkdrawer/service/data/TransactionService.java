@@ -2,6 +2,7 @@ package gud.fun.junkdrawer.service.data;
 
 import gud.fun.junkdrawer.dto.transaction.TransactionRequestDto;
 import gud.fun.junkdrawer.dto.transaction.TransactionResponseDto;
+import gud.fun.junkdrawer.persistance.model.Merchant;
 import gud.fun.junkdrawer.persistance.model.Transaction;
 import gud.fun.junkdrawer.persistance.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,13 +49,12 @@ public class TransactionService implements JunkDataService<TransactionRequestDto
     }
 
     @Override
-    public TransactionResponseDto update(UUID id, TransactionRequestDto dto) {
-        Transaction transaction = transactionRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Transaction not found for id: " + id));
+    public TransactionResponseDto update(TransactionRequestDto dto) {
+        Transaction transaction = transactionRepository.findById(UUID.fromString(dto.getId()))
+                .orElseThrow(() -> new IllegalArgumentException("Transaction not found for id: " + dto.getId()));
         transaction.setDateTime(Objects.isNull(dto.getDateTime()) ? transaction.getDateTime(): dto.getDateTime() );
         transaction.setEntryType(Objects.isNull(dto.getEntryType())? transaction.getEntryType() : dto.getEntryType());
         transaction.setType(Objects.isNull(dto.getType())? transaction.getType() : dto.getType());
-        transaction.setMerchant(Objects.isNull(dto.getMerchant())? transaction.getMerchant(): merchantService.toEntity(dto.getMerchant()));
         transaction.setAmount(Objects.isNull(dto.getAmount())? transaction.getAmount() : dto.getAmount());
         transaction.setCurrency(Objects.isNull(dto.getCurrency())? transaction.getCurrency(): dto.getCurrency());
         transaction.setCreditCard(Objects.isNull(dto.getCreditCard())? transaction.getCreditCard(): creditCardService.toEntity(dto.getCreditCard()));

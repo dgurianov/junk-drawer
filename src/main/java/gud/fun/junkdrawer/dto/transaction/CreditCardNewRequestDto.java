@@ -9,10 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreditCardRequestDto {
-
-    @NotBlank
-    private String id;
+public class CreditCardNewRequestDto {
 
     @NotBlank
     private String Ccn;
@@ -21,6 +18,6 @@ public class CreditCardRequestDto {
     private String issuer;
 
     @NotNull
-    private BicRequestDto bic;
+    private BicNewRequestDto bic;
 
 }

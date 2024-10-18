@@ -1,5 +1,6 @@
 package gud.fun.junkdrawer.service.data;
 
+import gud.fun.junkdrawer.dto.transaction.BicNewRequestDto;
 import gud.fun.junkdrawer.dto.transaction.BicRequestDto;
 import gud.fun.junkdrawer.dto.transaction.BicResponseDto;
 import gud.fun.junkdrawer.persistance.model.Bic;
@@ -12,7 +13,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-public class BicService implements JunkDataService<BicRequestDto, BicResponseDto, Bic> {
+public class BicService implements JunkDataService<BicRequestDto, BicNewRequestDto, BicResponseDto, Bic> {
 
     @Autowired
     private BicRepository bicRepository;
@@ -33,18 +34,19 @@ public class BicService implements JunkDataService<BicRequestDto, BicResponseDto
     }
 
     @Override
-    public BicResponseDto create(BicRequestDto bicDto) {
-        Bic bic = toEntity(bicDto);
-        bic = bicRepository.save(bic);
-        return toResponseDTO(bic);
+    public BicResponseDto create(BicNewRequestDto dto) {
+        Bic bic = new Bic();
+        bic.setIdentifier(dto.getIdentifier());
+        bic.setInstitution(dto.getInstitution());
+        return toResponseDTO(bicRepository.save(bic));
     }
 
     @Override
-    public BicResponseDto update(UUID id, BicRequestDto bicDto) {
-        Bic bic = bicRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("BIC not found for id: " + id));
-        bic.setIdentifier(bicDto.getValue());
-        bic.setInstitution(bicDto.getInstitution());
+    public BicResponseDto update(BicRequestDto dto) {
+        Bic bic = bicRepository.findById(UUID.fromString(dto.getId()))
+                .orElseThrow(() -> new IllegalArgumentException("BIC not found for id: " + dto.getId()));
+        bic.setIdentifier(dto.getIdentifier());
+        bic.setInstitution(dto.getInstitution());
         bic = bicRepository.save(bic);
         return toResponseDTO(bic);
     }
@@ -70,7 +72,25 @@ public class BicService implements JunkDataService<BicRequestDto, BicResponseDto
     public Bic toEntity(BicRequestDto dto) {
         return new Bic(
                 dto.getId() != null ? UUID.fromString(dto.getId()) : null,
-                dto.getValue(),
+                dto.getIdentifier(),
+                dto.getInstitution()
+        );
+    }
+
+    @Override
+    public Bic newToEntity(BicNewRequestDto dto) {
+        return new Bic(
+                null,
+                dto.getIdentifier(),
+                dto.getInstitution()
+        );
+    }
+
+    @Override
+    public BicResponseDto newToResponseDto(BicNewRequestDto dto) {
+        return  new BicResponseDto(
+                null,
+                dto.getIdentifier(),
                 dto.getInstitution()
         );
     }

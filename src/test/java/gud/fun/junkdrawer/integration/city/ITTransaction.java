@@ -87,6 +87,34 @@ public class ITTransaction {
         Assertions.assertEquals(848.12, responseDto.getAmount().doubleValue());
         Assertions.assertEquals("USD", responseDto.getCurrency());
         Assertions.assertEquals(TransactionType.SETTLEMENT, responseDto.getType());
+    }
+
+
+    @DisplayName("Partial update does not introduce null values in child entries")
+    @Test
+    public void test_03() throws JSONException {
+        //GIVEN
+        request = new HttpEntity<String>(getFileAsString(NEW_TRANSACTION), headers);
+        response = restTemplate.postForEntity(LOCALHOST + port + Endpoints.TRANSACTION, request, TransactionResponseDto.class);
+        TransactionResponseDto existingTransaction = response.getBody();
+
+        request = new HttpEntity<String>(getFileAsString(UPDATE_TRANSACTION), headers);
+
+        //WHEN
+        restTemplate.put(LOCALHOST + port + Endpoints.TRANSACTION + "/" + existingTransaction.getId(), request);
+
+        //THEN
+        response = restTemplate.getForEntity(LOCALHOST + port + Endpoints.TRANSACTION + "/" +existingTransaction.getId(), TransactionResponseDto.class);
+
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        TransactionResponseDto responseDto = response.getBody();
+        Assertions.assertEquals(TransactionEntryType.MANUAL, responseDto.getEntryType());
+
+        //While partially updating entity , children should not be re-generated
+        Assertions.assertEquals(existingTransaction.getMerchant().getId(), responseDto.getMerchant().getId());
+        Assertions.assertEquals(existingTransaction.getCreditCard().getId(), responseDto.getCreditCard().getId());
+        Assertions.assertEquals(existingTransaction.getCreditCard().getBic().getId(), responseDto.getCreditCard().getBic().getId());
 
     }
 

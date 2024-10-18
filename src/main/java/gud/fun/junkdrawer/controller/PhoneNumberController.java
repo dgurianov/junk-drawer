@@ -1,6 +1,7 @@
 package gud.fun.junkdrawer.controller;
 
 import gud.fun.junkdrawer.configuration.Endpoints;
+import gud.fun.junkdrawer.dto.phonenumber.PhoneNumberNewRequestDto;
 import gud.fun.junkdrawer.dto.phonenumber.PhoneNumberRequestDto;
 import gud.fun.junkdrawer.dto.phonenumber.PhoneNumberResponseDto;
 import gud.fun.junkdrawer.service.data.PhoneNumberService;
@@ -31,14 +32,14 @@ public class PhoneNumberController {
     }
 
     @PostMapping(produces = "application/json", consumes = "application/json")
-    public ResponseEntity<PhoneNumberResponseDto> createPhoneNumber(@RequestBody PhoneNumberRequestDto phoneNumberDto) {
+    public ResponseEntity<PhoneNumberResponseDto> createPhoneNumber(@RequestBody PhoneNumberNewRequestDto phoneNumberDto) {
         PhoneNumberResponseDto createdPhoneNumber = phoneNumberService.create(phoneNumberDto);
         return ResponseEntity.ok(createdPhoneNumber);
     }
 
     @PutMapping(value = "/{id}",produces = "application/json", consumes = "application/json")
     public ResponseEntity<PhoneNumberResponseDto> updatePhoneNumber(@PathVariable String id, @RequestBody PhoneNumberRequestDto phoneNumberDto) {
-        PhoneNumberResponseDto updatedPhoneNumber = phoneNumberService.update(UUID.fromString(id), phoneNumberDto);
+        PhoneNumberResponseDto updatedPhoneNumber = phoneNumberService.update(phoneNumberDto);
         return ResponseEntity.ok(updatedPhoneNumber);
     }
 

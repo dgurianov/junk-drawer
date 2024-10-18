@@ -5,6 +5,7 @@ import gud.fun.junkdrawer.configuration.Endpoints;
 import gud.fun.junkdrawer.dto.transaction.TransactionRequestDto;
 import gud.fun.junkdrawer.dto.transaction.TransactionResponseDto;
 import gud.fun.junkdrawer.service.data.TransactionService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,14 +33,14 @@ public class TransactionController {
     }
 
     @PostMapping(produces = "application/json", consumes = "application/json")
-    public ResponseEntity<TransactionResponseDto> createTransaction(@RequestBody TransactionRequestDto transactionDto) {
+    public ResponseEntity<TransactionResponseDto> createTransaction(@Valid @RequestBody TransactionRequestDto transactionDto) {
         TransactionResponseDto createdTransaction = transactionService.create(transactionDto);
         return ResponseEntity.ok(createdTransaction);
     }
 
     @PutMapping(value = "/{id}",produces = "application/json", consumes = "application/json")
-    public ResponseEntity<TransactionResponseDto> updateTransaction(@PathVariable UUID id, @RequestBody TransactionRequestDto transactionDto) {
-        TransactionResponseDto updatedTransaction = transactionService.update(id, transactionDto);
+    public ResponseEntity<TransactionResponseDto> updateTransaction(@PathVariable UUID id, @Valid @RequestBody TransactionRequestDto transactionDto) {
+        TransactionResponseDto updatedTransaction = transactionService.update(transactionDto);
         return ResponseEntity.ok(updatedTransaction);
     }
 
