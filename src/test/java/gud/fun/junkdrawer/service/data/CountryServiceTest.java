@@ -53,6 +53,7 @@ class CountryServiceTest {
         country.setCountryCode("DEU");
 
         countryRequestDto = new CountryRequestDto();
+        countryRequestDto.setId(TEST_UUID_1.toString());
         countryRequestDto.setName("Germany");
         countryRequestDto.setCountryCode("DEU");
 
@@ -112,7 +113,7 @@ class CountryServiceTest {
         when(countryRepository.findById(any(UUID.class))).thenReturn(Optional.of(country));
         when(countryRepository.save(any(Country.class))).thenReturn(country);
 
-        CountryResponseDto responseDto = countryService.update(TEST_UUID_1, countryRequestDto);
+        CountryResponseDto responseDto = countryService.update(countryRequestDto);
 
         assertNotNull(responseDto);
         assertEquals(country.getId().toString(), responseDto.getId());

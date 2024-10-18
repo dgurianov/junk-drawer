@@ -65,7 +65,7 @@ class BicServiceTest {
     void testUpdate() {
         when(bicRepository.findById(id)).thenReturn(Optional.of(bic));
         when(bicRepository.save(any(Bic.class))).thenReturn(bic);
-        BicResponseDto response = bicService.update(id, bicRequestDto);
+        BicResponseDto response = bicService.update(bicRequestDto);
         assertEquals("BIC123", response.getValue());
     }
 

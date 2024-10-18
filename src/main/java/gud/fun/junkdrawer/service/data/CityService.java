@@ -38,8 +38,8 @@ public class CityService implements JunkDataService<CityRequestDto,CityResponseD
     }
 
     @Override
-    public CityResponseDto update(UUID id, CityRequestDto dto) {
-        City city = cityRepository.findById(id).orElseThrow(() -> new RuntimeException("City not found"));
+    public CityResponseDto update(CityRequestDto dto) {
+        City city = cityRepository.findById(UUID.fromString(dto.getId())).orElseThrow(() -> new RuntimeException("City not found"));
         city.setName(dto.getName());
         city.setCountryCode(dto.getCountryCode());
         City updatedCity = cityRepository.save(city);

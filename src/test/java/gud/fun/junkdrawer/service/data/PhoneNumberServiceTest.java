@@ -40,6 +40,7 @@ class PhoneNumberServiceTest {
         phoneNumber.setPhoneNumber("1234567890");
 
         phoneNumberRequestDto = new PhoneNumberRequestDto();
+        phoneNumberRequestDto.setId(TEST_UUID.toString());
         phoneNumberRequestDto.setPhoneNumber("1234567890");
     }
 
@@ -85,7 +86,7 @@ class PhoneNumberServiceTest {
         when(phoneNumberRepository.findById(any(UUID.class))).thenReturn(Optional.of(phoneNumber));
         when(phoneNumberRepository.save(any(PhoneNumber.class))).thenReturn(phoneNumber);
 
-        PhoneNumberResponseDto responseDto = phoneNumberService.update(TEST_UUID, phoneNumberRequestDto);
+        PhoneNumberResponseDto responseDto = phoneNumberService.update(phoneNumberRequestDto);
 
         assertNotNull(responseDto);
         assertEquals(phoneNumber.getId().toString(), responseDto.getId());

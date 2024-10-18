@@ -67,7 +67,7 @@ class CreditCardServiceTest {
     void testUpdate() {
         when(creditCardRepository.findById(id)).thenReturn(Optional.of(creditCard));
         when(creditCardRepository.save(any(CreditCard.class))).thenReturn(creditCard);
-        CreditCardResponseDto response = creditCardService.update(id, creditCardRequestDto);
+        CreditCardResponseDto response = creditCardService.update(creditCardRequestDto);
         assertEquals("1234567890123456", response.getCcn());
     }
 

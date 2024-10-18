@@ -90,9 +90,9 @@ class CountryControllerTest {
         CountryResponseDto responseDto = new CountryResponseDto();
         responseDto.setId(TEST_UUID.toString());
 
-        when(countryService.update(any(UUID.class), any(CountryRequestDto.class))).thenReturn(responseDto);
+        when(countryService.update(any(CountryRequestDto.class))).thenReturn(responseDto);
 
-        mockMvc.perform(put(Endpoints.COUNTRY+ "/{id}", TEST_UUID.toString())
+        mockMvc.perform(put(Endpoints.COUNTRY)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"name\":\"Updated Country\",\"countryCode\":\"UC\"}"))
                 .andExpect(status().isOk())

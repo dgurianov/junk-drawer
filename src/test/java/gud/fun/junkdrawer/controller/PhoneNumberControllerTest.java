@@ -98,9 +98,9 @@ class PhoneNumberControllerTest {
     void testUpdatePhoneNumber() throws Exception {
         PhoneNumberResponseDto phoneNumber = new PhoneNumberResponseDto(TEST_UUID_1.toString(), "1234567890", "DEU");
 
-        when(phoneNumberService.update(any(UUID.class), any(PhoneNumberRequestDto.class))).thenReturn(phoneNumber);
+        when(phoneNumberService.update(any(PhoneNumberRequestDto.class))).thenReturn(phoneNumber);
 
-        mockMvc.perform(put(Endpoints.PHONE_NUMBER + "/{id}", TEST_UUID_1.toString())
+        mockMvc.perform(put(Endpoints.PHONE_NUMBER)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"phoneNumber\":\"1234567890\",\"countryCode\":\"DEU\"}"))
                 .andExpect(status().isOk())
