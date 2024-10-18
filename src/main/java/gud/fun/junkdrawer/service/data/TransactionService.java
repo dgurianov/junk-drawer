@@ -49,8 +49,12 @@ public class TransactionService implements JunkDataService<TransactionRequestDto
 
     @Override
     public TransactionResponseDto update(TransactionRequestDto dto) {
-        Transaction transaction = transactionRepository.findById(UUID.fromString(dto.getId()))
-                .orElseThrow(() -> new IllegalArgumentException("Transaction not found for id: " + dto.getId()));
+        Transaction transaction = new Transaction();
+        if(dto.getId() != null) {
+            transaction = transactionRepository.findById(UUID.fromString(dto.getId()))
+                    .orElseThrow(() -> new IllegalArgumentException("Transaction not found for id: " + dto.getId()));
+        }
+
         transaction.setDateTime(Objects.isNull(dto.getDateTime()) ? transaction.getDateTime(): dto.getDateTime() );
         transaction.setEntryType(Objects.isNull(dto.getEntryType())? transaction.getEntryType() : dto.getEntryType());
         transaction.setType(Objects.isNull(dto.getType())? transaction.getType() : dto.getType());

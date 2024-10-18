@@ -30,12 +30,6 @@ public class PhoneNumberController {
         return ResponseEntity.ok(phoneNumber);
     }
 
-    @PostMapping(produces = "application/json", consumes = "application/json")
-    public ResponseEntity<PhoneNumberResponseDto> createPhoneNumber(@RequestBody PhoneNumberRequestDto phoneNumberDto) {
-        PhoneNumberResponseDto createdPhoneNumber = phoneNumberService.create(phoneNumberDto);
-        return ResponseEntity.ok(createdPhoneNumber);
-    }
-
     @PutMapping(produces = "application/json", consumes = "application/json")
     public ResponseEntity<PhoneNumberResponseDto> updatePhoneNumber(@RequestBody PhoneNumberRequestDto dto) {
         PhoneNumberResponseDto updatedPhoneNumber = phoneNumberService.update(dto);

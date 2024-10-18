@@ -44,18 +44,6 @@ public class CityControllerTest {
     }
 
     @Test
-    public void testCreateCity() throws Exception {
-        when(cityService.create(any(CityRequestDto.class))).thenReturn(cityDto);
-
-        mockMvc.perform(post(Endpoints.CITY)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"Berlin\",\"country\":\"DEU\"}"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Berlin"))
-                .andExpect(jsonPath("$.countryCode").value("DEU"));
-    }
-
-    @Test
     public void testGetCityById() throws Exception {
         when(cityService.getById(any(UUID.class))).thenReturn(cityDto);
 

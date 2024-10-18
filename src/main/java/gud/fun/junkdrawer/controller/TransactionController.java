@@ -31,12 +31,6 @@ public class TransactionController {
         return ResponseEntity.ok(transaction);
     }
 
-    @PostMapping(produces = "application/json", consumes = "application/json")
-    public ResponseEntity<TransactionResponseDto> createTransaction(@RequestBody TransactionRequestDto transactionDto) {
-        TransactionResponseDto createdTransaction = transactionService.create(transactionDto);
-        return ResponseEntity.ok(createdTransaction);
-    }
-
     @PutMapping(produces = "application/json", consumes = "application/json")
     public ResponseEntity<TransactionResponseDto> updateTransaction(@RequestBody TransactionRequestDto transactionDto) {
         TransactionResponseDto updatedTransaction = transactionService.update(transactionDto);

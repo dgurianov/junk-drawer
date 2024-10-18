@@ -18,11 +18,6 @@ public class CountryController {
     @Autowired
     private CountryService countryService;
 
-    @PostMapping(produces = "application/json", consumes = "application/json")
-    public ResponseEntity<CountryResponseDto> createCountry(@RequestBody CountryRequestDto countryRequestDto) {
-        return ResponseEntity.ok(countryService.create(countryRequestDto));
-    }
-
     @GetMapping(value = "/{id}",produces = "application/json")
     public ResponseEntity<CountryResponseDto> getCountryById(@PathVariable String id) {
         return ResponseEntity.ok(countryService.getById(UUID.fromString(id)));

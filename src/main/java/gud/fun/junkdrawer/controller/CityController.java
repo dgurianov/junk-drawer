@@ -20,11 +20,6 @@ public class CityController {
     @Autowired
     private JunkDataService<CityRequestDto,CityResponseDto, City> cityService;
 
-    @PostMapping(produces = "application/json", consumes = "application/json")
-    public ResponseEntity<CityResponseDto> createCity(@RequestBody CityRequestDto cityDTO) {
-        return ResponseEntity.ok((CityResponseDto) cityService.create(cityDTO));
-    }
-
     @GetMapping(value = "/{id}",produces = "application/json", consumes = "application/json")
     public ResponseEntity<CityResponseDto> getCityById(@PathVariable String id) {
         return ResponseEntity.ok((CityResponseDto) cityService.getById(UUID.fromString(id)));

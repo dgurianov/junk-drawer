@@ -78,23 +78,6 @@ class PhoneNumberControllerTest {
     }
 
     @Test
-    void testCreatePhoneNumber() throws Exception {
-        PhoneNumberResponseDto phoneNumber = new PhoneNumberResponseDto(TEST_UUID_1.toString(), "1234567890", "US");
-
-        when(phoneNumberService.create(any(PhoneNumberRequestDto.class))).thenReturn(phoneNumber);
-
-        mockMvc.perform(post(Endpoints.PHONE_NUMBER)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"phoneNumber\":\"1234567890\",\"countryCode\":\"US\"}"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(TEST_UUID_1.toString()))
-                .andExpect(jsonPath("$.phoneNumber").value("1234567890"))
-                .andExpect(jsonPath("$.countryCode").value("US"));
-
-        verify(phoneNumberService, times(1)).create(any(PhoneNumberRequestDto.class));
-    }
-
-    @Test
     void testUpdatePhoneNumber() throws Exception {
         PhoneNumberResponseDto phoneNumber = new PhoneNumberResponseDto(TEST_UUID_1.toString(), "1234567890", "DEU");
 

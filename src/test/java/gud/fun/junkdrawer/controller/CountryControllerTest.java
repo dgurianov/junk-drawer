@@ -43,21 +43,6 @@ class CountryControllerTest {
     }
 
     @Test
-    void testCreateCountry() throws Exception {
-        CountryRequestDto requestDto = new CountryRequestDto();
-        CountryResponseDto responseDto = new CountryResponseDto();
-        responseDto.setId(TEST_UUID.toString());
-
-        when(countryService.create(any(CountryRequestDto.class))).thenReturn(responseDto);
-
-        mockMvc.perform(post(Endpoints.COUNTRY)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"name\":\"Test Country\",\"countryCode\":\"TC\"}"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").exists());
-    }
-
-    @Test
     void testGetCountryById() throws Exception {
         CountryResponseDto responseDto = new CountryResponseDto();
         responseDto.setId(TEST_UUID.toString());
