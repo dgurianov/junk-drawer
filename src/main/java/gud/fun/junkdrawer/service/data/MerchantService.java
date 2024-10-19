@@ -42,7 +42,7 @@ public class MerchantService implements JunkDataService<MerchantRequestDto, Merc
 
     @Override
     public MerchantResponseDto update(MerchantRequestDto merchantDto) {
-        Merchant merchant = merchantRepository.findById(UUID.fromString(merchantDto.getId()))
+        Merchant merchant = merchantRepository.findById(merchantDto.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Merchant not found for id: " + merchantDto.getId()));
         merchant.setName(merchantDto.getName());
         merchant = merchantRepository.save(merchant);
@@ -53,14 +53,14 @@ public class MerchantService implements JunkDataService<MerchantRequestDto, Merc
     public MerchantResponseDto delete(UUID id) {
         merchantRepository.deleteById(id);
         MerchantResponseDto response = new MerchantResponseDto();
-        response.setId(id.toString());
+        response.setId(id);
         return response;
     }
 
     @Override
     public MerchantResponseDto toResponseDTO(Merchant merchant) {
         return new MerchantResponseDto(
-                merchant.getId().toString(),
+                merchant.getId(),
                 merchant.getName(),
                 merchant.getCountry().getAlpha3(),
                 merchant.getAddress());
@@ -69,7 +69,7 @@ public class MerchantService implements JunkDataService<MerchantRequestDto, Merc
     @Override
     public Merchant toEntity(MerchantRequestDto dto) {
         return new Merchant(
-                dto.getId() != null ? UUID.fromString(dto.getId()) : null,
+                dto.getId() != null ? dto.getId() : null,
                 dto.getName(),
                 CountryCode.getByAlpha3Code(dto.getCountryCode()),
                 dto.getAddress()

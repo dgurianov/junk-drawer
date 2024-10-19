@@ -38,7 +38,7 @@ public class CityControllerTest {
     @BeforeEach
     public void setUp() {
         cityDto = new CityResponseDto();
-        cityDto.setId(TEST_UUID.toString());
+        cityDto.setId(TEST_UUID);
         cityDto.setName("Berlin");
         cityDto.setCountryCode("DEU");
     }
@@ -47,7 +47,7 @@ public class CityControllerTest {
     public void testGetCityById() throws Exception {
         when(cityService.getById(any(UUID.class))).thenReturn(cityDto);
 
-        mockMvc.perform(get(Endpoints.CITY + "/" + TEST_UUID.toString())
+        mockMvc.perform(get(Endpoints.CITY + "/" + TEST_UUID)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("Berlin"))
@@ -80,7 +80,7 @@ public class CityControllerTest {
     @Test
     public void testDeleteCity() throws Exception {
         when(cityService.delete(any(UUID.class))).thenReturn(cityDto);
-        mockMvc.perform(delete(Endpoints.CITY + "/" + TEST_UUID.toString()))
+        mockMvc.perform(delete(Endpoints.CITY + "/" + TEST_UUID))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(TEST_UUID.toString()));
     }

@@ -53,12 +53,12 @@ class CountryServiceTest {
         country.setCountryCode("DEU");
 
         countryRequestDto = new CountryRequestDto();
-        countryRequestDto.setId(TEST_UUID_1.toString());
+        countryRequestDto.setId(TEST_UUID_1);
         countryRequestDto.setName("Germany");
         countryRequestDto.setCountryCode("DEU");
 
         cityResponseDto = new CityResponseDto();
-        cityResponseDto.setId(TEST_UUID_1.toString());
+        cityResponseDto.setId(TEST_UUID_1);
         cityResponseDto.setName("Berlin");
         cityResponseDto.setCountryCode("DEU");
 
@@ -75,7 +75,7 @@ class CountryServiceTest {
         CountryResponseDto responseDto = countryService.create(countryRequestDto);
 
         assertNotNull(responseDto);
-        assertEquals(country.getId().toString(), responseDto.getId());
+        assertEquals(country.getId(), responseDto.getId());
         assertEquals(country.getName(), responseDto.getName());
         assertEquals(country.getCountryCode(), responseDto.getCountryCode());
 
@@ -89,7 +89,7 @@ class CountryServiceTest {
         CountryResponseDto responseDto = countryService.getById(TEST_UUID_1);
 
         assertNotNull(responseDto);
-        assertEquals(country.getId().toString(), responseDto.getId());
+        assertEquals(country.getId(), responseDto.getId());
         assertEquals(country.getName(), responseDto.getName());
         assertEquals(country.getCountryCode(), responseDto.getCountryCode());
 
@@ -101,7 +101,7 @@ class CountryServiceTest {
         when(countryRepository.findAll()).thenReturn(Arrays.asList(country));
         List<CountryResponseDto> responseDtos = countryService.getAll();
 
-        assertEquals(country.getId().toString(), responseDtos.get(0).getId());
+        assertEquals(country.getId(), responseDtos.get(0).getId());
         assertEquals(country.getName(), responseDtos.get(0).getName());
         assertEquals(country.getCountryCode(), responseDtos.get(0).getCountryCode());
 
@@ -116,7 +116,7 @@ class CountryServiceTest {
         CountryResponseDto responseDto = countryService.update(countryRequestDto);
 
         assertNotNull(responseDto);
-        assertEquals(country.getId().toString(), responseDto.getId());
+        assertEquals(country.getId(), responseDto.getId());
         assertEquals(country.getName(), responseDto.getName());
         assertEquals(country.getCountryCode(), responseDto.getCountryCode());
 
@@ -131,7 +131,7 @@ class CountryServiceTest {
         CountryResponseDto responseDto = countryService.delete(TEST_UUID_1);
 
         assertNotNull(responseDto);
-        assertEquals(TEST_UUID_1.toString(), responseDto.getId());
+        assertEquals(TEST_UUID_1, responseDto.getId());
 
         verify(countryRepository, times(1)).deleteById(any(UUID.class));
     }

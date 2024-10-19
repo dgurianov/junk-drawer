@@ -37,7 +37,7 @@ class MerchantServiceTest {
         id = UUID.randomUUID();
 
         merchant = new Merchant(id, "MerchantName", CountryCode.US, "MerchantCategory");
-        merchantRequestDto = new MerchantRequestDto(id.toString(), "MerchantName", "US", "MerchantCategory");
+        merchantRequestDto = new MerchantRequestDto(id, "MerchantName", "US", "MerchantCategory");
     }
 
     @Test
@@ -74,6 +74,6 @@ class MerchantServiceTest {
     void testDelete() {
         doNothing().when(merchantRepository).deleteById(id);
         MerchantResponseDto response = merchantService.delete(id);
-        assertEquals(id.toString(), response.getId());
+        assertEquals(id, response.getId());
     }
 }

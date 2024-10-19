@@ -11,13 +11,14 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class TransactionRequestDto {
 
-    private String id;
+    private UUID id;
 
     private Date dateTime;
 

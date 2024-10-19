@@ -38,7 +38,7 @@ class CreditCardServiceTest {
         MockitoAnnotations.openMocks(this);
         id = UUID.randomUUID();
         creditCard = new CreditCard(id, "1234567890123456", "Issuer", null);
-        creditCardRequestDto = new CreditCardRequestDto(id.toString(), "1234567890123456", "Issuer", null);
+        creditCardRequestDto = new CreditCardRequestDto(id, "1234567890123456", "Issuer", null);
     }
 
     @Test
@@ -75,6 +75,6 @@ class CreditCardServiceTest {
     void testDelete() {
         doNothing().when(creditCardRepository).deleteById(id);
         CreditCardResponseDto response = creditCardService.delete(id);
-        assertEquals(id.toString(), response.getId());
+        assertEquals(id, response.getId());
     }
 }

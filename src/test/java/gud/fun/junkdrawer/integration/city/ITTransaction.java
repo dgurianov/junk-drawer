@@ -71,11 +71,8 @@ public class ITTransaction {
     public void test_02() throws JSONException {
         //GIVEN
         request = new HttpEntity<String>(getFileAsString(NEW_TRANSACTION), headers);
-//        response = restTemplate.postForEntity(LOCALHOST + port + Endpoints.TRANSACTION, request, TransactionResponseDto.class);
         response = restTemplate.exchange(LOCALHOST + port + Endpoints.TRANSACTION, HttpMethod.PUT, request, TransactionResponseDto.class);
-        String existingTransactionId = response.getBody().getId();
-
-        request = new HttpEntity<String>(getFileAsString(UPDATE_TRANSACTION).replace("{{id}}", existingTransactionId), headers);
+        request = new HttpEntity<String>(getFileAsString(UPDATE_TRANSACTION).replace("{{id}}", response.getBody().getId().toString()), headers);
 
         //WHEN
         response = restTemplate.exchange(LOCALHOST + port + Endpoints.TRANSACTION, HttpMethod.PUT, request, TransactionResponseDto.class);

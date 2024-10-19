@@ -44,7 +44,7 @@ public class CreditCardService implements JunkDataService<CreditCardRequestDto, 
 
     @Override
     public CreditCardResponseDto update(CreditCardRequestDto creditCardDto) {
-        CreditCard creditCard = creditCardRepository.findById(UUID.fromString(creditCardDto.getId()))
+        CreditCard creditCard = creditCardRepository.findById(creditCardDto.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Credit card not found for id: " + creditCardDto.getId()));
         creditCard.setCcn(creditCardDto.getCcn());
         creditCard.setIssuer(creditCardDto.getIssuer());
@@ -56,14 +56,14 @@ public class CreditCardService implements JunkDataService<CreditCardRequestDto, 
     public CreditCardResponseDto delete(UUID id) {
         creditCardRepository.deleteById(id);
         CreditCardResponseDto response = new CreditCardResponseDto();
-        response.setId(id.toString());
+        response.setId(id);
         return response;
     }
 
     @Override
     public CreditCardResponseDto toResponseDTO(CreditCard creditCard) {
         return new CreditCardResponseDto(
-                creditCard.getId().toString(),
+                creditCard.getId(),
                 creditCard.getCcn(),
                 creditCard.getIssuer(),
                 bicService.toResponseDTO(creditCard.getBic())
@@ -74,7 +74,7 @@ public class CreditCardService implements JunkDataService<CreditCardRequestDto, 
     @Override
     public CreditCard toEntity(CreditCardRequestDto dto) {
         return new CreditCard(
-                dto.getId() != null ? UUID.fromString(dto.getId()) : null,
+                dto.getId() != null ? dto.getId() : null,
                 dto.getCcn(),
                 dto.getIssuer(),
                 bicService.toEntity(dto.getBic())

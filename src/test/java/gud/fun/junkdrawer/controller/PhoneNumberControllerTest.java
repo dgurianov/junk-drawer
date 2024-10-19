@@ -44,8 +44,8 @@ class PhoneNumberControllerTest {
     @Test
     void testGetAllPhoneNumbers() throws Exception {
         List<PhoneNumberResponseDto> phoneNumbers = Arrays.asList(
-                new PhoneNumberResponseDto(TEST_UUID_1.toString(), "1234567890", "USA"),
-                new PhoneNumberResponseDto(TEST_UUID_2.toString(), "0987654321", "CA")
+                new PhoneNumberResponseDto(TEST_UUID_1, "1234567890", "USA"),
+                new PhoneNumberResponseDto(TEST_UUID_2, "0987654321", "CA")
         );
 
         when(phoneNumberService.getAll()).thenReturn(phoneNumbers);
@@ -64,11 +64,11 @@ class PhoneNumberControllerTest {
 
     @Test
     void testGetPhoneNumberById() throws Exception {
-        PhoneNumberResponseDto phoneNumber = new PhoneNumberResponseDto(TEST_UUID_1.toString(), "1234567890", "USA");
+        PhoneNumberResponseDto phoneNumber = new PhoneNumberResponseDto(TEST_UUID_1, "1234567890", "USA");
 
         when(phoneNumberService.getById(any(UUID.class))).thenReturn(phoneNumber);
 
-        mockMvc.perform(get(Endpoints.PHONE_NUMBER + "/{id}", TEST_UUID_1.toString()))
+        mockMvc.perform(get(Endpoints.PHONE_NUMBER + "/{id}", TEST_UUID_1))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(TEST_UUID_1.toString()))
                 .andExpect(jsonPath("$.phoneNumber").value("1234567890"))
@@ -79,7 +79,7 @@ class PhoneNumberControllerTest {
 
     @Test
     void testUpdatePhoneNumber() throws Exception {
-        PhoneNumberResponseDto phoneNumber = new PhoneNumberResponseDto(TEST_UUID_1.toString(), "1234567890", "DEU");
+        PhoneNumberResponseDto phoneNumber = new PhoneNumberResponseDto(TEST_UUID_1, "1234567890", "DEU");
 
         when(phoneNumberService.update(any(PhoneNumberRequestDto.class))).thenReturn(phoneNumber);
 
@@ -92,10 +92,10 @@ class PhoneNumberControllerTest {
 
     @Test
     void  testDeletePhoneNumber() throws Exception{
-        PhoneNumberResponseDto phoneNumber = new PhoneNumberResponseDto(TEST_UUID_1.toString(), "1234567890", "US");
+        PhoneNumberResponseDto phoneNumber = new PhoneNumberResponseDto(TEST_UUID_1, "1234567890", "US");
 
         when(phoneNumberService.delete(any(UUID.class))).thenReturn(phoneNumber);
-         mockMvc.perform(delete(Endpoints.PHONE_NUMBER + "/{id}", TEST_UUID_1.toString()))
+         mockMvc.perform(delete(Endpoints.PHONE_NUMBER + "/{id}", TEST_UUID_1))
                 .andExpect(status().isOk())
                  .andExpect(jsonPath("$.id").value(TEST_UUID_1.toString()));
 
