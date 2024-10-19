@@ -36,7 +36,7 @@ class BicServiceTest {
         MockitoAnnotations.openMocks(this);
         id = UUID.randomUUID();
         bic = new Bic(id, "BIC123", "Institution");
-        bicRequestDto = new BicRequestDto(id.toString(), "BIC123", "Institution");
+        bicRequestDto = new BicRequestDto(id, "BIC123", "Institution");
     }
 
     @Test
@@ -73,6 +73,6 @@ class BicServiceTest {
     void testDelete() {
         doNothing().when(bicRepository).deleteById(id);
         BicResponseDto response = bicService.delete(id);
-        assertEquals(id.toString(), response.getId());
+        assertEquals(id, response.getId());
     }
 }

@@ -41,7 +41,7 @@ class CityServiceTest {
         city.setCountryCode("DEU");
 
         cityRequestDto = new CityRequestDto();
-        cityRequestDto.setId(TEST_UUID.toString());
+        cityRequestDto.setId(TEST_UUID);
         cityRequestDto.setName("Berlin");
         cityRequestDto.setCountryCode("DEU");
     }
@@ -50,10 +50,10 @@ class CityServiceTest {
     void testCreate() {
         when(cityRepository.save(any(City.class))).thenReturn(city);
 
-        CityResponseDto responseDto = (CityResponseDto) cityService.create(cityRequestDto);
+        CityResponseDto responseDto =  cityService.create(cityRequestDto);
 
         assertNotNull(responseDto);
-        assertEquals(city.getId().toString(), responseDto.getId());
+        assertEquals(city.getId(), responseDto.getId());
         assertEquals(city.getName(), responseDto.getName());
         assertEquals(city.getCountryCode(), responseDto.getCountryCode());
 
@@ -64,10 +64,10 @@ class CityServiceTest {
     void testGetById() {
         when(cityRepository.findById(any(UUID.class))).thenReturn(Optional.of(city));
 
-        CityResponseDto responseDto = (CityResponseDto) cityService.getById(TEST_UUID);
+        CityResponseDto responseDto =  cityService.getById(TEST_UUID);
 
         assertNotNull(responseDto);
-        assertEquals(city.getId().toString(), responseDto.getId());
+        assertEquals(city.getId(), responseDto.getId());
         assertEquals(city.getName(), responseDto.getName());
         assertEquals(city.getCountryCode(), responseDto.getCountryCode());
 
@@ -77,9 +77,9 @@ class CityServiceTest {
     @Test
     void testGetAll() {
         when(cityRepository.findAll()).thenReturn(Arrays.asList(city));
-        List<CityResponseDto> responseDtos = (List<CityResponseDto>) cityService.getAll();
+        List<CityResponseDto> responseDtos = cityService.getAll();
 
-        assertEquals(city.getId().toString(), responseDtos.get(0).getId());
+        assertEquals(city.getId(), responseDtos.get(0).getId());
         assertEquals(city.getName(), responseDtos.get(0).getName());
         assertEquals(city.getCountryCode(), responseDtos.get(0).getCountryCode());
 
@@ -91,10 +91,10 @@ class CityServiceTest {
         when(cityRepository.findById(any(UUID.class))).thenReturn(Optional.of(city));
         when(cityRepository.save(any(City.class))).thenReturn(city);
 
-        CityResponseDto responseDto = (CityResponseDto) cityService.update(cityRequestDto);
+        CityResponseDto responseDto =  cityService.update(cityRequestDto);
 
         assertNotNull(responseDto);
-        assertEquals(city.getId().toString(), responseDto.getId());
+        assertEquals(city.getId(), responseDto.getId());
         assertEquals(city.getName(), responseDto.getName());
         assertEquals(city.getCountryCode(), responseDto.getCountryCode());
 
@@ -106,10 +106,10 @@ class CityServiceTest {
     void testDelete() {
         doNothing().when(cityRepository).deleteById(any(UUID.class));
 
-        CityResponseDto responseDto = (CityResponseDto) cityService.delete(TEST_UUID);
+        CityResponseDto responseDto =  cityService.delete(TEST_UUID);
 
         assertNotNull(responseDto);
-        assertEquals(TEST_UUID.toString(), responseDto.getId());
+        assertEquals(TEST_UUID, responseDto.getId());
 
         verify(cityRepository, times(1)).deleteById(any(UUID.class));
     }

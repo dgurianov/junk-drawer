@@ -49,8 +49,12 @@ public class TransactionService implements JunkDataService<TransactionRequestDto
 
     @Override
     public TransactionResponseDto update(TransactionRequestDto dto) {
-        Transaction transaction = transactionRepository.findById(UUID.fromString(dto.getId()))
-                .orElseThrow(() -> new IllegalArgumentException("Transaction not found for id: " + dto.getId()));
+        Transaction transaction = new Transaction();
+        if(dto.getId() != null) {
+            transaction = transactionRepository.findById(dto.getId())
+                    .orElseThrow(() -> new IllegalArgumentException("Transaction not found for id: " + dto.getId()));
+        }
+
         transaction.setDateTime(Objects.isNull(dto.getDateTime()) ? transaction.getDateTime(): dto.getDateTime() );
         transaction.setEntryType(Objects.isNull(dto.getEntryType())? transaction.getEntryType() : dto.getEntryType());
         transaction.setType(Objects.isNull(dto.getType())? transaction.getType() : dto.getType());
@@ -67,14 +71,14 @@ public class TransactionService implements JunkDataService<TransactionRequestDto
     public TransactionResponseDto delete(UUID id) {
         transactionRepository.deleteById(id);
         TransactionResponseDto response = new TransactionResponseDto();
-        response.setId(id.toString());
+        response.setId(id);
         return response;
     }
 
     @Override
     public TransactionResponseDto toResponseDTO(Transaction transaction) {
         TransactionResponseDto response = new TransactionResponseDto();
-        response.setId(transaction.getId().toString());
+        response.setId(transaction.getId());
         response.setDateTime(transaction.getDateTime());
         response.setType(transaction.getType());
         response.setEntryType(transaction.getEntryType());
@@ -88,7 +92,7 @@ public class TransactionService implements JunkDataService<TransactionRequestDto
     @Override
     public Transaction toEntity(TransactionRequestDto dto) {
         Transaction entity = new Transaction();
-        entity.setId(dto.getId() != null ? UUID.fromString(dto.getId()) : null);
+        entity.setId(dto.getId() != null ? dto.getId(): null);
         entity.setAmount(dto.getAmount());
         entity.setDateTime(dto.getDateTime() !=null  ? dto.getDateTime() : new Date());
         entity.setType(dto.getType());

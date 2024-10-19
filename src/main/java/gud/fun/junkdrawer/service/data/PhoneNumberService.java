@@ -41,7 +41,7 @@ public class PhoneNumberService implements JunkDataService<PhoneNumberRequestDto
 
     @Override
     public PhoneNumberResponseDto update(PhoneNumberRequestDto phoneNumberDto) {
-        PhoneNumber phoneNumber = phoneNumberRepository.findById(UUID.fromString(phoneNumberDto.getId()))
+        PhoneNumber phoneNumber = phoneNumberRepository.findById(phoneNumberDto.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Phone number not found for id: " + phoneNumberDto.getId()));
         phoneNumber.setPhoneNumber(phoneNumberDto.getPhoneNumber());
         phoneNumber.setCountryCode(phoneNumberDto.getCountryCode());
@@ -53,19 +53,19 @@ public class PhoneNumberService implements JunkDataService<PhoneNumberRequestDto
     public PhoneNumberResponseDto delete(UUID id) {
         phoneNumberRepository.deleteById(id);
         PhoneNumberResponseDto response = new PhoneNumberResponseDto();
-        response.setId(id.toString());
+        response.setId(id);
         return response;
     }
 
     @Override
     public PhoneNumberResponseDto toResponseDTO(PhoneNumber phoneNumber) {
-        return new PhoneNumberResponseDto(phoneNumber.getId().toString(), phoneNumber.getPhoneNumber(), phoneNumber.getCountryCode());
+        return new PhoneNumberResponseDto(phoneNumber.getId(), phoneNumber.getPhoneNumber(), phoneNumber.getCountryCode());
     }
 
     @Override
     public PhoneNumber toEntity(PhoneNumberRequestDto dto) {
         return new PhoneNumber(
-                dto.getId() != null ? UUID.fromString(dto.getId()):null,
+                dto.getId() != null ? dto.getId():null,
                 dto.getPhoneNumber(),
                 dto.getCountryCode());
     }

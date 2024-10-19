@@ -14,38 +14,32 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(Endpoints.TRANSACTION)
-public class TransactionController {
+public class TransactionController implements JunkDataController<TransactionRequestDto, TransactionResponseDto> {
 
     @Autowired
     private TransactionService transactionService;
 
+    @Override
     @GetMapping(produces = "application/json")
-    public ResponseEntity<List<TransactionResponseDto>> getAllTransactions() {
-        List<TransactionResponseDto> transactions = transactionService.getAll();
-        return ResponseEntity.ok(transactions);
+    public ResponseEntity<List<TransactionResponseDto>> getAll() {
+        return ResponseEntity.ok(transactionService.getAll());
     }
 
+    @Override
     @GetMapping(value = "/{id}",produces = "application/json")
-    public ResponseEntity<TransactionResponseDto> getTransactionById(@PathVariable UUID id) {
-        TransactionResponseDto transaction = transactionService.getById(id);
-        return ResponseEntity.ok(transaction);
+    public ResponseEntity<TransactionResponseDto> getOneById(@PathVariable UUID id) {
+        return ResponseEntity.ok(transactionService.getById(id));
     }
 
-    @PostMapping(produces = "application/json", consumes = "application/json")
-    public ResponseEntity<TransactionResponseDto> createTransaction(@RequestBody TransactionRequestDto transactionDto) {
-        TransactionResponseDto createdTransaction = transactionService.create(transactionDto);
-        return ResponseEntity.ok(createdTransaction);
-    }
-
+    @Override
     @PutMapping(produces = "application/json", consumes = "application/json")
-    public ResponseEntity<TransactionResponseDto> updateTransaction(@RequestBody TransactionRequestDto transactionDto) {
-        TransactionResponseDto updatedTransaction = transactionService.update(transactionDto);
-        return ResponseEntity.ok(updatedTransaction);
+    public ResponseEntity<TransactionResponseDto> createOrUpdate (@RequestBody TransactionRequestDto transactionDto) {
+        return ResponseEntity.ok(transactionService.update(transactionDto));
     }
 
+    @Override
     @DeleteMapping(value = "/{id}",produces = "application/json", consumes = "application/json")
-    public ResponseEntity<TransactionResponseDto> deleteTransaction(@PathVariable UUID id) {
-        TransactionResponseDto deletedTransaction = transactionService.delete(id);
-        return ResponseEntity.ok(deletedTransaction);
+    public ResponseEntity<TransactionResponseDto> delete(@PathVariable UUID id) {
+        return ResponseEntity.ok(transactionService.delete(id));
     }
 }

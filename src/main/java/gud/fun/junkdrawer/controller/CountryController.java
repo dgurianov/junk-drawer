@@ -13,33 +13,32 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(Endpoints.COUNTRY)
-public class CountryController {
+public class CountryController implements JunkDataController<CountryRequestDto, CountryResponseDto> {
 
     @Autowired
     private CountryService countryService;
 
-    @PostMapping(produces = "application/json", consumes = "application/json")
-    public ResponseEntity<CountryResponseDto> createCountry(@RequestBody CountryRequestDto countryRequestDto) {
-        return ResponseEntity.ok(countryService.create(countryRequestDto));
-    }
-
+    @Override
     @GetMapping(value = "/{id}",produces = "application/json")
-    public ResponseEntity<CountryResponseDto> getCountryById(@PathVariable String id) {
-        return ResponseEntity.ok(countryService.getById(UUID.fromString(id)));
+    public ResponseEntity<CountryResponseDto> getOneById(@PathVariable UUID id) {
+        return ResponseEntity.ok(countryService.getById(id));
     }
 
+    @Override
     @GetMapping(produces = "application/json")
-    public ResponseEntity<List<CountryResponseDto>> getAllCountries() {
+    public ResponseEntity<List<CountryResponseDto>> getAll() {
         return ResponseEntity.ok(countryService.getAll());
     }
 
+    @Override
     @PutMapping(produces = "application/json", consumes = "application/json")
-    public ResponseEntity<CountryResponseDto> updateCountry(@RequestBody CountryRequestDto dto) {
+    public ResponseEntity<CountryResponseDto> createOrUpdate(@RequestBody CountryRequestDto dto) {
         return ResponseEntity.ok(countryService.update(dto));
     }
 
+    @Override
     @DeleteMapping(value = "/{id}",produces = "application/json")
-    public ResponseEntity<CountryResponseDto> deleteCountry(@PathVariable String id) {
-        return ResponseEntity.ok(countryService.delete(UUID.fromString(id)));
+    public ResponseEntity<CountryResponseDto> delete(@PathVariable UUID id) {
+        return ResponseEntity.ok(countryService.delete(id));
     }
 }

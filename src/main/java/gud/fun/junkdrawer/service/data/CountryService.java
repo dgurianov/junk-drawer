@@ -48,8 +48,7 @@ public class CountryService implements JunkDataService<CountryRequestDto, Countr
 
     @Override
     public CountryResponseDto update(CountryRequestDto dto) {
-        Country country = countryRepository.findById(UUID.fromString(dto.getId()))
-                .orElseThrow(() -> new IllegalArgumentException("Country not found for id: " + dto.getId()));
+        Country country = countryRepository.findById(dto.getId()).orElseThrow(() -> new IllegalArgumentException("Country not found for id: " + dto.getId()));
         country.setName(dto.getName());
         country.setCountryCode(dto.getCountryCode());
         country = countryRepository.save(country);
@@ -60,14 +59,14 @@ public class CountryService implements JunkDataService<CountryRequestDto, Countr
     public CountryResponseDto delete(UUID id) {
         countryRepository.deleteById(id);
         CountryResponseDto response = new CountryResponseDto();
-        response.setId(id.toString());
+        response.setId(id);
         return response;
     }
 
     @Override
     public CountryResponseDto toResponseDTO(Country country) {
         CountryResponseDto responseDto = new CountryResponseDto();
-        responseDto.setId(country.getId().toString());
+        responseDto.setId(country.getId());
         responseDto.setName(country.getName());
         responseDto.setCountryCode(country.getCountryCode());
         responseDto.setCities(country.getCities().stream().map(cityService::toResponseDTO).collect(Collectors.toList()));
@@ -77,7 +76,7 @@ public class CountryService implements JunkDataService<CountryRequestDto, Countr
     @Override
     public Country toEntity(CountryRequestDto dto) {
         Country country = new Country();
-        country.setId(dto.getId() != null ? UUID.fromString(dto.getId()):null);
+        country.setId(dto.getId() != null ? dto.getId() : null);
         country.setName(dto.getName());
         country.setCountryCode(dto.getCountryCode());
         return country;

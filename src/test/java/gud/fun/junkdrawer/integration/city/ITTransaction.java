@@ -15,6 +15,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -46,18 +47,19 @@ public class ITTransaction {
         headers.add("Content-Type", "application/json");
     }
 
-    @DisplayName("Post new transaction")
+    @DisplayName("Create new transaction")
     @Test
     public void test_01() throws JSONException {
         //GIVEN
         request = new HttpEntity<String>(getFileAsString(NEW_TRANSACTION), headers);
 
         //WHEN
-        response = restTemplate.postForEntity(LOCALHOST + port + Endpoints.TRANSACTION, request, TransactionResponseDto.class);
+        response = restTemplate.exchange(LOCALHOST + port + Endpoints.TRANSACTION, HttpMethod.PUT, request, TransactionResponseDto.class);
 
         //THEN
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         TransactionResponseDto responseDto = response.getBody();
+        Assertions.assertNotNull(responseDto.getId());
         Assertions.assertEquals(TransactionEntryType.POS, responseDto.getEntryType());
         Assertions.assertEquals(848.12, responseDto.getAmount().doubleValue());
         Assertions.assertEquals("USD", responseDto.getCurrency());
@@ -69,19 +71,14 @@ public class ITTransaction {
     public void test_02() throws JSONException {
         //GIVEN
         request = new HttpEntity<String>(getFileAsString(NEW_TRANSACTION), headers);
-        response = restTemplate.postForEntity(LOCALHOST + port + Endpoints.TRANSACTION, request, TransactionResponseDto.class);
-        String existingTransactionId = response.getBody().getId();
-
-        request = new HttpEntity<String>(getFileAsString(UPDATE_TRANSACTION).replace("{{id}}", existingTransactionId), headers);
+        response = restTemplate.exchange(LOCALHOST + port + Endpoints.TRANSACTION, HttpMethod.PUT, request, TransactionResponseDto.class);
+        request = new HttpEntity<String>(getFileAsString(UPDATE_TRANSACTION).replace("{{id}}", response.getBody().getId().toString()), headers);
 
         //WHEN
-        restTemplate.put(LOCALHOST + port + Endpoints.TRANSACTION , request);
+        response = restTemplate.exchange(LOCALHOST + port + Endpoints.TRANSACTION, HttpMethod.PUT, request, TransactionResponseDto.class);
 
         //THEN
-        response = restTemplate.getForEntity(LOCALHOST + port + Endpoints.TRANSACTION + "/" +existingTransactionId, TransactionResponseDto.class);
-
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-
         TransactionResponseDto responseDto = response.getBody();
         Assertions.assertEquals(TransactionEntryType.MANUAL, responseDto.getEntryType());
         Assertions.assertEquals(848.12, responseDto.getAmount().doubleValue());

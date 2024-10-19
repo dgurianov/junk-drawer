@@ -6,7 +6,7 @@ import java.util.UUID;
 
 @Data
 public class CityRequestDto {
-    private String id;
+    private UUID id;
     private String name;
     private String countryCode;
 }

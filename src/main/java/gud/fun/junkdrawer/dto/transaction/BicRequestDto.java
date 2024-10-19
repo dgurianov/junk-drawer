@@ -11,7 +11,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class BicRequestDto {
 
-    private String id;
+    private UUID id;
 
     private String value;
 

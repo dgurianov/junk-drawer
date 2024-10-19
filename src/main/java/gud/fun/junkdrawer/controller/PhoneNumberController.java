@@ -13,38 +13,32 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(value = Endpoints.PHONE_NUMBER)
-public class PhoneNumberController {
+public class PhoneNumberController implements JunkDataController<PhoneNumberRequestDto, PhoneNumberResponseDto> {
 
     @Autowired
     private PhoneNumberService phoneNumberService;
 
+    @Override
     @GetMapping(produces = "application/json")
-    public ResponseEntity<List<PhoneNumberResponseDto>> getAllPhoneNumbers() {
-        List<PhoneNumberResponseDto> phoneNumbers = phoneNumberService.getAll();
-        return ResponseEntity.ok(phoneNumbers);
+    public ResponseEntity<List<PhoneNumberResponseDto>> getAll() {
+        return ResponseEntity.ok(phoneNumberService.getAll());
     }
 
+    @Override
     @GetMapping(value = "/{id}",produces = "application/json")
-    public ResponseEntity<PhoneNumberResponseDto> getPhoneNumberById(@PathVariable String id) {
-        PhoneNumberResponseDto phoneNumber = phoneNumberService.getById(UUID.fromString(id));
-        return ResponseEntity.ok(phoneNumber);
+    public ResponseEntity<PhoneNumberResponseDto> getOneById(@PathVariable UUID id) {
+        return ResponseEntity.ok(phoneNumberService.getById(id));
     }
 
-    @PostMapping(produces = "application/json", consumes = "application/json")
-    public ResponseEntity<PhoneNumberResponseDto> createPhoneNumber(@RequestBody PhoneNumberRequestDto phoneNumberDto) {
-        PhoneNumberResponseDto createdPhoneNumber = phoneNumberService.create(phoneNumberDto);
-        return ResponseEntity.ok(createdPhoneNumber);
-    }
-
+    @Override
     @PutMapping(produces = "application/json", consumes = "application/json")
-    public ResponseEntity<PhoneNumberResponseDto> updatePhoneNumber(@RequestBody PhoneNumberRequestDto dto) {
-        PhoneNumberResponseDto updatedPhoneNumber = phoneNumberService.update(dto);
-        return ResponseEntity.ok(updatedPhoneNumber);
+    public ResponseEntity<PhoneNumberResponseDto> createOrUpdate(@RequestBody PhoneNumberRequestDto dto) {
+        return ResponseEntity.ok(phoneNumberService.update(dto));
     }
 
+    @Override
     @DeleteMapping(value = "/{id}", produces = "application/json")
-    public ResponseEntity<PhoneNumberResponseDto> deletePhoneNumber(@PathVariable String id) {
-
-        return ResponseEntity.ok(phoneNumberService.delete(UUID.fromString(id)));
+    public ResponseEntity<PhoneNumberResponseDto> delete(@PathVariable UUID id) {
+        return ResponseEntity.ok(phoneNumberService.delete(id));
     }
 }

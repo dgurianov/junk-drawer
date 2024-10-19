@@ -43,28 +43,13 @@ class CountryControllerTest {
     }
 
     @Test
-    void testCreateCountry() throws Exception {
-        CountryRequestDto requestDto = new CountryRequestDto();
-        CountryResponseDto responseDto = new CountryResponseDto();
-        responseDto.setId(TEST_UUID.toString());
-
-        when(countryService.create(any(CountryRequestDto.class))).thenReturn(responseDto);
-
-        mockMvc.perform(post(Endpoints.COUNTRY)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"name\":\"Test Country\",\"countryCode\":\"TC\"}"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").exists());
-    }
-
-    @Test
     void testGetCountryById() throws Exception {
         CountryResponseDto responseDto = new CountryResponseDto();
-        responseDto.setId(TEST_UUID.toString());
+        responseDto.setId(TEST_UUID);
 
         when(countryService.getById(any(UUID.class))).thenReturn(responseDto);
 
-        mockMvc.perform(get(Endpoints.COUNTRY + "/{id}", TEST_UUID.toString())
+        mockMvc.perform(get(Endpoints.COUNTRY + "/{id}", TEST_UUID)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").exists());
@@ -73,7 +58,7 @@ class CountryControllerTest {
     @Test
     void testGetAllCountries() throws Exception {
         CountryResponseDto responseDto = new CountryResponseDto();
-        responseDto.setId(TEST_UUID.toString());
+        responseDto.setId(TEST_UUID);
         List<CountryResponseDto> responseDtos = Collections.singletonList(responseDto);
 
         when(countryService.getAll()).thenReturn(responseDtos);
@@ -88,7 +73,7 @@ class CountryControllerTest {
     void testUpdateCountry() throws Exception {
         CountryRequestDto requestDto = new CountryRequestDto();
         CountryResponseDto responseDto = new CountryResponseDto();
-        responseDto.setId(TEST_UUID.toString());
+        responseDto.setId(TEST_UUID);
 
         when(countryService.update(any(CountryRequestDto.class))).thenReturn(responseDto);
 
@@ -102,11 +87,11 @@ class CountryControllerTest {
     @Test
     void testDeleteCountry() throws Exception {
         CountryResponseDto responseDto = new CountryResponseDto();
-        responseDto.setId(TEST_UUID.toString());
+        responseDto.setId(TEST_UUID);
 
         when(countryService.delete(any(UUID.class))).thenReturn(responseDto);
 
-        mockMvc.perform(delete(Endpoints.COUNTRY+ "/{id}", TEST_UUID.toString())
+        mockMvc.perform(delete(Endpoints.COUNTRY+ "/{id}", TEST_UUID)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").exists());

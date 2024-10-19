@@ -15,34 +15,32 @@ import java.util.UUID;
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RestController
 @RequestMapping(value=Endpoints.CITY)
-public class CityController {
+public class CityController implements JunkDataController<CityRequestDto, CityResponseDto> {
 
     @Autowired
     private JunkDataService<CityRequestDto,CityResponseDto, City> cityService;
 
-    @PostMapping(produces = "application/json", consumes = "application/json")
-    public ResponseEntity<CityResponseDto> createCity(@RequestBody CityRequestDto cityDTO) {
-        return ResponseEntity.ok((CityResponseDto) cityService.create(cityDTO));
-    }
-
+    @Override
     @GetMapping(value = "/{id}",produces = "application/json", consumes = "application/json")
-    public ResponseEntity<CityResponseDto> getCityById(@PathVariable String id) {
-        return ResponseEntity.ok((CityResponseDto) cityService.getById(UUID.fromString(id)));
+    public ResponseEntity<CityResponseDto> getOneById(@PathVariable UUID id) {
+        return ResponseEntity.ok(cityService.getById(id));
     }
 
+    @Override
     @GetMapping(produces = "application/json")
-    public ResponseEntity<List<CityResponseDto>> getAllCities() {
-        List<CityResponseDto> cities = cityService.getAll();
-        return ResponseEntity.ok(cities);
+    public ResponseEntity<List<CityResponseDto>> getAll() {
+        return ResponseEntity.ok(cityService.getAll());
     }
 
+    @Override
     @PutMapping(produces = "application/json", consumes = "application/json")
-    public ResponseEntity<CityResponseDto> updateCity(@RequestBody CityRequestDto dto) {
-        return ResponseEntity.ok((CityResponseDto) cityService.update(dto));
+    public ResponseEntity<CityResponseDto> createOrUpdate(@RequestBody CityRequestDto dto) {
+        return ResponseEntity.ok(cityService.update(dto));
     }
 
+    @Override
     @DeleteMapping(value = "/{id}", produces = "application/json")
-    public ResponseEntity<CityResponseDto> deleteCity(@PathVariable String id) {
-        return ResponseEntity.ok((CityResponseDto) cityService.delete(UUID.fromString(id)));
+    public ResponseEntity<CityResponseDto> delete(@PathVariable UUID id) {
+        return ResponseEntity.ok(cityService.delete(id));
     }
 }

@@ -40,7 +40,7 @@ class PhoneNumberServiceTest {
         phoneNumber.setPhoneNumber("1234567890");
 
         phoneNumberRequestDto = new PhoneNumberRequestDto();
-        phoneNumberRequestDto.setId(TEST_UUID.toString());
+        phoneNumberRequestDto.setId(TEST_UUID);
         phoneNumberRequestDto.setPhoneNumber("1234567890");
     }
 
@@ -51,7 +51,7 @@ class PhoneNumberServiceTest {
         PhoneNumberResponseDto responseDto = phoneNumberService.create(phoneNumberRequestDto);
 
         assertNotNull(responseDto);
-        assertEquals(phoneNumber.getId().toString(), responseDto.getId());
+        assertEquals(phoneNumber.getId(), responseDto.getId());
         assertEquals(phoneNumber.getPhoneNumber(), responseDto.getPhoneNumber());
 
         verify(phoneNumberRepository, times(1)).save(any(PhoneNumber.class));
@@ -64,7 +64,7 @@ class PhoneNumberServiceTest {
         PhoneNumberResponseDto responseDto = phoneNumberService.getById(TEST_UUID);
 
         assertNotNull(responseDto);
-        assertEquals(phoneNumber.getId().toString(), responseDto.getId());
+        assertEquals(phoneNumber.getId(), responseDto.getId());
         assertEquals(phoneNumber.getPhoneNumber(), responseDto.getPhoneNumber());
 
         verify(phoneNumberRepository, times(1)).findById(any(UUID.class));
@@ -75,7 +75,7 @@ class PhoneNumberServiceTest {
         when(phoneNumberRepository.findAll()).thenReturn(Arrays.asList(phoneNumber));
         List<PhoneNumberResponseDto> responseDtos = phoneNumberService.getAll();
 
-        assertEquals(phoneNumber.getId().toString(), responseDtos.get(0).getId());
+        assertEquals(phoneNumber.getId(), responseDtos.get(0).getId());
         assertEquals(phoneNumber.getPhoneNumber(), responseDtos.get(0).getPhoneNumber());
 
         verify(phoneNumberRepository, times(1)).findAll();
@@ -89,7 +89,7 @@ class PhoneNumberServiceTest {
         PhoneNumberResponseDto responseDto = phoneNumberService.update(phoneNumberRequestDto);
 
         assertNotNull(responseDto);
-        assertEquals(phoneNumber.getId().toString(), responseDto.getId());
+        assertEquals(phoneNumber.getId(), responseDto.getId());
         assertEquals(phoneNumber.getPhoneNumber(), responseDto.getPhoneNumber());
 
         verify(phoneNumberRepository, times(1)).findById(any(UUID.class));
@@ -103,7 +103,7 @@ class PhoneNumberServiceTest {
         PhoneNumberResponseDto responseDto = phoneNumberService.delete(TEST_UUID);
 
         assertNotNull(responseDto);
-        assertEquals(TEST_UUID.toString(), responseDto.getId());
+        assertEquals(TEST_UUID, responseDto.getId());
 
         verify(phoneNumberRepository, times(1)).deleteById(any(UUID.class));
     }

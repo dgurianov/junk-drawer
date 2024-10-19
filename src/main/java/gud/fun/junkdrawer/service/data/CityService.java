@@ -39,7 +39,7 @@ public class CityService implements JunkDataService<CityRequestDto,CityResponseD
 
     @Override
     public CityResponseDto update(CityRequestDto dto) {
-        City city = cityRepository.findById(UUID.fromString(dto.getId())).orElseThrow(() -> new RuntimeException("City not found"));
+        City city = cityRepository.findById(dto.getId()).orElseThrow(() -> new RuntimeException("City not found"));
         city.setName(dto.getName());
         city.setCountryCode(dto.getCountryCode());
         City updatedCity = cityRepository.save(city);
@@ -50,14 +50,14 @@ public class CityService implements JunkDataService<CityRequestDto,CityResponseD
     public CityResponseDto delete(UUID id) {
         cityRepository.deleteById(id);
         CityResponseDto responseDto = new CityResponseDto();
-        responseDto.setId(id.toString());
+        responseDto.setId(id);
         return responseDto;
     }
 
     @Override
     public CityResponseDto toResponseDTO(City entity) {
         CityResponseDto cityDto = new CityResponseDto();
-        cityDto.setId(entity.getId().toString());
+        cityDto.setId(entity.getId());
         cityDto.setName(entity.getName());
         cityDto.setCountryCode(entity.getCountryCode());
         return cityDto;
@@ -66,7 +66,7 @@ public class CityService implements JunkDataService<CityRequestDto,CityResponseD
     @Override
     public City toEntity(CityRequestDto dto) {
         City city = new City();
-        city.setId(dto.getId() != null ? UUID.fromString(dto.getId()) : null);
+        city.setId(dto.getId() != null ? dto.getId() : null);
         city.setName(dto.getName());
         city.setCountryCode(dto.getCountryCode());
         return city;

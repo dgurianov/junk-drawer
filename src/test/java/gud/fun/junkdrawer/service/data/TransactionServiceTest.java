@@ -53,18 +53,18 @@ class TransactionServiceTest {
         id = UUID.randomUUID();
         Bic bic = new Bic(id, "BicCode", "BicName");
         BicRequestDto bicDto = new BicRequestDto(
-                id.toString(),
+                id,
                 "BicCode",
                 "BicName");
         CreditCard cc = new CreditCard(id, "Issuer", "CCN", bic);
         CreditCardRequestDto ccDto = new CreditCardRequestDto(
-                id.toString(),
+                id,
                 "Issuer",
                 "CCN",
                 bicDto);
         Merchant merchant =  new Merchant(id, "Merchant name " ,CountryCode.US, "MerchantCountry");
         MerchantRequestDto merchantDto = new MerchantRequestDto(
-                id.toString(),
+                id,
                 "Merchant name",
                 CountryCode.US.getAlpha3(),
                 "MerchantCountry");
@@ -78,7 +78,7 @@ class TransactionServiceTest {
                 "USD",
                  cc);
         transactionRequestDto = new TransactionRequestDto(
-                id.toString(),
+                id,
                 new Date(),
                 TransactionEntryType.MANUAL,
                 TransactionType.AUTH,
@@ -122,6 +122,6 @@ class TransactionServiceTest {
     void testDelete() {
         doNothing().when(transactionRepository).deleteById(id);
         TransactionResponseDto response = transactionService.delete(id);
-        assertEquals(id.toString(), response.getId());
+        assertEquals(id, response.getId());
     }
 }
