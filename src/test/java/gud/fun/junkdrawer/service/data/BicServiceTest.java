@@ -57,6 +57,7 @@ class BicServiceTest {
     @Test
     void testCreate() {
         when(bicRepository.save(any(Bic.class))).thenReturn(bic);
+        bicRequestDto.setId(null);
         BicResponseDto response = bicService.create(bicRequestDto);
         assertEquals("BIC123", response.getValue());
     }

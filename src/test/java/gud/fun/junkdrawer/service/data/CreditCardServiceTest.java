@@ -59,6 +59,7 @@ class CreditCardServiceTest {
     @Test
     void testCreate() {
         when(creditCardRepository.save(any(CreditCard.class))).thenReturn(creditCard);
+        creditCardRequestDto.setId(null);
         CreditCardResponseDto response = creditCardService.create(creditCardRequestDto);
         assertEquals("1234567890123456", response.getCcn());
     }

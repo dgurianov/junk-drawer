@@ -32,7 +32,6 @@ public class CityGenerator implements JunkDataGenerator<City, CountryCode> {
                 e -> e.getCountryCode().equalsIgnoreCase(criteria.getAlpha3()))
                 .findAny()
                 .orElse(cities.get(0));
-//                .orElseThrow(() -> new JunkGeneratorException(String.format("There is no city for provided CountryCode: {}",criteria)));
     }
 
     @Override

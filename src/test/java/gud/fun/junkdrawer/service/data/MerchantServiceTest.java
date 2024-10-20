@@ -37,7 +37,7 @@ class MerchantServiceTest {
         id = UUID.randomUUID();
 
         merchant = new Merchant(id, "MerchantName", CountryCode.US, "MerchantCategory");
-        merchantRequestDto = new MerchantRequestDto(id, "MerchantName", "US", "MerchantCategory");
+        merchantRequestDto = new MerchantRequestDto(id, "MerchantName", "USA", "MerchantCategory");
     }
 
     @Test
@@ -58,6 +58,7 @@ class MerchantServiceTest {
     @Test
     void testCreate() {
         when(merchantRepository.save(any(Merchant.class))).thenReturn(merchant);
+        merchantRequestDto.setId(null);
         MerchantResponseDto response = merchantService.create(merchantRequestDto);
         assertEquals("MerchantName", response.getName());
     }

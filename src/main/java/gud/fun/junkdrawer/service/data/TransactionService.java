@@ -4,6 +4,7 @@ import gud.fun.junkdrawer.dto.transaction.TransactionRequestDto;
 import gud.fun.junkdrawer.dto.transaction.TransactionResponseDto;
 import gud.fun.junkdrawer.persistance.model.Transaction;
 import gud.fun.junkdrawer.persistance.repository.TransactionRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class TransactionService implements JunkDataService<TransactionRequestDto, TransactionResponseDto, Transaction> {
 
@@ -42,29 +44,33 @@ public class TransactionService implements JunkDataService<TransactionRequestDto
 
     @Override
     public TransactionResponseDto create(TransactionRequestDto transactionDto) {
-        Transaction transaction = toEntity(transactionDto);
-        transaction = transactionRepository.save(transaction);
-        return toResponseDTO(transaction);
+        log.debug("Create was called  from Transaction service , redirecting to update.");
+        return update(transactionDto);
     }
 
     @Override
     public TransactionResponseDto update(TransactionRequestDto dto) {
         Transaction transaction = new Transaction();
         if(dto.getId() != null) {
+            log.debug("Id {} received in Transaction request. Fetching Transaction from repository", dto.getId());
             transaction = transactionRepository.findById(dto.getId())
                     .orElseThrow(() -> new IllegalArgumentException("Transaction not found for id: " + dto.getId()));
+            transaction.setDateTime(Objects.isNull(dto.getDateTime()) ? transaction.getDateTime(): dto.getDateTime() );
+        }else{
+            log.debug("No Id for the Transaction received. Transaction will be a new entity.");
+            //If the line below is  removed , then next exception arise, while save : detached entity passed to persist. It does not clear why it is happening
+            transaction.setId(UUID.randomUUID());
+            transaction.setDateTime(new Date());
         }
+        transaction.setEntryType(dto.getEntryType());
+        transaction.setType(dto.getType());
+        transaction.setAmount(dto.getAmount());
+        transaction.setCurrency(dto.getCurrency());
 
-        transaction.setDateTime(Objects.isNull(dto.getDateTime()) ? transaction.getDateTime(): dto.getDateTime() );
-        transaction.setEntryType(Objects.isNull(dto.getEntryType())? transaction.getEntryType() : dto.getEntryType());
-        transaction.setType(Objects.isNull(dto.getType())? transaction.getType() : dto.getType());
-        transaction.setMerchant(Objects.isNull(dto.getMerchant())? transaction.getMerchant(): merchantService.toEntity(dto.getMerchant()));
-        transaction.setAmount(Objects.isNull(dto.getAmount())? transaction.getAmount() : dto.getAmount());
-        transaction.setCurrency(Objects.isNull(dto.getCurrency())? transaction.getCurrency(): dto.getCurrency());
-        transaction.setCreditCard(Objects.isNull(dto.getCreditCard())? transaction.getCreditCard(): creditCardService.toEntity(dto.getCreditCard()));
+        transaction.setMerchant(merchantService.toEntity(dto.getMerchant()));
+        transaction.setCreditCard(creditCardService.toEntity(dto.getCreditCard()));
 
-        transaction = transactionRepository.save(transaction);
-        return toResponseDTO(transaction);
+        return toResponseDTO(transactionRepository.save(transaction));
     }
 
     @Override

@@ -4,6 +4,7 @@ import gud.fun.junkdrawer.dto.transaction.CreditCardRequestDto;
 import gud.fun.junkdrawer.dto.transaction.CreditCardResponseDto;
 import gud.fun.junkdrawer.persistance.model.CreditCard;
 import gud.fun.junkdrawer.persistance.repository.CreditCardRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class CreditCardService implements JunkDataService<CreditCardRequestDto, CreditCardResponseDto, CreditCard> {
 
@@ -37,19 +39,24 @@ public class CreditCardService implements JunkDataService<CreditCardRequestDto, 
 
     @Override
     public CreditCardResponseDto create(CreditCardRequestDto creditCardDto) {
-        CreditCard creditCard = toEntity(creditCardDto);
-        creditCard = creditCardRepository.save(creditCard);
-        return toResponseDTO(creditCard);
+        log.debug("Create was called  from CreditCard service , redirecting to update.");
+        return update(creditCardDto);
     }
 
     @Override
     public CreditCardResponseDto update(CreditCardRequestDto creditCardDto) {
-        CreditCard creditCard = creditCardRepository.findById(creditCardDto.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Credit card not found for id: " + creditCardDto.getId()));
+        CreditCard creditCard = new CreditCard();
+        if(creditCardDto.getId() != null) {
+            log.debug("Id {} received in CreditCard request. Fetching CreditCard from repository", creditCardDto.getId());
+            creditCard = creditCardRepository.findById(creditCardDto.getId())
+                    .orElseThrow(() -> new IllegalArgumentException("Credit card not found for id: " + creditCardDto.getId()));
+        }else{
+            log.debug("No Id for the CreditCard received. CreditCard will be a new entity.");
+        }
         creditCard.setCcn(creditCardDto.getCcn());
         creditCard.setIssuer(creditCardDto.getIssuer());
-        creditCard = creditCardRepository.save(creditCard);
-        return toResponseDTO(creditCard);
+        creditCard.setBic(bicService.toEntity(creditCardDto.getBic()));
+        return toResponseDTO(creditCardRepository.save(creditCard));
     }
 
     @Override

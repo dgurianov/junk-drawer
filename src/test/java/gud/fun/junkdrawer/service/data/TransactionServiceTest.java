@@ -106,6 +106,7 @@ class TransactionServiceTest {
     @Test
     void testCreate() {
         when(transactionRepository.save(any(Transaction.class))).thenReturn(transaction);
+        transactionRequestDto.setId(null);
         TransactionResponseDto response = transactionService.create(transactionRequestDto);
         assertEquals(TransactionType.AUTH, response.getType());
     }
