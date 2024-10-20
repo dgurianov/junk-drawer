@@ -4,6 +4,7 @@ import gud.fun.junkdrawer.dto.transaction.BicRequestDto;
 import gud.fun.junkdrawer.dto.transaction.BicResponseDto;
 import gud.fun.junkdrawer.persistance.model.Bic;
 import gud.fun.junkdrawer.persistance.repository.BicRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class BicService implements JunkDataService<BicRequestDto, BicResponseDto, Bic> {
 
@@ -34,23 +36,27 @@ public class BicService implements JunkDataService<BicRequestDto, BicResponseDto
 
     @Override
     public BicResponseDto create(BicRequestDto bicDto) {
-        Bic bic = toEntity(bicDto);
-        bic = bicRepository.save(bic);
-        return toResponseDTO(bic);
+        log.debug("Create was called  from Bic service , redirecting to update.");
+        return update(bicDto);
     }
 
     @Override
     public BicResponseDto update(BicRequestDto dto) {
-        Bic bic = bicRepository.findById(dto.getId())
-                .orElseThrow(() -> new IllegalArgumentException("BIC not found for id: " + dto.getId()));
+        Bic bic = new Bic();
+        if(dto.getId() != null) {
+            log.debug("Id {} received in Bic request. Fetching Bic from repository", dto.getId());
+            bic = bicRepository.findById(dto.getId()).orElseThrow(() -> new IllegalArgumentException("BIC not found for id: " + dto.getId()));
+        }else{
+            log.debug("No Id for the Bic received. Bic will be a new entity.");
+        }
         bic.setIdentifier(dto.getValue());
         bic.setInstitution(dto.getInstitution());
-        bic = bicRepository.save(bic);
-        return toResponseDTO(bic);
+        return toResponseDTO(bicRepository.save(bic));
     }
 
     @Override
     public BicResponseDto delete(UUID id) {
+        log.debug("Deleting Bic with id: {}", id);
         bicRepository.deleteById(id);
         BicResponseDto response = new BicResponseDto();
         response.setId(id);

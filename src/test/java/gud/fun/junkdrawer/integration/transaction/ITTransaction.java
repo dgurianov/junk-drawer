@@ -1,4 +1,4 @@
-package gud.fun.junkdrawer.integration.city;
+package gud.fun.junkdrawer.integration.transaction;
 
 import gud.fun.junkdrawer.configuration.Endpoints;
 import gud.fun.junkdrawer.dto.transaction.TransactionResponseDto;
@@ -29,6 +29,7 @@ public class ITTransaction {
     private static final String LOCALHOST = "http://localhost:";
     private static final String NEW_TRANSACTION = "/integration/transaction/NewTransactionOkAuth.json";
     private static final String UPDATE_TRANSACTION = "/integration/transaction/UpdateTransactionOkAuth.json";
+    private static final String UPDATE_NO_CC_TRANSACTION = "/integration/transaction/UpdateTransactionNoCcAuth.json";
 
     @LocalServerPort
     private int port;
@@ -85,6 +86,21 @@ public class ITTransaction {
         Assertions.assertEquals("USD", responseDto.getCurrency());
         Assertions.assertEquals(TransactionType.SETTLEMENT, responseDto.getType());
 
+    }
+
+    @DisplayName("Validation is triggered during update on not valid transaction")
+    @Test
+    public void test_03() throws JSONException {
+        //GIVEN
+        request = new HttpEntity<String>(getFileAsString(NEW_TRANSACTION), headers);
+        response = restTemplate.exchange(LOCALHOST + port + Endpoints.TRANSACTION, HttpMethod.PUT, request, TransactionResponseDto.class);
+        request = new HttpEntity<String>(getFileAsString(UPDATE_NO_CC_TRANSACTION).replace("{{id}}", response.getBody().getId().toString()), headers);
+
+        //WHEN
+        response = restTemplate.exchange(LOCALHOST + port + Endpoints.TRANSACTION, HttpMethod.PUT, request, TransactionResponseDto.class);
+
+        //THEN
+        Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
     private String getFileAsString(String name)  {
