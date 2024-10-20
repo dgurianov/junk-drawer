@@ -6,6 +6,7 @@ import gud.fun.junkdrawer.dto.ManageContentResponseDto;
 import gud.fun.junkdrawer.dto.ManageContentStatusRequestDto;
 import gud.fun.junkdrawer.dto.ManageContentStatusResponseDto;
 import gud.fun.junkdrawer.service.ManageContentService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class ManageContentController {
     private ManageContentService contentService;
 
     @PostMapping(produces = "application/json", consumes = "application/json")
-    public ResponseEntity<ManageContentResponseDto> createContent(@RequestBody ManageContentRequestDto manageContentRequestDto) {
+    public ResponseEntity<ManageContentResponseDto> createContent(@Valid @RequestBody ManageContentRequestDto manageContentRequestDto) {
         ManageContentResponseDto createdContent = null;
         try {
           createdContent = contentService.createContent(manageContentRequestDto);

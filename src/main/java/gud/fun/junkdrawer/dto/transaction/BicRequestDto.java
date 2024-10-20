@@ -14,9 +14,9 @@ public class BicRequestDto {
 
     private UUID id;
 
-    @NotBlank
+    @NotBlank(message = "Bic value is required")
     private String value;
 
-    @NotBlank
+    @NotBlank(message = "Institution is required")
     private String institution;
 }

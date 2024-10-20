@@ -11,7 +11,7 @@ public enum TransactionType{
     CHARGEBACK("Chargeback",7),
     SETTLEMENT("Settlement",8),
     COMPLETE("Complete",9),
-    UNKNOWN("UNKNOWN",999)
+    UNKNOWN("Unknown",999)
     ;
 
     TransactionType(String value,  int order) {

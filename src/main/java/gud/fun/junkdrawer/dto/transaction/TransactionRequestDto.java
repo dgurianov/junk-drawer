@@ -25,9 +25,11 @@ public class TransactionRequestDto {
 
     private Date dateTime;
 
+    @NotNull(message = "Transaction Entry type is required")
     @JsonDeserialize(using = TransactionEntryTypeDeserializer.class)
     private TransactionEntryType entryType;
 
+    @NotNull(message = "Transaction type is required")
     @JsonDeserialize(using = TransactionTypeDeserializer.class)
     private TransactionType type;
 

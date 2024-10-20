@@ -15,13 +15,13 @@ public class MerchantRequestDto {
 
     private UUID id;
 
-    @NotBlank
+    @NotBlank(message = "Name is required")
     private String name;
 
-    @NotBlank
+    @NotBlank(message = "Country code is required")
     private String countryCode;
 
-    @NotBlank
+    @NotBlank(message = "Address is required")
     private String address;
 
 }
