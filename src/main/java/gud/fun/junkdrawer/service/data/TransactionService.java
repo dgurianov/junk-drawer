@@ -63,6 +63,7 @@ public class TransactionService implements JunkDataService<TransactionRequestDto
             transaction.setDateTime(new Date());
         }
         transaction.setEntryType(dto.getEntryType());
+        transaction.setState(dto.getState());
         transaction.setType(dto.getType());
         transaction.setAmount(dto.getAmount());
         transaction.setCurrency(dto.getCurrency());
@@ -86,6 +87,7 @@ public class TransactionService implements JunkDataService<TransactionRequestDto
         TransactionResponseDto response = new TransactionResponseDto();
         response.setId(transaction.getId());
         response.setDateTime(transaction.getDateTime());
+        response.setState(transaction.getState());
         response.setType(transaction.getType());
         response.setEntryType(transaction.getEntryType());
         response.setMerchant(merchantService.toResponseDTO(transaction.getMerchant()));
@@ -102,7 +104,8 @@ public class TransactionService implements JunkDataService<TransactionRequestDto
         entity.setAmount(dto.getAmount());
         entity.setDateTime(dto.getDateTime() !=null  ? dto.getDateTime() : new Date());
         entity.setType(dto.getType());
-        entity.setType(dto.getType());
+        entity.setState(dto.getState());
+        log.info("Transaction Entry State: {}", dto.getState());
         entity.setEntryType(dto.getEntryType());
         entity.setMerchant(merchantService.toEntity(dto.getMerchant()));
         entity.setAmount(dto.getAmount());

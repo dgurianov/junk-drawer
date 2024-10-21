@@ -2,8 +2,10 @@ package gud.fun.junkdrawer.dto.transaction;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import gud.fun.junkdrawer.persistance.model.TransactionEntryType;
+import gud.fun.junkdrawer.persistance.model.TransactionState;
 import gud.fun.junkdrawer.persistance.model.TransactionType;
 import gud.fun.junkdrawer.serialize.TransactionEntryTypeSerializer;
+import gud.fun.junkdrawer.serialize.TransactionStateSerializer;
 import gud.fun.junkdrawer.serialize.TransactionTypeSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,6 +26,9 @@ public class TransactionResponseDto {
 
     @JsonSerialize(using = TransactionEntryTypeSerializer.class)
     private TransactionEntryType entryType;
+
+    @JsonSerialize(using = TransactionStateSerializer.class)
+    private TransactionState state;
 
     @JsonSerialize(using = TransactionTypeSerializer.class)
     private TransactionType type;

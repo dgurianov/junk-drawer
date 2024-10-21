@@ -11,6 +11,7 @@ import gud.fun.junkdrawer.persistance.model.CreditCard;
 import gud.fun.junkdrawer.persistance.model.Merchant;
 import gud.fun.junkdrawer.persistance.model.Transaction;
 import gud.fun.junkdrawer.persistance.model.TransactionEntryType;
+import gud.fun.junkdrawer.persistance.model.TransactionState;
 import gud.fun.junkdrawer.persistance.model.TransactionType;
 import gud.fun.junkdrawer.persistance.repository.TransactionRepository;
 import org.joda.money.BigMoney;
@@ -72,7 +73,8 @@ class TransactionServiceTest {
                 id,
                 new Date(),
                 TransactionEntryType.MANUAL,
-                TransactionType.AUTH,
+                TransactionState.AUTH,
+                TransactionType.CREDIT,
                 merchant,
                 BigMoney.parse("USD 100").getAmount(),
                 "USD",
@@ -81,7 +83,8 @@ class TransactionServiceTest {
                 id,
                 new Date(),
                 TransactionEntryType.MANUAL,
-                TransactionType.AUTH,
+                TransactionState.AUTH,
+                TransactionType.CREDIT,
                 merchantDto,
                 BigMoney.parse("USD 100").getAmount(),
             "USD",
@@ -93,14 +96,14 @@ class TransactionServiceTest {
         when(transactionRepository.findAll()).thenReturn(Arrays.asList(transaction));
         List<TransactionResponseDto> transactions = transactionService.getAll();
         assertEquals(1, transactions.size());
-        assertEquals(TransactionType.AUTH, transactions.get(0).getType());
+        assertEquals(TransactionState.AUTH, transactions.get(0).getState());
     }
 
     @Test
     void testGetById() {
         when(transactionRepository.findById(id)).thenReturn(Optional.of(transaction));
         TransactionResponseDto response = transactionService.getById(id);
-        assertEquals(TransactionType.AUTH, response.getType());
+        assertEquals(TransactionState.AUTH, response.getState());
     }
 
     @Test
@@ -108,7 +111,7 @@ class TransactionServiceTest {
         when(transactionRepository.save(any(Transaction.class))).thenReturn(transaction);
         transactionRequestDto.setId(null);
         TransactionResponseDto response = transactionService.create(transactionRequestDto);
-        assertEquals(TransactionType.AUTH, response.getType());
+        assertEquals(TransactionState.AUTH, response.getState());
     }
 
     @Test
@@ -116,7 +119,7 @@ class TransactionServiceTest {
         when(transactionRepository.findById(id)).thenReturn(Optional.of(transaction));
         when(transactionRepository.save(any(Transaction.class))).thenReturn(transaction);
         TransactionResponseDto response = transactionService.update(transactionRequestDto);
-        assertEquals(TransactionType.AUTH, response.getType());
+        assertEquals(TransactionState.AUTH, response.getState());
     }
 
     @Test

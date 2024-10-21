@@ -2,7 +2,8 @@
   "id": "{{id}}",
   "dateTime": "2024-10-16T13:58:37.344+00:00",
   "entryType": "MANUAL",
-  "type": "SETTLEMENT",
+  "state": "SETTLEMENT",
+  "type": "DEBIT",
   "merchant": {
     "name": "Uerkearyea",
     "countryCode": "USA",

@@ -2,7 +2,7 @@ package gud.fun.junkdrawer.serialize;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import gud.fun.junkdrawer.persistance.model.TransactionType;
+import gud.fun.junkdrawer.persistance.model.TransactionState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -12,9 +12,9 @@ import java.io.IOException;
 
 import static org.mockito.Mockito.verify;
 
-class TransactionTypeSerializerTest {
+class TransactionStateSerializerTest {
 
-    private TransactionTypeSerializer serializer;
+    private TransactionStateSerializer serializer;
 
     @Mock
     private JsonGenerator jsonGenerator;
@@ -25,12 +25,12 @@ class TransactionTypeSerializerTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        serializer = new TransactionTypeSerializer();
+        serializer = new TransactionStateSerializer();
     }
 
     @Test
     void testSerializeDebit() throws IOException {
-        serializer.serialize(TransactionType.SETTLEMENT, jsonGenerator, serializerProvider);
+        serializer.serialize(TransactionState.SETTLEMENT, jsonGenerator, serializerProvider);
         verify(jsonGenerator).writeString("SETTLEMENT");
     }
 

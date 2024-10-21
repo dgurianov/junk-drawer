@@ -3,7 +3,7 @@ package gud.fun.junkdrawer.integration.transaction;
 import gud.fun.junkdrawer.configuration.Endpoints;
 import gud.fun.junkdrawer.dto.transaction.TransactionResponseDto;
 import gud.fun.junkdrawer.persistance.model.TransactionEntryType;
-import gud.fun.junkdrawer.persistance.model.TransactionType;
+import gud.fun.junkdrawer.persistance.model.TransactionState;
 import org.json.JSONException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -64,7 +64,7 @@ public class ITTransaction {
         Assertions.assertEquals(TransactionEntryType.POS, responseDto.getEntryType());
         Assertions.assertEquals(848.12, responseDto.getAmount().doubleValue());
         Assertions.assertEquals("USD", responseDto.getCurrency());
-        Assertions.assertEquals(TransactionType.SETTLEMENT, responseDto.getType());
+        Assertions.assertEquals(TransactionState.SETTLEMENT, responseDto.getState());
     }
 
     @DisplayName("Update transaction")
@@ -84,7 +84,7 @@ public class ITTransaction {
         Assertions.assertEquals(TransactionEntryType.MANUAL, responseDto.getEntryType());
         Assertions.assertEquals(848.12, responseDto.getAmount().doubleValue());
         Assertions.assertEquals("USD", responseDto.getCurrency());
-        Assertions.assertEquals(TransactionType.SETTLEMENT, responseDto.getType());
+        Assertions.assertEquals(TransactionState.SETTLEMENT, responseDto.getState());
 
     }
 
