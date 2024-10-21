@@ -1,4 +1,4 @@
-package gud.fun.junkdrawer.persistance.model;
+package gud.fun.junkdrawer.statemachine.transaction;
 
 public enum TransactionType{
     NEW("New",0),
@@ -14,9 +14,10 @@ public enum TransactionType{
     UNKNOWN("UNKNOWN",999)
     ;
 
-    TransactionType(String value,  int order) {
+    //The purpose of the id is to help randomiser to pickup one of the values
+    TransactionType(String value,  int id) {
         this.value = value;
-        this.order = order;
+        this.order = id;
     }
 
     private String value;

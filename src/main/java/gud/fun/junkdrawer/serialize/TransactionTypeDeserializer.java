@@ -5,10 +5,9 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import gud.fun.junkdrawer.persistance.model.TransactionType;
+import gud.fun.junkdrawer.statemachine.transaction.TransactionType;
 
 import java.io.IOException;
-import java.util.Objects;
 
 public class TransactionTypeDeserializer extends JsonDeserializer<TransactionType> {
 

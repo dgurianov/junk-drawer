@@ -1,6 +1,6 @@
 package gud.fun.junkdrawer.persistance.converter;
 
-import gud.fun.junkdrawer.persistance.model.TransactionType;
+import gud.fun.junkdrawer.statemachine.transaction.TransactionType;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 

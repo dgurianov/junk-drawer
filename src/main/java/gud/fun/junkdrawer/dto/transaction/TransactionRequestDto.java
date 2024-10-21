@@ -1,11 +1,10 @@
 package gud.fun.junkdrawer.dto.transaction;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import gud.fun.junkdrawer.persistance.model.TransactionType;
+import gud.fun.junkdrawer.statemachine.transaction.TransactionType;
 import gud.fun.junkdrawer.persistance.model.TransactionEntryType;
 import gud.fun.junkdrawer.serialize.TransactionEntryTypeDeserializer;
 import gud.fun.junkdrawer.serialize.TransactionTypeDeserializer;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

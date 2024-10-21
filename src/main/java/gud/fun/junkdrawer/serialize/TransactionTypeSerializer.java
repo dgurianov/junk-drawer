@@ -3,7 +3,7 @@ package gud.fun.junkdrawer.serialize;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import gud.fun.junkdrawer.persistance.model.TransactionType;
+import gud.fun.junkdrawer.statemachine.transaction.TransactionType;
 
 import java.io.IOException;
 

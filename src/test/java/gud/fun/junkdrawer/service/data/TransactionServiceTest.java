@@ -11,7 +11,7 @@ import gud.fun.junkdrawer.persistance.model.CreditCard;
 import gud.fun.junkdrawer.persistance.model.Merchant;
 import gud.fun.junkdrawer.persistance.model.Transaction;
 import gud.fun.junkdrawer.persistance.model.TransactionEntryType;
-import gud.fun.junkdrawer.persistance.model.TransactionType;
+import gud.fun.junkdrawer.statemachine.transaction.TransactionType;
 import gud.fun.junkdrawer.persistance.repository.TransactionRepository;
 import org.joda.money.BigMoney;
 import org.junit.jupiter.api.BeforeEach;

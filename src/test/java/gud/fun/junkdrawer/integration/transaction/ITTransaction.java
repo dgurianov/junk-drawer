@@ -3,7 +3,7 @@ package gud.fun.junkdrawer.integration.transaction;
 import gud.fun.junkdrawer.configuration.Endpoints;
 import gud.fun.junkdrawer.dto.transaction.TransactionResponseDto;
 import gud.fun.junkdrawer.persistance.model.TransactionEntryType;
-import gud.fun.junkdrawer.persistance.model.TransactionType;
+import gud.fun.junkdrawer.statemachine.transaction.TransactionType;
 import org.json.JSONException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
