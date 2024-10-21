@@ -6,21 +6,20 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import gud.fun.junkdrawer.persistance.model.TransactionState;
-import gud.fun.junkdrawer.persistance.model.TransactionType;
 
 import java.io.IOException;
 
-public class TransactionTypeDeserializer extends JsonDeserializer<TransactionType> {
+public class TransactionStateDeserializer extends JsonDeserializer<TransactionState> {
 
     @Override
-    public TransactionType deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JacksonException {
+    public TransactionState deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JacksonException {
         final JsonNode node = jsonParser.readValueAsTree();
         final String transactionType = node.asText();
 
         try{
-            return TransactionType.valueOf(transactionType);
+            return TransactionState.valueOf(transactionType);
         }catch (IllegalArgumentException | NullPointerException e){
-            return TransactionType.UNKNOWN;
+            return TransactionState.UNKNOWN;
         }
     }
 }

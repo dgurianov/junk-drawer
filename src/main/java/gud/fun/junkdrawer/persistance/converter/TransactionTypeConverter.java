@@ -1,53 +1,59 @@
 package gud.fun.junkdrawer.persistance.converter;
 
-import gud.fun.junkdrawer.persistance.model.TransactionType;
+import gud.fun.junkdrawer.persistance.model.TransactionState;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
 @Converter(autoApply = true)
-public class TransactionTypeConverter implements AttributeConverter<TransactionType, String> {
+public class TransactionTypeConverter implements AttributeConverter<TransactionState, String> {
     @Override
-    public String convertToDatabaseColumn(TransactionType transactionType) {
-        if (transactionType == null) {
+    public String convertToDatabaseColumn(TransactionState transactionState) {
+        if (transactionState == null) {
             return null;
         }
-        return transactionType.getOrder() + transactionType.name();
+        return transactionState.getId() + transactionState.name();
     }
 
     @Override
-    public TransactionType convertToEntityAttribute(String s) {
-       if(s == null) return TransactionType.UNKNOWN;
+    public TransactionState convertToEntityAttribute(String s) {
+       if(s == null) return TransactionState.UNKNOWN;
 
        switch (s){
+           case "0NEW" -> {
+               return TransactionState.NEW;
+           }
            case "1PRE_AUTH" -> {
-               return TransactionType.PRE_AUTH;
+               return TransactionState.PRE_AUTH;
            }
            case "2AUTH" -> {
-               return TransactionType.AUTH;
+               return TransactionState.AUTH;
            }
            case "3CAPTURE" -> {
-               return TransactionType.CAPTURE;
+               return TransactionState.CAPTURE;
            }
            case "4PURCHASE" -> {
-               return TransactionType.PURCHASE;
+               return TransactionState.PURCHASE;
            }
            case "5REFUND" -> {
-               return TransactionType.REFUND;
+               return TransactionState.REFUND;
            }
            case "6VOID" -> {
-               return TransactionType.VOID;
+               return TransactionState.VOID;
            }
            case "7CHARGEBACK" -> {
-               return TransactionType.CHARGEBACK;
+               return TransactionState.CHARGEBACK;
            }
            case "8SETTLEMENT" -> {
-               return TransactionType.SETTLEMENT;
+               return TransactionState.SETTLEMENT;
+           }
+           case "9COMPLETE" -> {
+               return TransactionState.COMPLETE;
            }
            case "999UNKNOWN" -> {
-               return TransactionType.UNKNOWN;
+               return TransactionState.UNKNOWN;
            }
            default -> {
-               return TransactionType.UNKNOWN;
+               return TransactionState.UNKNOWN;
            }
        }
     }

@@ -31,8 +31,8 @@ public class CreditCardGenerator implements JunkDataGenerator<CreditCard, Countr
     public CreditCard generateRandom() {
         CreditCard creditCard = new CreditCard();
         creditCard.setCcn("9" + random.nextInt(10000,99999) + random.nextInt(10000,99999) + random.nextInt(100000,999999));
-        creditCard.setIssuer(nameGenerator.generateRandom());
         creditCard.setBic(bicGenerator.generateRandom());
+        creditCard.setIssuer(creditCard.getBic().getInstitution());
         return creditCard;
     }
 
@@ -40,8 +40,8 @@ public class CreditCardGenerator implements JunkDataGenerator<CreditCard, Countr
     public CreditCard generateRandomByCriteria(CountryCode criteria){
         CreditCard creditCard = new CreditCard();
         creditCard.setCcn("9" + random.nextInt(10000,99999) + random.nextInt(10000,99999) + random.nextInt(100000,999999));
-        creditCard.setIssuer(nameGenerator.generateRandom());
         creditCard.setBic(bicGenerator.generateRandomByCriteria(criteria));
+        creditCard.setIssuer(creditCard.getBic().getInstitution());
         return creditCard;
     }
 
