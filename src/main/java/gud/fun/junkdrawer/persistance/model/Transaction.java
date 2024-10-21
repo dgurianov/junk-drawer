@@ -26,6 +26,8 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    private UUID correlationId;
+
     private Date dateTime;
 
     private TransactionEntryType entryType;

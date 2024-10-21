@@ -22,6 +22,8 @@ public class TransactionResponseDto {
 
     private UUID id;
 
+    private UUID correlationId;
+
     private Date dateTime;
 
     @JsonSerialize(using = TransactionEntryTypeSerializer.class)

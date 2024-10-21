@@ -24,6 +24,9 @@ public class TransactionRequestDto {
 
     private UUID id;
 
+    @NotNull(message = "Correlation id is required")
+    private UUID correlationId;
+
     private Date dateTime;
 
     @JsonDeserialize(using = TransactionEntryTypeDeserializer.class)

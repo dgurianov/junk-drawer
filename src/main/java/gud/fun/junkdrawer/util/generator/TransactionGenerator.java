@@ -12,18 +12,15 @@ import gud.fun.junkdrawer.persistance.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 @Slf4j
 @Component
 public class TransactionGenerator implements JunkDataGenerator<Transaction, CurrencyCode> {
 
     Random random = new Random();
-
-//    List<TransactionEntryType> transactionEntryTypes = Arrays.asList(TransactionEntryType.values());
 
     @Autowired
     CurrencyGenerator currencyGenerator;
@@ -42,10 +39,10 @@ public class TransactionGenerator implements JunkDataGenerator<Transaction, Curr
         CountryCode cc = getRandomCountryCode();
 
         Transaction transaction = new Transaction();
+        transaction.setCorrelationId(UUID.randomUUID());
         transaction.setAmount(BigMoney.parse(cc.getCurrency().getCurrencyCode() + " " +random.nextInt(1000) + "." + random.nextInt(100)).getAmount());
         transaction.setCurrency(currencyGenerator.generateRandomAsStringByCriteria(cc));
         transaction.setState(TransactionState.getById(random.nextInt(10)));
-        log.info("Transaction PARENT state: " + transaction.getState());
         switch (transaction.getState()){
             case VOID, REFUND, CHARGEBACK:
                 transaction.setType(TransactionType.CREDIT);
@@ -60,9 +57,9 @@ public class TransactionGenerator implements JunkDataGenerator<Transaction, Curr
         transaction.setCreditCard(creditCardGenerator.generateRandomByCriteria(cc));
 
 
-        /*Has to be reworker. SO far  it require to change jpa mapping between  transaction to credit card  and so on.
-        Populate history chain  before returning*/
+        /*Populate history chain  before returning*/
         populateTransactionHistory(transaction);
+
         return transaction;
 
     }
@@ -97,11 +94,11 @@ public class TransactionGenerator implements JunkDataGenerator<Transaction, Curr
 
         while(order-- > 0){  //Decrement immediately, cause order transaction was created before the call of this method
             Transaction transaction = new Transaction();
+            transaction.setCorrelationId(parent.getCorrelationId());
             transaction.setDateTime(parent.getDateTime()); //TODO: Move date time to the past
             transaction.setAmount(parent.getAmount());
             transaction.setCurrency(parent.getCurrency());
             transaction.setState(TransactionState.getById(order));
-            log.info("Transaction CHILD state: " + transaction.getState());
             switch (transaction.getState()){
                 case VOID, REFUND, CHARGEBACK:
                     transaction.setType(TransactionType.CREDIT);
@@ -116,7 +113,5 @@ public class TransactionGenerator implements JunkDataGenerator<Transaction, Curr
 
             transactionRepository.save(transaction);
         }
-
-
     }
 }

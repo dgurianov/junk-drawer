@@ -26,8 +26,13 @@ public class TransactionController implements JunkDataController<TransactionRequ
         return ResponseEntity.ok(transactionService.getAll());
     }
 
+    @GetMapping(value = "/chain/{id}", produces = "application/json")
+    public ResponseEntity<List<TransactionResponseDto>> getAllByCorrelationId(@PathVariable UUID id) {
+        return ResponseEntity.ok(transactionService.getAllByCorrelationId(id));
+    }
+
     @Override
-    @GetMapping(value = "/{id}",produces = "application/json")
+    @GetMapping(value = "/one/{id}",produces = "application/json")
     public ResponseEntity<TransactionResponseDto> getOneById(@PathVariable UUID id) {
         return ResponseEntity.ok(transactionService.getById(id));
     }
