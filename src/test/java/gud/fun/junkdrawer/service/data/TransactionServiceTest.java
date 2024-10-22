@@ -71,6 +71,7 @@ class TransactionServiceTest {
                 "MerchantCountry");
         transaction = new Transaction(
                 id,
+                UUID.randomUUID(),
                 new Date(),
                 TransactionEntryType.MANUAL,
                 TransactionState.AUTH,
@@ -81,6 +82,7 @@ class TransactionServiceTest {
                  cc);
         transactionRequestDto = new TransactionRequestDto(
                 id,
+                UUID.randomUUID(),
                 new Date(),
                 TransactionEntryType.MANUAL,
                 TransactionState.AUTH,

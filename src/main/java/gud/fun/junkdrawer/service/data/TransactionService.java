@@ -35,6 +35,13 @@ public class TransactionService implements JunkDataService<TransactionRequestDto
                 .collect(Collectors.toList());
     }
 
+    public List<TransactionResponseDto> getAllByCorrelationId(UUID correlationId) {
+        List<Transaction> transactions = transactionRepository.findAllByCorrelationId(correlationId);
+        return transactions.stream()
+                .map(this::toResponseDTO)
+                .collect(Collectors.toList());
+    }
+
     @Override
     public TransactionResponseDto getById(UUID id) {
         Transaction transaction = transactionRepository.findById(id)
@@ -86,6 +93,7 @@ public class TransactionService implements JunkDataService<TransactionRequestDto
     public TransactionResponseDto toResponseDTO(Transaction transaction) {
         TransactionResponseDto response = new TransactionResponseDto();
         response.setId(transaction.getId());
+        response.setCorrelationId(transaction.getCorrelationId());
         response.setDateTime(transaction.getDateTime());
         response.setState(transaction.getState());
         response.setType(transaction.getType());
@@ -101,11 +109,11 @@ public class TransactionService implements JunkDataService<TransactionRequestDto
     public Transaction toEntity(TransactionRequestDto dto) {
         Transaction entity = new Transaction();
         entity.setId(dto.getId() != null ? dto.getId(): null);
+        entity.setCorrelationId(dto.getCorrelationId() != null ? dto.getId(): UUID.randomUUID());
         entity.setAmount(dto.getAmount());
         entity.setDateTime(dto.getDateTime() !=null  ? dto.getDateTime() : new Date());
         entity.setType(dto.getType());
         entity.setState(dto.getState());
-        log.info("Transaction Entry State: {}", dto.getState());
         entity.setEntryType(dto.getEntryType());
         entity.setMerchant(merchantService.toEntity(dto.getMerchant()));
         entity.setAmount(dto.getAmount());
