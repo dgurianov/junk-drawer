@@ -95,7 +95,7 @@ public class TransactionGenerator implements JunkDataGenerator<Transaction, Curr
         while(order-- > 0){  //Decrement immediately, cause order transaction was created before the call of this method
             Transaction transaction = new Transaction();
             transaction.setCorrelationId(parent.getCorrelationId());
-            transaction.setDateTime(parent.getDateTime()); //TODO: Move date time to the past
+            transaction.setDateTime(new Date(System.currentTimeMillis()-60*1000)); //1 minute before
             transaction.setAmount(parent.getAmount());
             transaction.setCurrency(parent.getCurrency());
             transaction.setState(TransactionState.getById(order));
