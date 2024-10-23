@@ -71,7 +71,6 @@ class CountryControllerTest {
 
     @Test
     void testUpdateCountry() throws Exception {
-        CountryRequestDto requestDto = new CountryRequestDto();
         CountryResponseDto responseDto = new CountryResponseDto();
         responseDto.setId(TEST_UUID);
 
