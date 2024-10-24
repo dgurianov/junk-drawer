@@ -1,5 +1,6 @@
 package gud.fun.junkdrawer.persistance.model;
 
+import gud.fun.junkdrawer.persistance.model.deleteorder.EntityLevelParent;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,7 +18,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class City {
+public class City  extends EntityLevelParent {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

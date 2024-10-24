@@ -1,5 +1,6 @@
 package gud.fun.junkdrawer.persistance.model;
 
+import gud.fun.junkdrawer.persistance.model.deleteorder.EntityLevelParent;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,7 +22,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Transaction {
+public class Transaction extends EntityLevelParent {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
