@@ -1,5 +1,6 @@
 package gud.fun.junkdrawer.persistance.model;
 
+import gud.fun.junkdrawer.persistance.model.deleteorder.EntityLevelParent;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,7 +17,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class PhoneNumber {
+public class PhoneNumber extends EntityLevelParent {
     public PhoneNumber(String phoneNumber, String countryCode) {
         this.phoneNumber = phoneNumber;
         this.countryCode = countryCode;

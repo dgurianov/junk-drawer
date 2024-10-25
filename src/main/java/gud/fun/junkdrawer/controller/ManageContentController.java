@@ -41,4 +41,9 @@ public class ManageContentController {
         return ResponseEntity.ok(response);
     }
 
+    @DeleteMapping(produces = "application/json")
+    public ResponseEntity<ManageContentResponseDto> deleteAllContent() {
+        return ResponseEntity.ok(contentService.deleteAllContent());
+    }
+
 }

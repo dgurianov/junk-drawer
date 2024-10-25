@@ -1,6 +1,7 @@
 package gud.fun.junkdrawer.persistance.model;
 
 import com.neovisionaries.i18n.CountryCode;
+import gud.fun.junkdrawer.persistance.model.deleteorder.EntityLevelParent;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,7 +22,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Country {
+public class Country extends EntityLevelParent {
 
     public Country(CountryCode code){
         this.countryCode = code.getAlpha2();

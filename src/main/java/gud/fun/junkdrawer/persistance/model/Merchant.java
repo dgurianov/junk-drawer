@@ -1,6 +1,7 @@
 package gud.fun.junkdrawer.persistance.model;
 
 import com.neovisionaries.i18n.CountryCode;
+import gud.fun.junkdrawer.persistance.model.deleteorder.EntityLevelOne;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,7 +18,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Merchant {
+public class Merchant extends EntityLevelOne {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
