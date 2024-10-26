@@ -31,32 +31,10 @@ The project is structured as follows:
 1. Build and start the application using Docker Compose:
 
     ```sh
-    docker-compose up --build
+    docker compose up 
     ```
 
 2. The application will be available at `http://localhost:8080`.
-
-### Running Locally
-
-1. Start the MySQL database:
-
-    ```sh
-    docker-compose up mysql
-    ```
-
-2. Build the application:
-
-    ```sh
-    mvn clean install
-    ```
-
-3. Run the application:
-
-    ```sh
-    mvn spring-boot:run
-    ```
-
-4. The application will be available at `http://localhost:8080`.
 
 ## Configuration
 
