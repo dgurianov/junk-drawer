@@ -13,7 +13,7 @@
 	<version>1.0.0-RC1</version>
 	<packaging>jar</packaging>
 	<name>junkdrawer</name>
-	<description>App to provide random data with REST api</description>
+	<description>App provides random non unique data with REST api</description>
 	<url/>
 	<properties>
 		<java.version>17</java.version>
