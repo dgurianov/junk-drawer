@@ -1,17 +1,19 @@
 package gud.fun.junkdrawer.service.data;
 
 import com.neovisionaries.i18n.CountryCode;
+import gud.fun.junkdrawer.dto.assembler.MerchantResponseDtoAssembler;
 import gud.fun.junkdrawer.dto.transaction.MerchantRequestDto;
 import gud.fun.junkdrawer.dto.transaction.MerchantResponseDto;
 import gud.fun.junkdrawer.persistance.model.Merchant;
 import gud.fun.junkdrawer.persistance.repository.MerchantRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -20,12 +22,15 @@ public class MerchantService implements JunkDataService<MerchantRequestDto, Merc
     @Autowired
     private MerchantRepository merchantRepository;
 
+    @Autowired
+    private MerchantResponseDtoAssembler merchantResponseDtoAssembler;
+
+    @Autowired
+    private PagedResourcesAssembler<Merchant> pagedResourcesAssembler;
+
     @Override
-    public List<MerchantResponseDto> getAll() {
-        List<Merchant> merchants = merchantRepository.findAll();
-        return merchants.stream()
-                .map(this::toResponseDTO)
-                .collect(Collectors.toList());
+    public PagedModel<MerchantResponseDto> getAll(Pageable pageable) {
+        return pagedResourcesAssembler.toModel(merchantRepository.findAll(pageable), merchantResponseDtoAssembler);
     }
 
     @Override

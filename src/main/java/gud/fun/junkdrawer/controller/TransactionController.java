@@ -7,6 +7,8 @@ import gud.fun.junkdrawer.dto.transaction.TransactionResponseDto;
 import gud.fun.junkdrawer.service.data.TransactionService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,8 +24,8 @@ public class TransactionController implements JunkDataController<TransactionRequ
 
     @Override
     @GetMapping(produces = "application/json")
-    public ResponseEntity<List<TransactionResponseDto>> getAll() {
-        return ResponseEntity.ok(transactionService.getAll());
+    public ResponseEntity<PagedModel<TransactionResponseDto>> getAll(Pageable pageable) {
+        return ResponseEntity.ok(transactionService.getAll(pageable));
     }
 
     @GetMapping(value = "/chain/{id}", produces = "application/json")

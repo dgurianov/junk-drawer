@@ -1,19 +1,22 @@
 package gud.fun.junkdrawer.service.data;
 
+import gud.fun.junkdrawer.dto.assembler.CountryResponseDtoAssembler;
 import gud.fun.junkdrawer.dto.country.CountryRequestDto;
 import gud.fun.junkdrawer.dto.country.CountryResponseDto;
 import gud.fun.junkdrawer.persistance.model.Country;
 import gud.fun.junkdrawer.persistance.repository.CityRepository;
 import gud.fun.junkdrawer.persistance.repository.CountryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-public class CountryService implements JunkDataService<CountryRequestDto, CountryResponseDto, Country> {
+public class CountryService implements JunkDataService<CountryRequestDto, CountryResponseDto, Country>{
 
     @Autowired
     private CountryRepository countryRepository;
@@ -23,6 +26,12 @@ public class CountryService implements JunkDataService<CountryRequestDto, Countr
 
     @Autowired
     private CityService cityService;
+
+    @Autowired
+    private CountryResponseDtoAssembler countryDtoAssembler;
+
+    @Autowired
+    private PagedResourcesAssembler<Country> pagedResourcesAssembler;
 
     @Override
     public CountryResponseDto create(CountryRequestDto dto) {
@@ -39,11 +48,8 @@ public class CountryService implements JunkDataService<CountryRequestDto, Countr
     }
 
     @Override
-    public List<CountryResponseDto> getAll() {
-        List<Country> countries = countryRepository.findAll();
-        return countries.stream()
-                .map(this::toResponseDTO)
-                .collect(Collectors.toList());
+    public PagedModel<CountryResponseDto> getAll(Pageable pageable) {
+        return pagedResourcesAssembler.toModel(countryRepository.findAll(pageable), countryDtoAssembler);
     }
 
     @Override

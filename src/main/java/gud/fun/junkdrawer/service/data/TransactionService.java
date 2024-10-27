@@ -1,11 +1,19 @@
 package gud.fun.junkdrawer.service.data;
 
+import gud.fun.junkdrawer.dto.assembler.TransactionResponseDtoAssembler;
+import gud.fun.junkdrawer.dto.city.CityResponseDto;
 import gud.fun.junkdrawer.dto.transaction.TransactionRequestDto;
 import gud.fun.junkdrawer.dto.transaction.TransactionResponseDto;
+import gud.fun.junkdrawer.persistance.model.City;
 import gud.fun.junkdrawer.persistance.model.Transaction;
 import gud.fun.junkdrawer.persistance.repository.TransactionRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
+import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -16,7 +24,9 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class TransactionService implements JunkDataService<TransactionRequestDto, TransactionResponseDto, Transaction> {
+public class TransactionService
+//        implements JunkDataService<TransactionRequestDto, TransactionResponseDto, Transaction>
+{
 
     @Autowired
     private TransactionRepository transactionRepository;
@@ -27,12 +37,21 @@ public class TransactionService implements JunkDataService<TransactionRequestDto
     @Autowired
     private CreditCardService creditCardService;
 
-    @Override
-    public List<TransactionResponseDto> getAll() {
-        List<Transaction> transactions = transactionRepository.findAll();
-        return transactions.stream()
-                .map(this::toResponseDTO)
-                .collect(Collectors.toList());
+    @Autowired
+    private TransactionResponseDtoAssembler transactionDtoAssembler;
+
+    @Autowired
+    private PagedResourcesAssembler<Transaction> pagedResourcesAssembler;
+
+//    @Override
+    public PagedModel<TransactionResponseDto> getAll(Pageable pageable) {
+        Page<Transaction> transactionEntities = transactionRepository.findAll(pageable);
+        PagedModel<TransactionResponseDto> pm =  pagedResourcesAssembler.toModel(transactionEntities, transactionDtoAssembler);
+        return pm;
+//        List<Transaction> transactions = transactionRepository.findAll();
+//        return transactions.stream()
+//                .map(this::toResponseDTO)
+//                .collect(Collectors.toList());
     }
 
     public List<TransactionResponseDto> getAllByCorrelationId(UUID correlationId) {
@@ -42,20 +61,20 @@ public class TransactionService implements JunkDataService<TransactionRequestDto
                 .collect(Collectors.toList());
     }
 
-    @Override
+//    @Override
     public TransactionResponseDto getById(UUID id) {
         Transaction transaction = transactionRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Transaction not found for id: " + id));
         return toResponseDTO(transaction);
     }
 
-    @Override
+//    @Override
     public TransactionResponseDto create(TransactionRequestDto transactionDto) {
         log.debug("Create was called  from Transaction service , redirecting to update.");
         return update(transactionDto);
     }
 
-    @Override
+//    @Override
     public TransactionResponseDto update(TransactionRequestDto dto) {
         Transaction transaction = new Transaction();
         if(dto.getId() != null) {
@@ -81,7 +100,7 @@ public class TransactionService implements JunkDataService<TransactionRequestDto
         return toResponseDTO(transactionRepository.save(transaction));
     }
 
-    @Override
+//    @Override
     public TransactionResponseDto delete(UUID id) {
         transactionRepository.deleteById(id);
         TransactionResponseDto response = new TransactionResponseDto();
@@ -89,7 +108,7 @@ public class TransactionService implements JunkDataService<TransactionRequestDto
         return response;
     }
 
-    @Override
+//    @Override
     public TransactionResponseDto toResponseDTO(Transaction transaction) {
         TransactionResponseDto response = new TransactionResponseDto();
         response.setId(transaction.getId());
@@ -105,7 +124,7 @@ public class TransactionService implements JunkDataService<TransactionRequestDto
         return response;
     }
 
-    @Override
+//    @Override
     public Transaction toEntity(TransactionRequestDto dto) {
         Transaction entity = new Transaction();
         entity.setId(dto.getId() != null ? dto.getId(): null);

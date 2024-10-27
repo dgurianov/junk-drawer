@@ -1,11 +1,15 @@
 package gud.fun.junkdrawer.service.data;
 
+import gud.fun.junkdrawer.dto.assembler.CreditCardResponseDtoAssembler;
 import gud.fun.junkdrawer.dto.transaction.CreditCardRequestDto;
 import gud.fun.junkdrawer.dto.transaction.CreditCardResponseDto;
 import gud.fun.junkdrawer.persistance.model.CreditCard;
 import gud.fun.junkdrawer.persistance.repository.CreditCardRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,12 +26,15 @@ public class CreditCardService implements JunkDataService<CreditCardRequestDto, 
     @Autowired
     private BicService bicService;
 
+    @Autowired
+    private CreditCardResponseDtoAssembler creditCardResponseDtoAssembler;
+
+    @Autowired
+    private PagedResourcesAssembler<CreditCard> pagedResourcesAssembler;
+
     @Override
-    public List<CreditCardResponseDto> getAll() {
-        List<CreditCard> creditCards = creditCardRepository.findAll();
-        return creditCards.stream()
-                .map(this::toResponseDTO)
-                .collect(Collectors.toList());
+    public PagedModel<CreditCardResponseDto> getAll(Pageable pageable) {
+        return pagedResourcesAssembler.toModel(creditCardRepository.findAll(pageable), creditCardResponseDtoAssembler);
     }
 
     @Override

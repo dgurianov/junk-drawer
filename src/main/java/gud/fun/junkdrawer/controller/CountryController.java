@@ -5,10 +5,11 @@ import gud.fun.junkdrawer.dto.country.CountryRequestDto;
 import gud.fun.junkdrawer.dto.country.CountryResponseDto;
 import gud.fun.junkdrawer.service.data.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -26,8 +27,8 @@ public class CountryController implements JunkDataController<CountryRequestDto, 
 
     @Override
     @GetMapping(produces = "application/json")
-    public ResponseEntity<List<CountryResponseDto>> getAll() {
-        return ResponseEntity.ok(countryService.getAll());
+    public ResponseEntity<PagedModel<CountryResponseDto>> getAll(Pageable pageable) {
+        return ResponseEntity.ok(countryService.getAll(pageable));
     }
 
     @Override

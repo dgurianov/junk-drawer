@@ -1,16 +1,18 @@
 package gud.fun.junkdrawer.service.data;
 
+import gud.fun.junkdrawer.dto.assembler.BicResponseDtoAssembler;
 import gud.fun.junkdrawer.dto.transaction.BicRequestDto;
 import gud.fun.junkdrawer.dto.transaction.BicResponseDto;
 import gud.fun.junkdrawer.persistance.model.Bic;
 import gud.fun.junkdrawer.persistance.repository.BicRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -19,12 +21,15 @@ public class BicService implements JunkDataService<BicRequestDto, BicResponseDto
     @Autowired
     private BicRepository bicRepository;
 
+    @Autowired
+    private BicResponseDtoAssembler bicDtoAssembler;
+
+    @Autowired
+    private PagedResourcesAssembler<Bic> pagedResourcesAssembler;
+
     @Override
-    public List<BicResponseDto> getAll() {
-        List<Bic> bics = bicRepository.findAll();
-        return bics.stream()
-                .map(this::toResponseDTO)
-                .collect(Collectors.toList());
+    public PagedModel<BicResponseDto> getAll(Pageable pageable) {
+        return pagedResourcesAssembler.toModel(bicRepository.findAll(pageable),bicDtoAssembler );
     }
 
     @Override

@@ -68,6 +68,9 @@ public class CreateContentTasklet implements Tasklet {
                 break;
             case "Country":
                 log.debug("Request to save Country times: {}", contentAmount);
+                while (contentAmount-- > 0) {
+                    repository.save(countryGenerator.generateRandom());
+                }
                 break;
             case "PhoneNumber":
                 log.debug("Request to save PhoneNumber times: {}", contentAmount);
