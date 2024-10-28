@@ -3,22 +3,22 @@ package gud.fun.junkdrawer.controller;
 import gud.fun.junkdrawer.configuration.Endpoints;
 import gud.fun.junkdrawer.dto.city.CityRequestDto;
 import gud.fun.junkdrawer.dto.city.CityResponseDto;
-import gud.fun.junkdrawer.persistance.model.City;
-import gud.fun.junkdrawer.service.data.JunkDataService;
+import gud.fun.junkdrawer.service.data.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RestController
 @RequestMapping(value=Endpoints.CITY)
-public class CityController implements JunkDataController<CityRequestDto, CityResponseDto> {
+public class CityController    implements JunkDataController<CityRequestDto, CityResponseDto>{
 
     @Autowired
-    private JunkDataService<CityRequestDto,CityResponseDto, City> cityService;
+    private CityService cityService;
 
     @Override
     @GetMapping(value = "/{id}",produces = "application/json", consumes = "application/json")
@@ -28,8 +28,10 @@ public class CityController implements JunkDataController<CityRequestDto, CityRe
 
     @Override
     @GetMapping(produces = "application/json")
-    public ResponseEntity<List<CityResponseDto>> getAll() {
-        return ResponseEntity.ok(cityService.getAll());
+    public ResponseEntity<PagedModel<CityResponseDto>> getAll(Pageable pageable) {
+        return ResponseEntity.ok(
+                cityService.getAll(pageable)
+        );
     }
 
     @Override

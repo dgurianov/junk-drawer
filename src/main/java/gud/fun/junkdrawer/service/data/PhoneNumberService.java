@@ -1,15 +1,17 @@
 package gud.fun.junkdrawer.service.data;
 
+import gud.fun.junkdrawer.dto.assembler.PhoneNumberResponseDtoAssembler;
 import gud.fun.junkdrawer.dto.phonenumber.PhoneNumberRequestDto;
 import gud.fun.junkdrawer.dto.phonenumber.PhoneNumberResponseDto;
 import gud.fun.junkdrawer.persistance.model.PhoneNumber;
 import gud.fun.junkdrawer.persistance.repository.PhoneNumberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class PhoneNumberService implements JunkDataService<PhoneNumberRequestDto,PhoneNumberResponseDto,PhoneNumber>{
@@ -17,12 +19,15 @@ public class PhoneNumberService implements JunkDataService<PhoneNumberRequestDto
     @Autowired
     private PhoneNumberRepository phoneNumberRepository;
 
+    @Autowired
+    private PhoneNumberResponseDtoAssembler phoneNumberResponseDtoAssembler;
+
+    @Autowired
+    private PagedResourcesAssembler<PhoneNumber> pagedResourcesAssembler;
+
     @Override
-    public List<PhoneNumberResponseDto> getAll() {
-        List<PhoneNumber> phoneNumbers = phoneNumberRepository.findAll();
-        return phoneNumbers.stream()
-                .map(this::toResponseDTO)
-                .collect(Collectors.toList());
+    public PagedModel<PhoneNumberResponseDto> getAll(Pageable pageable) {
+        return pagedResourcesAssembler.toModel(phoneNumberRepository.findAll(pageable), phoneNumberResponseDtoAssembler);
     }
 
     @Override

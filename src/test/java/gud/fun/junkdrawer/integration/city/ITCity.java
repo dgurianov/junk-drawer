@@ -38,8 +38,14 @@ public class ITCity {
         cRepo.save(c);
         ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:" + port + Endpoints.CITY, String.class);
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-        JSONObject jo = (JSONObject) (new JSONArray(response.getBody())).get(0);
-        Assertions.assertEquals("Paris", jo.get("name"));
+        JSONObject jo = (new JSONObject(response.getBody()));
+        Assertions.assertEquals("Paris",
+                ((JSONObject)
+                        ((JSONArray)
+                            ((JSONObject) jo.get("_embedded")).get("cities")
+                        ).get(0)
+                ).get("name")
+        );
     }
 }
 

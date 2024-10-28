@@ -1,9 +1,13 @@
 package gud.fun.junkdrawer.service.data;
 
 import com.neovisionaries.i18n.CountryCode;
+import gud.fun.junkdrawer.dto.assembler.TransactionResponseDtoAssembler;
 import gud.fun.junkdrawer.dto.transaction.BicRequestDto;
+import gud.fun.junkdrawer.dto.transaction.BicResponseDto;
 import gud.fun.junkdrawer.dto.transaction.CreditCardRequestDto;
+import gud.fun.junkdrawer.dto.transaction.CreditCardResponseDto;
 import gud.fun.junkdrawer.dto.transaction.MerchantRequestDto;
+import gud.fun.junkdrawer.dto.transaction.MerchantResponseDto;
 import gud.fun.junkdrawer.dto.transaction.TransactionRequestDto;
 import gud.fun.junkdrawer.dto.transaction.TransactionResponseDto;
 import gud.fun.junkdrawer.persistance.model.Bic;
@@ -20,6 +24,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -27,8 +37,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 
 class TransactionServiceTest {
 
@@ -41,11 +53,18 @@ class TransactionServiceTest {
     @Mock
     private CreditCardService creditCardService;
 
+    @Mock
+    private TransactionResponseDtoAssembler transactionDtoAssembler;
+
+    @Mock
+    private PagedResourcesAssembler<Transaction> pagedResourcesAssembler;
+
     @InjectMocks
     private TransactionService transactionService;
 
     private Transaction transaction;
     private TransactionRequestDto transactionRequestDto;
+    private TransactionResponseDto transactionResponseDto;
     private UUID id;
 
     @BeforeEach
@@ -57,13 +76,27 @@ class TransactionServiceTest {
                 id,
                 "BicCode",
                 "BicName");
+        BicResponseDto bicResponseDto = new BicResponseDto(
+                id,
+                "BicCode",
+                "BicName");
         CreditCard cc = new CreditCard(id, "Issuer", "CCN", bic);
         CreditCardRequestDto ccDto = new CreditCardRequestDto(
                 id,
                 "Issuer",
                 "CCN",
                 bicDto);
+        CreditCardResponseDto ccResponseDto = new CreditCardResponseDto(
+                id,
+                "Issuer",
+                "CCN",
+                bicResponseDto);
         Merchant merchant =  new Merchant(id, "Merchant name " ,CountryCode.US, "MerchantCountry");
+        MerchantResponseDto merchantResponseDto = new MerchantResponseDto(
+                id,
+                "Merchant name",
+                CountryCode.US.getAlpha3(),
+                "MerchantCountry");
         MerchantRequestDto merchantDto = new MerchantRequestDto(
                 id,
                 "Merchant name",
@@ -91,14 +124,27 @@ class TransactionServiceTest {
                 BigMoney.parse("USD 100").getAmount(),
             "USD",
             ccDto);
+        transactionResponseDto = new TransactionResponseDto(
+                id,
+                UUID.randomUUID(),
+                new Date(),
+                TransactionEntryType.MANUAL,
+                TransactionState.AUTH,
+                TransactionType.CREDIT,
+                merchantResponseDto,
+                BigMoney.parse("USD 100").getAmount(),
+                "USD",
+                ccResponseDto);
     }
 
     @Test
     void testGetAll() {
-        when(transactionRepository.findAll()).thenReturn(Arrays.asList(transaction));
-        List<TransactionResponseDto> transactions = transactionService.getAll();
-        assertEquals(1, transactions.size());
-        assertEquals(TransactionState.AUTH, transactions.get(0).getState());
+        when(transactionRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(Arrays.asList(transaction)));
+        when(pagedResourcesAssembler.toModel(any(Page.class), any(TransactionResponseDtoAssembler.class))).thenReturn(PagedModel.of(List.of(transactionResponseDto), new PagedModel.PageMetadata(1, 1, 1, 1)));
+        PagedModel<TransactionResponseDto> transactions = transactionService.getAll(PageRequest.of(0, 1));
+        TransactionResponseDto response = transactions.getContent().iterator().next();
+        assertEquals(1, transactions.getMetadata().getTotalElements());
+        assertEquals(TransactionState.AUTH, response.getState());
     }
 
     @Test

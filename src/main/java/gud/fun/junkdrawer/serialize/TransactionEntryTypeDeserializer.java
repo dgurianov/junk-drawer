@@ -8,7 +8,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import gud.fun.junkdrawer.persistance.model.TransactionEntryType;
 
 import java.io.IOException;
-import java.util.Objects;
 
 public class TransactionEntryTypeDeserializer extends JsonDeserializer<TransactionEntryType> {
 

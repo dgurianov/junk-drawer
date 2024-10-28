@@ -1,8 +1,8 @@
 package gud.fun.junkdrawer.dto.transaction;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import gud.fun.junkdrawer.persistance.model.TransactionState;
 import gud.fun.junkdrawer.persistance.model.TransactionEntryType;
+import gud.fun.junkdrawer.persistance.model.TransactionState;
 import gud.fun.junkdrawer.persistance.model.TransactionType;
 import gud.fun.junkdrawer.serialize.TransactionEntryTypeDeserializer;
 import gud.fun.junkdrawer.serialize.TransactionStateDeserializer;

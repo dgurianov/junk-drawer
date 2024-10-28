@@ -1,11 +1,15 @@
 package gud.fun.junkdrawer.service.data;
 
+import gud.fun.junkdrawer.dto.assembler.TransactionResponseDtoAssembler;
 import gud.fun.junkdrawer.dto.transaction.TransactionRequestDto;
 import gud.fun.junkdrawer.dto.transaction.TransactionResponseDto;
 import gud.fun.junkdrawer.persistance.model.Transaction;
 import gud.fun.junkdrawer.persistance.repository.TransactionRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -16,7 +20,8 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class TransactionService implements JunkDataService<TransactionRequestDto, TransactionResponseDto, Transaction> {
+public class TransactionService implements JunkDataService<TransactionRequestDto, TransactionResponseDto, Transaction>
+{
 
     @Autowired
     private TransactionRepository transactionRepository;
@@ -27,12 +32,15 @@ public class TransactionService implements JunkDataService<TransactionRequestDto
     @Autowired
     private CreditCardService creditCardService;
 
+    @Autowired
+    private TransactionResponseDtoAssembler transactionDtoAssembler;
+
+    @Autowired
+    private PagedResourcesAssembler<Transaction> pagedResourcesAssembler;
+
     @Override
-    public List<TransactionResponseDto> getAll() {
-        List<Transaction> transactions = transactionRepository.findAll();
-        return transactions.stream()
-                .map(this::toResponseDTO)
-                .collect(Collectors.toList());
+    public PagedModel<TransactionResponseDto> getAll(Pageable pageable) {
+        return pagedResourcesAssembler.toModel(transactionRepository.findAll(pageable), transactionDtoAssembler);
     }
 
     public List<TransactionResponseDto> getAllByCorrelationId(UUID correlationId) {

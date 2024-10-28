@@ -25,7 +25,7 @@ import java.util.UUID;
 public class Country extends EntityLevelParent {
 
     public Country(CountryCode code){
-        this.countryCode = code.getAlpha2();
+        this.countryCode = code.getAlpha3();
         this.name = code.getName();
     }
 

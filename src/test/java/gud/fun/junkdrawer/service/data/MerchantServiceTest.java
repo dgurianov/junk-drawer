@@ -1,6 +1,7 @@
 package gud.fun.junkdrawer.service.data;
 
 import com.neovisionaries.i18n.CountryCode;
+import gud.fun.junkdrawer.dto.assembler.MerchantResponseDtoAssembler;
 import gud.fun.junkdrawer.dto.transaction.MerchantRequestDto;
 import gud.fun.junkdrawer.dto.transaction.MerchantResponseDto;
 import gud.fun.junkdrawer.persistance.model.Merchant;
@@ -10,14 +11,22 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 
 class MerchantServiceTest {
 
@@ -27,8 +36,15 @@ class MerchantServiceTest {
     @InjectMocks
     private MerchantService merchantService;
 
+    @Mock
+    private MerchantResponseDtoAssembler countryDtoAssembler;
+
+    @Mock
+    private PagedResourcesAssembler<Merchant> pagedResourcesAssembler;
+
     private Merchant merchant;
     private MerchantRequestDto merchantRequestDto;
+    private MerchantResponseDto merchantResponseDto;
     private UUID id;
 
     @BeforeEach
@@ -38,14 +54,18 @@ class MerchantServiceTest {
 
         merchant = new Merchant(id, "MerchantName", CountryCode.US, "MerchantCategory");
         merchantRequestDto = new MerchantRequestDto(id, "MerchantName", "USA", "MerchantCategory");
+        merchantResponseDto = new MerchantResponseDto(id, "MerchantName", "USA", "MerchantCategory");
     }
 
     @Test
     void testGetAll() {
-        when(merchantRepository.findAll()).thenReturn(Arrays.asList(merchant));
-        List<MerchantResponseDto> merchants = merchantService.getAll();
-        assertEquals(1, merchants.size());
-        assertEquals("MerchantName", merchants.get(0).getName());
+        when(merchantRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(Arrays.asList(merchant)));
+        when(pagedResourcesAssembler.toModel(any(Page.class), any(MerchantResponseDtoAssembler.class))).thenReturn(PagedModel.of(List.of(merchantResponseDto), new PagedModel.PageMetadata(1, 1, 1, 1)));
+
+        PagedModel<MerchantResponseDto> merchants = merchantService.getAll(PageRequest.of(0, 1));
+        MerchantResponseDto merchant = merchants.getContent().iterator().next();
+        assertEquals(1, merchants.getMetadata().getTotalElements());
+        assertEquals("MerchantName", merchant.getName());
     }
 
     @Test

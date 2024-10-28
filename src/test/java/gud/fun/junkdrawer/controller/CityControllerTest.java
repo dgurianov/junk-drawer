@@ -3,18 +3,18 @@ package gud.fun.junkdrawer.controller;
 import gud.fun.junkdrawer.configuration.Endpoints;
 import gud.fun.junkdrawer.dto.city.CityRequestDto;
 import gud.fun.junkdrawer.dto.city.CityResponseDto;
-import gud.fun.junkdrawer.persistance.model.City;
-import gud.fun.junkdrawer.service.data.JunkDataService;
+import gud.fun.junkdrawer.service.data.CityService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -31,7 +31,7 @@ public class CityControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private JunkDataService<CityRequestDto,CityResponseDto, City> cityService;
+    private CityService cityService;
 
     private CityResponseDto cityDto;
 
@@ -56,13 +56,13 @@ public class CityControllerTest {
 
     @Test
     public void testGetAllCities() throws Exception {
-        List<CityResponseDto> cities = Arrays.asList(cityDto);
-        when(cityService.getAll()).thenReturn(cities);
+        PagedModel<CityResponseDto> cities = PagedModel.of(Arrays.asList(cityDto),new PagedModel.PageMetadata(1,1,1));
+        when(cityService.getAll(any(Pageable.class))).thenReturn(cities);
 
         mockMvc.perform(get(Endpoints.CITY))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].name").value("Berlin"))
-                .andExpect(jsonPath("$[0].countryCode").value("DEU"));
+                .andExpect(jsonPath("._embedded.cities[0].name").value("Berlin"))
+                .andExpect(jsonPath("._embedded.cities[0].countryCode").value("DEU"));
     }
 
     @Test

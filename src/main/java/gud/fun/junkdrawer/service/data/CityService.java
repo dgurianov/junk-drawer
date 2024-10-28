@@ -1,21 +1,29 @@
 package gud.fun.junkdrawer.service.data;
 
+import gud.fun.junkdrawer.dto.assembler.CityResponseDtoAssembler;
 import gud.fun.junkdrawer.dto.city.CityRequestDto;
 import gud.fun.junkdrawer.dto.city.CityResponseDto;
 import gud.fun.junkdrawer.persistance.model.City;
 import gud.fun.junkdrawer.persistance.repository.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
-public class CityService implements JunkDataService<CityRequestDto,CityResponseDto,City> {
+public class CityService  implements JunkDataService<CityRequestDto,CityResponseDto,City>{
 
     @Autowired
     private CityRepository cityRepository;
+
+    @Autowired
+    private CityResponseDtoAssembler cityDtoAssembler;
+
+    @Autowired
+    private PagedResourcesAssembler<City> pagedResourcesAssembler;
 
     @Override
     public CityResponseDto create(CityRequestDto dto) {
@@ -33,8 +41,8 @@ public class CityService implements JunkDataService<CityRequestDto,CityResponseD
     }
 
     @Override
-    public List<CityResponseDto> getAll() {
-        return cityRepository.findAll().stream().map(this::toResponseDTO).collect(Collectors.toList());
+    public PagedModel<CityResponseDto> getAll(Pageable pageable) {
+        return pagedResourcesAssembler.toModel(cityRepository.findAll(pageable), cityDtoAssembler);
     }
 
     @Override

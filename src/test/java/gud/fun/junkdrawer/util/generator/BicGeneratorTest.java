@@ -34,6 +34,6 @@ public class BicGeneratorTest {
     public void testGenerateRandom() {
         Bic bic = bicGenerator.generateRandom();
         assertNotNull(bic, "Generated BIC should not be null");
-        assertTrue(bic.getIdentifier().matches("[A-Z]{4}[A-Z]{2}[A-Z0-9]{2}[A-Z0-9]{3}"), "Generated BIC should match the expected pattern");
+        assertTrue(bic.getIdentifier().matches("[A-Z]{4}[A-Z]{3}[A-Z0-9]{2}[A-Z0-9]{3}"), "Generated BIC should match the expected pattern");
     }
 }

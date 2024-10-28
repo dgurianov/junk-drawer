@@ -1,5 +1,6 @@
 package gud.fun.junkdrawer.service.data;
 
+import gud.fun.junkdrawer.dto.assembler.CityResponseDtoAssembler;
 import gud.fun.junkdrawer.dto.city.CityRequestDto;
 import gud.fun.junkdrawer.dto.city.CityResponseDto;
 import gud.fun.junkdrawer.persistance.model.City;
@@ -9,15 +10,25 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 class CityServiceTest {
 
@@ -29,8 +40,15 @@ class CityServiceTest {
     @InjectMocks
     private CityService cityService;
 
+    @Mock
+    private CityResponseDtoAssembler cityDtoAssembler;
+
+    @Mock
+    private PagedResourcesAssembler<City> pagedResourcesAssembler;
+
     private City city;
     private CityRequestDto cityRequestDto;
+    private CityResponseDto cityResponseDto;
 
     @BeforeEach
     void setUp() {
@@ -44,6 +62,11 @@ class CityServiceTest {
         cityRequestDto.setId(TEST_UUID);
         cityRequestDto.setName("Berlin");
         cityRequestDto.setCountryCode("DEU");
+
+        cityResponseDto = new CityResponseDto();
+        cityResponseDto.setId(TEST_UUID);
+        cityResponseDto.setName("Berlin");
+        cityResponseDto.setCountryCode("DEU");
     }
 
     @Test
@@ -73,17 +96,18 @@ class CityServiceTest {
 
         verify(cityRepository, times(1)).findById(any(UUID.class));
     }
-
     @Test
     void testGetAll() {
-        when(cityRepository.findAll()).thenReturn(Arrays.asList(city));
-        List<CityResponseDto> responseDtos = cityService.getAll();
+        when(cityRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(Arrays.asList(city)));
+        when(pagedResourcesAssembler.toModel(any(Page.class), any(CityResponseDtoAssembler.class))).thenReturn(PagedModel.of(List.of(cityResponseDto), new PagedModel.PageMetadata(1, 1, 1, 1)));
+        PagedModel<CityResponseDto> responseDtos = cityService.getAll(PageRequest.of(0,1));
+        CityResponseDto responseDto = responseDtos.getContent().iterator().next();
 
-        assertEquals(city.getId(), responseDtos.get(0).getId());
-        assertEquals(city.getName(), responseDtos.get(0).getName());
-        assertEquals(city.getCountryCode(), responseDtos.get(0).getCountryCode());
+        assertEquals(city.getId(), responseDto.getId());
+        assertEquals(city.getName(), responseDto.getName());
+        assertEquals(city.getCountryCode(), responseDto.getCountryCode());
 
-        verify(cityRepository, times(1)).findAll();
+        verify(cityRepository, times(1)).findAll(any(Pageable.class));
     }
 
     @Test

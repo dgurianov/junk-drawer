@@ -5,10 +5,17 @@ import gud.fun.junkdrawer.dto.phonenumber.PhoneNumberRequestDto;
 import gud.fun.junkdrawer.dto.phonenumber.PhoneNumberResponseDto;
 import gud.fun.junkdrawer.service.data.PhoneNumberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -20,8 +27,8 @@ public class PhoneNumberController implements JunkDataController<PhoneNumberRequ
 
     @Override
     @GetMapping(produces = "application/json")
-    public ResponseEntity<List<PhoneNumberResponseDto>> getAll() {
-        return ResponseEntity.ok(phoneNumberService.getAll());
+    public ResponseEntity<PagedModel<PhoneNumberResponseDto>> getAll(Pageable pageable) {
+        return ResponseEntity.ok(phoneNumberService.getAll(pageable));
     }
 
     @Override
