@@ -1,11 +1,8 @@
 package gud.fun.junkdrawer.dto.assembler;
 
 import gud.fun.junkdrawer.controller.BicController;
-import gud.fun.junkdrawer.controller.CityController;
-import gud.fun.junkdrawer.dto.city.CityResponseDto;
 import gud.fun.junkdrawer.dto.transaction.BicResponseDto;
 import gud.fun.junkdrawer.persistance.model.Bic;
-import gud.fun.junkdrawer.persistance.model.City;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;

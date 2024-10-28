@@ -3,7 +3,6 @@ package gud.fun.junkdrawer.service.data;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.PagedModel;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface JunkDataService<REQ,RESP,ENT> {

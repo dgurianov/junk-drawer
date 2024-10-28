@@ -4,43 +4,36 @@ import gud.fun.junkdrawer.configuration.Endpoints;
 import gud.fun.junkdrawer.dto.country.CountryRequestDto;
 import gud.fun.junkdrawer.dto.country.CountryResponseDto;
 import gud.fun.junkdrawer.service.data.CountryService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@WebMvcTest(CountryController.class)
 class CountryControllerTest {
 
     private final UUID TEST_UUID = UUID.fromString("e6c96a16-51b4-4ac7-bbe7-86e1a1f4da21");
 
+    @Autowired
     private MockMvc mockMvc;
 
-    @Mock
+    @MockBean
     private CountryService countryService;
-
-    @InjectMocks
-    private CountryController countryController;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(countryController).build();
-    }
 
     @Test
     void testGetCountryById() throws Exception {
@@ -59,14 +52,14 @@ class CountryControllerTest {
     void testGetAllCountries() throws Exception {
         CountryResponseDto responseDto = new CountryResponseDto();
         responseDto.setId(TEST_UUID);
-        List<CountryResponseDto> responseDtos = Collections.singletonList(responseDto);
+        PagedModel<CountryResponseDto> responseDtos = PagedModel.of(Collections.singletonList(responseDto), new PagedModel.PageMetadata(1,1,1));
 
-        when(countryService.getAll()).thenReturn(responseDtos);
+        when(countryService.getAll(any(Pageable.class))).thenReturn(responseDtos);
 
         mockMvc.perform(get(Endpoints.COUNTRY)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").exists());
+                .andExpect(jsonPath("._embedded.countries[0].id").exists());
     }
 
     @Test

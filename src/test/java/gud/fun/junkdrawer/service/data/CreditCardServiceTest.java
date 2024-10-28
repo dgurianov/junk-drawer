@@ -1,5 +1,6 @@
 package gud.fun.junkdrawer.service.data;
 
+import gud.fun.junkdrawer.dto.assembler.CreditCardResponseDtoAssembler;
 import gud.fun.junkdrawer.dto.transaction.CreditCardRequestDto;
 import gud.fun.junkdrawer.dto.transaction.CreditCardResponseDto;
 import gud.fun.junkdrawer.persistance.model.CreditCard;
@@ -9,14 +10,22 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 
 class CreditCardServiceTest {
 
@@ -29,8 +38,15 @@ class CreditCardServiceTest {
     @InjectMocks
     private CreditCardService creditCardService;
 
+    @Mock
+    private CreditCardResponseDtoAssembler creditCardDtoAssembler;
+
+    @Mock
+    private PagedResourcesAssembler<CreditCard> pagedResourcesAssembler;
+
     private CreditCard creditCard;
     private CreditCardRequestDto creditCardRequestDto;
+    private CreditCardResponseDto creditCardResponseDto;
     private UUID id;
 
     @BeforeEach
@@ -39,14 +55,18 @@ class CreditCardServiceTest {
         id = UUID.randomUUID();
         creditCard = new CreditCard(id, "1234567890123456", "Issuer", null);
         creditCardRequestDto = new CreditCardRequestDto(id, "1234567890123456", "Issuer", null);
+        creditCardResponseDto = new CreditCardResponseDto(id, "1234567890123456", "Issuer", null);
     }
 
     @Test
     void testGetAll() {
-        when(creditCardRepository.findAll()).thenReturn(Arrays.asList(creditCard));
-        List<CreditCardResponseDto> creditCards = creditCardService.getAll();
-        assertEquals(1, creditCards.size());
-        assertEquals("1234567890123456", creditCards.get(0).getCcn());
+        when(creditCardRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(Arrays.asList(creditCard)));
+        when(pagedResourcesAssembler.toModel(any(Page.class), any(CreditCardResponseDtoAssembler.class))).thenReturn(PagedModel.of(List.of(creditCardResponseDto), new PagedModel.PageMetadata(1, 1, 1, 1)));
+
+        PagedModel<CreditCardResponseDto> creditCards = creditCardService.getAll(PageRequest.of(0, 1));
+        CreditCardResponseDto creditCardResponseDto = creditCards.getContent().iterator().next();
+        assertEquals(1, creditCards.getMetadata().getTotalElements());
+        assertEquals("1234567890123456", creditCardResponseDto.getCcn());
     }
 
     @Test

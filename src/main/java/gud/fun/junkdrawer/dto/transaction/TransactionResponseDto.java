@@ -3,7 +3,6 @@ package gud.fun.junkdrawer.dto.transaction;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import gud.fun.junkdrawer.dto.city.CityResponseDto;
 import gud.fun.junkdrawer.persistance.model.TransactionEntryType;
 import gud.fun.junkdrawer.persistance.model.TransactionState;
 import gud.fun.junkdrawer.persistance.model.TransactionType;

@@ -1,10 +1,7 @@
 package gud.fun.junkdrawer.dto.assembler;
 
-import gud.fun.junkdrawer.controller.BicController;
 import gud.fun.junkdrawer.controller.CreditCardController;
-import gud.fun.junkdrawer.dto.transaction.BicResponseDto;
 import gud.fun.junkdrawer.dto.transaction.CreditCardResponseDto;
-import gud.fun.junkdrawer.persistance.model.Bic;
 import gud.fun.junkdrawer.persistance.model.CreditCard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;

@@ -11,9 +11,7 @@ import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class PhoneNumberService implements JunkDataService<PhoneNumberRequestDto,PhoneNumberResponseDto,PhoneNumber>{

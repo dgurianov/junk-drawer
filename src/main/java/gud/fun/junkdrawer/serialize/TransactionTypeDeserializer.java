@@ -5,7 +5,6 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import gud.fun.junkdrawer.persistance.model.TransactionState;
 import gud.fun.junkdrawer.persistance.model.TransactionType;
 
 import java.io.IOException;

@@ -1,9 +1,9 @@
 package gud.fun.junkdrawer.service.batch;
 
 import gud.fun.junkdrawer.persistance.model.City;
-import gud.fun.junkdrawer.util.generator.PhoneNumberGenerator;
 import gud.fun.junkdrawer.util.generator.CityGenerator;
 import gud.fun.junkdrawer.util.generator.CountryGenerator;
+import gud.fun.junkdrawer.util.generator.PhoneNumberGenerator;
 import gud.fun.junkdrawer.util.generator.StreetGenerator;
 import gud.fun.junkdrawer.util.generator.TransactionGenerator;
 import lombok.extern.slf4j.Slf4j;
