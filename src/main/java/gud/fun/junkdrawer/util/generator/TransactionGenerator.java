@@ -3,6 +3,7 @@ package gud.fun.junkdrawer.util.generator;
 import com.neovisionaries.i18n.CountryCode;
 import com.neovisionaries.i18n.CurrencyCode;
 import gud.fun.junkdrawer.persistance.model.TransactionType;
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.joda.money.BigMoney;
 import gud.fun.junkdrawer.persistance.model.Transaction;
@@ -12,7 +13,9 @@ import gud.fun.junkdrawer.persistance.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
@@ -34,12 +37,20 @@ public class TransactionGenerator implements JunkDataGenerator<Transaction, Curr
     @Autowired
     CreditCardGenerator creditCardGenerator;
 
+    private List<String> blacklistedCurrencies = new ArrayList<>();
+
+    @PostConstruct
+    private void warmUp(){
+        blacklistedCurrencies.add("SLE");
+    }
+
     @Override
     public Transaction generateRandom() {
         CountryCode cc = getRandomCountryCode();
 
         Transaction transaction = new Transaction();
         transaction.setCorrelationId(UUID.randomUUID());
+        //TODO:Check for non parsable currencycode
         transaction.setAmount(BigMoney.parse(cc.getCurrency().getCurrencyCode() + " " +random.nextInt(1000) + "." + random.nextInt(100)).getAmount());
         transaction.setCurrency(currencyGenerator.generateRandomAsStringByCriteria(cc));
         transaction.setState(TransactionState.getById(random.nextInt(10)));
@@ -82,7 +93,10 @@ public class TransactionGenerator implements JunkDataGenerator<Transaction, Curr
 
     private CountryCode getRandomCountryCode(){
         CountryCode cc = null;
-        while(cc == null){
+        while(cc == null
+                || cc.getAssignment() != CountryCode.Assignment.OFFICIALLY_ASSIGNED
+                || cc.getCurrency() == null
+                || blacklistedCurrencies.contains(cc.getCurrency().getCurrencyCode()) ){
             cc = CountryCode.getByCode(random.nextInt(999));
         }
         return cc;

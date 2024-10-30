@@ -1,6 +1,7 @@
 package gud.fun.junkdrawer.controller;
 
 import gud.fun.junkdrawer.configuration.Endpoints;
+import gud.fun.junkdrawer.controller.data.CityController;
 import gud.fun.junkdrawer.dto.city.CityRequestDto;
 import gud.fun.junkdrawer.dto.city.CityResponseDto;
 import gud.fun.junkdrawer.service.data.CityService;

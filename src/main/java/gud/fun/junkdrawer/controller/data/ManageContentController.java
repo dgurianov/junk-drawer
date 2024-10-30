@@ -1,4 +1,4 @@
-package gud.fun.junkdrawer.controller;
+package gud.fun.junkdrawer.controller.data;
 
 import gud.fun.junkdrawer.configuration.Endpoints;
 import gud.fun.junkdrawer.dto.ManageContentRequestDto;

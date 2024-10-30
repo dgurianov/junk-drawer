@@ -1,6 +1,6 @@
 package gud.fun.junkdrawer.dto.assembler;
 
-import gud.fun.junkdrawer.controller.CountryController;
+import gud.fun.junkdrawer.controller.data.CountryController;
 import gud.fun.junkdrawer.dto.city.CityResponseDto;
 import gud.fun.junkdrawer.dto.country.CountryResponseDto;
 import gud.fun.junkdrawer.persistance.model.Country;

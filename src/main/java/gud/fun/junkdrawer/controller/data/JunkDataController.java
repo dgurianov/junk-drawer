@@ -1,4 +1,4 @@
-package gud.fun.junkdrawer.controller;
+package gud.fun.junkdrawer.controller.data;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.PagedModel;

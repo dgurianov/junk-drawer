@@ -5,9 +5,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,19 +32,17 @@ public class GlobalExceptionHandler {
         return errorResponse;
     }
 
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public final ResponseEntity<Map<String, List<String>>> handleMissingParametersExceptions(Exception ex) {
+        List<String> errors = Collections.singletonList(ex.getMessage());
+        return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
-//
-//    @ExceptionHandler(Exception.class)
-//    public final ResponseEntity<Map<String, List<String>>> handleGeneralExceptions(Exception ex) {
-//        List<String> errors = Collections.singletonList(ex.getMessage());
-//        return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
-//
-//    @ExceptionHandler(RuntimeException.class)
-//    public final ResponseEntity<Map<String, List<String>>> handleRuntimeExceptions(RuntimeException ex) {
-//        List<String> errors = Collections.singletonList(ex.getMessage());
-//        return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public final ResponseEntity<Map<String, List<String>>> handleWrongArgumentTypeExceptions(RuntimeException ex) {
+        List<String> errors = Collections.singletonList(ex.getMessage());
+        return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
 
 }
