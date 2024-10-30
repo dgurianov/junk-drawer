@@ -1,6 +1,6 @@
 package gud.fun.junkdrawer.dto.assembler;
 
-import gud.fun.junkdrawer.controller.PhoneNumberController;
+import gud.fun.junkdrawer.controller.data.PhoneNumberController;
 import gud.fun.junkdrawer.dto.phonenumber.PhoneNumberResponseDto;
 import gud.fun.junkdrawer.persistance.model.PhoneNumber;
 import org.springframework.hateoas.CollectionModel;

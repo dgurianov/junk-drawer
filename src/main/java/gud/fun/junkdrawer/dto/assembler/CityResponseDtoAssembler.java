@@ -1,6 +1,6 @@
 package gud.fun.junkdrawer.dto.assembler;
 
-import gud.fun.junkdrawer.controller.CityController;
+import gud.fun.junkdrawer.controller.data.CityController;
 import gud.fun.junkdrawer.dto.city.CityResponseDto;
 import gud.fun.junkdrawer.persistance.model.City;
 import org.springframework.hateoas.CollectionModel;

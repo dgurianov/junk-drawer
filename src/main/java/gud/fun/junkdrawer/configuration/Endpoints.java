@@ -20,4 +20,8 @@ public class Endpoints {
     public static final String TRANSACTION = API + VERSION + DATA + "/transaction";
 
     //Stream endpoints
+    public static final String STREAM_CITY = API + VERSION + STREAM + "/city";
+    public static final String STREAM_COUNTRY = API + VERSION + STREAM + "/country";
+    public static final String STREAM_PHONE_NUMBER = API + VERSION + STREAM + "/phone-number";
+    public static final String STREAM_TRANSACTION = API + VERSION + STREAM + "/transaction";
 }

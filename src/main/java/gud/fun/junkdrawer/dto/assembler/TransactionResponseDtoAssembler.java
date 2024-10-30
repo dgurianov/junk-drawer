@@ -1,6 +1,6 @@
 package gud.fun.junkdrawer.dto.assembler;
 
-import gud.fun.junkdrawer.controller.TransactionController;
+import gud.fun.junkdrawer.controller.data.TransactionController;
 import gud.fun.junkdrawer.dto.transaction.BicResponseDto;
 import gud.fun.junkdrawer.dto.transaction.CreditCardResponseDto;
 import gud.fun.junkdrawer.dto.transaction.MerchantResponseDto;

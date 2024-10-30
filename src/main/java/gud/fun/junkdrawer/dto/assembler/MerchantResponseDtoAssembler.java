@@ -1,6 +1,6 @@
 package gud.fun.junkdrawer.dto.assembler;
 
-import gud.fun.junkdrawer.controller.MerchantController;
+import gud.fun.junkdrawer.controller.data.MerchantController;
 import gud.fun.junkdrawer.dto.transaction.MerchantResponseDto;
 import gud.fun.junkdrawer.persistance.model.Merchant;
 import org.springframework.hateoas.CollectionModel;

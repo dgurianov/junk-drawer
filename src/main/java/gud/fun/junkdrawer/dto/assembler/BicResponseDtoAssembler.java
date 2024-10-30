@@ -1,6 +1,6 @@
 package gud.fun.junkdrawer.dto.assembler;
 
-import gud.fun.junkdrawer.controller.BicController;
+import gud.fun.junkdrawer.controller.data.BicController;
 import gud.fun.junkdrawer.dto.transaction.BicResponseDto;
 import gud.fun.junkdrawer.persistance.model.Bic;
 import org.springframework.hateoas.CollectionModel;

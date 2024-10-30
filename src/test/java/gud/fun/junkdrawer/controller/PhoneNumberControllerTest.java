@@ -1,6 +1,7 @@
 package gud.fun.junkdrawer.controller;
 
 import gud.fun.junkdrawer.configuration.Endpoints;
+import gud.fun.junkdrawer.controller.data.PhoneNumberController;
 import gud.fun.junkdrawer.dto.phonenumber.PhoneNumberRequestDto;
 import gud.fun.junkdrawer.dto.phonenumber.PhoneNumberResponseDto;
 import gud.fun.junkdrawer.service.data.PhoneNumberService;
