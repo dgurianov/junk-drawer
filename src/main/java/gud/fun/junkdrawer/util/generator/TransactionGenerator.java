@@ -41,6 +41,7 @@ public class TransactionGenerator implements JunkDataGenerator<Transaction, Curr
 
     @PostConstruct
     private void warmUp(){
+        //Currencies that does not supported by joda.Money
         blacklistedCurrencies.add("SLE");
     }
 
@@ -50,7 +51,6 @@ public class TransactionGenerator implements JunkDataGenerator<Transaction, Curr
 
         Transaction transaction = new Transaction();
         transaction.setCorrelationId(UUID.randomUUID());
-        //TODO:Check for non parsable currencycode
         transaction.setAmount(BigMoney.parse(cc.getCurrency().getCurrencyCode() + " " +random.nextInt(1000) + "." + random.nextInt(100)).getAmount());
         transaction.setCurrency(currencyGenerator.generateRandomAsStringByCriteria(cc));
         transaction.setState(TransactionState.getById(random.nextInt(10)));

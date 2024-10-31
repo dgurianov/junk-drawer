@@ -11,7 +11,7 @@ public class NameGenerator implements JunkDataGenerator<String,String> {
     private static final String VOWELS = "AEIOUaeiou";
     private static final String CONSONANTS = "BCDFGHJKLMNPQRSTVWXYZbcdfghjklmnpqrstvwxyz";
 
-    @Value("${generator.name.max-length:6}")
+    @Value("${junkdrawer.generator.name.max-length:6}")
     private int maxLength; // You can adjust the length as needed
 
     private NameGenerator() {}

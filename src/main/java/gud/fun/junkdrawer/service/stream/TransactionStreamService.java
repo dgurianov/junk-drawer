@@ -10,6 +10,7 @@ import gud.fun.junkdrawer.util.generator.CountryGenerator;
 import gud.fun.junkdrawer.util.generator.MerchantGenerator;
 import gud.fun.junkdrawer.util.generator.TransactionGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -30,8 +31,8 @@ public class TransactionStreamService implements JunkStreamService<TransactionRe
     @Autowired
     private CountryGenerator countryGenerator;
 
-
-    private int limit;
+    @Value("${junkdrawer.stream.response.max:100}")
+    private int limitMax;
 
 
     private List<TransactionResponseDto> responseDtos = new ArrayList<>();
@@ -43,7 +44,7 @@ public class TransactionStreamService implements JunkStreamService<TransactionRe
     @Override
     public List<TransactionResponseDto> getAllStream(int limit) {
         if(responseDtos.size() > 0) responseDtos.clear();
-        if (limit > 100) limit = 100;
+        if (limit > limitMax) limit = limitMax;
         while(limit > 0) {
             transaction = transactionGenerator.generateRandom();
 
