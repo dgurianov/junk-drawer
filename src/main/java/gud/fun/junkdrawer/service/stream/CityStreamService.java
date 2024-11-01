@@ -1,6 +1,5 @@
 package gud.fun.junkdrawer.service.stream;
 
-import gud.fun.junkdrawer.dto.city.CityRequestDto;
 import gud.fun.junkdrawer.dto.city.CityResponseDto;
 import gud.fun.junkdrawer.persistance.model.City;
 import gud.fun.junkdrawer.util.generator.CityGenerator;

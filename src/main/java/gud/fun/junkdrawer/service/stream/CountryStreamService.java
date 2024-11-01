@@ -1,6 +1,5 @@
 package gud.fun.junkdrawer.service.stream;
 
-import gud.fun.junkdrawer.dto.country.CountryRequestDto;
 import gud.fun.junkdrawer.dto.country.CountryResponseDto;
 import gud.fun.junkdrawer.persistance.model.Country;
 import gud.fun.junkdrawer.util.generator.CountryGenerator;
